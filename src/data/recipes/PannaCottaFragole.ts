@@ -38,7 +38,7 @@ export const pannaCottaFragole: Recipe = {
                 "100 ml milk",
                 "500 ml fresh cream",
                 "100 g sugar",
-                "3 sheets of gelatin (6 g), or 6 g powdered gelatin (about 2¼ level teaspoons; approximate)"
+                "3 sheets of gelatin (6 g), or 6 g powdered gelatin (about 2¼ level teaspoons; approximate)",
                 "0.5 vanilla pod or its contents",
                 "Strawberries",
             ],
@@ -62,7 +62,7 @@ export const pannaCottaFragole: Recipe = {
                 "100 ml mleka",
                 "500 ml świeżej śmietany",
                 "100 g cukru",
-                "3 listki żelatyny (6 g) lub 6 g żelatyny w proszku (około 2¼ płaskiej łyżeczki; ilość orientacyjna)"
+                "3 listki żelatyny (6 g) lub 6 g żelatyny w proszku (około 2¼ płaskiej łyżeczki; ilość orientacyjna)",
                 "0,5 laski wanilii lub jej zawartość",
                 "Truskawki",
             ],
