@@ -1,4 +1,3 @@
-import BetterButton from "../components/BetterButton";
 import {BRISCOLA, MENU, SCOPA} from "../logic/Names";
 import {useState} from "react";
 import '../App.css';
@@ -129,7 +128,7 @@ function ScoreCounter(){
     const scoreType: ScoreType | null = game === BRISCOLA ? 'briscola' : game === SCOPA ? 'scopa' : null;
     const availableCards = scoreType ? cardList.filter(card => card[scoreType] > 0) : [];
     const result = game === BRISCOLA && selCards.length > 0
-        ? score === 60 ? 'Draw ⚖️' : score < 60 ? 'Below 60 points' : 'Above 60 points'
+        ? score === 60 ? 'Draw! ⚖️' : score < 60 ? 'You lose! 👎' : 'You win! 🏆'
         : null;
 
     return (
