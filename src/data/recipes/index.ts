@@ -1,4 +1,5 @@
 import type {Recipe} from './types';
+import {bicchieriniRicottaPereSavoiardi} from './BicchieriniRicottaPereSavoiardi';
 import {besciamellaLeggera} from './BesciamellaLeggera';
 import {budinoAllaVanigliaConMaizena} from './BudinoAllaVanigliaConMaizena';
 import {ciambellaBolognese} from './CiambellaBolognese';
@@ -30,6 +31,7 @@ import {zucchineRipiene} from './ZucchineRipiene';
 export * from './types';
 
 export const recipes: readonly Recipe[] = [
+    bicchieriniRicottaPereSavoiardi,
     budinoAllaVanigliaConMaizena,
     cremaMascarpone,
     crostataMarmellata,
