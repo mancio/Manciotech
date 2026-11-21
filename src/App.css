@@ -15,8 +15,8 @@
 
 .App {
   text-align: center;
-  height: 100vh;
-  width: auto;
+  min-height: 100vh;
+  width: 100%;
 }
 
 body {
@@ -34,16 +34,11 @@ body {
 }
 
 .frame {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
   width: 90%;
-  height: 100%;
+  margin: 0 auto;
   background-color: transparent;
-  z-index: 9999;
-  /* keeps content clear of the fixed clock and the cookie banner */
-  padding-bottom: 110px;
+  z-index: 1;
   box-sizing: border-box;
 }
 
@@ -175,11 +170,10 @@ body {
 }
 
 .site-footer {
-  position: fixed;
-  left: 50%;
-  bottom: 12px;
-  transform: translateX(-50%);
-  z-index: 10000;
+  position: relative;
+  z-index: 1;
+  width: fit-content;
+  margin: 0 auto 24px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -213,7 +207,6 @@ body {
   .site-footer {
     font-size: x-small;
     padding: 5px 12px;
-    bottom: 8px;
   }
 }
 
