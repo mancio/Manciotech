@@ -80,7 +80,7 @@ function App() {
                     </BrowserRouter>
                 </div>
             </Suspense>
-            {/* outside .frame: its transform would otherwise anchor position:fixed to it */}
+            {/* The footer follows the routed page content in normal document flow. */}
             <Footer/>
         </div>
     );
