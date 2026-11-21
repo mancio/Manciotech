@@ -1,10 +1,8 @@
 import '../App.css';
-import React, {useEffect, useState, type CSSProperties} from "react";
-import BetterButton from "./BetterButton";
+import React, {useEffect, useState} from "react";
 import {PLAYER_NAMES, PLAYERS_SCORE, STEP1, STEP2, STEP3} from "../logic/Names";
 import {
     getSharedObject,
-    isPhoneInVerticalOrientation,
     removeSharedObject,
     setSharedObject
 } from "../logic/Functions";
@@ -99,79 +97,58 @@ function ScorePanel(){
         setPlayerNames(newPlayerNames);
     };
 
-    function generateTextAreas() {
-        let textAreas: React.ReactElement[] = [];
-
-        for (let i = 0; i < playerNumber; i++) {
-            textAreas.push(
-                <div key={i}>
-                    <h1 className={isPhoneInVerticalOrientation() ? 'h2Equivalent' : ''}>
-                        Write player {i+1} name:
-                    </h1>
-                    <input
-                        className={isPhoneInVerticalOrientation() ? 'input-player h2Equivalent': 'input-player h1Equivalent'}
-                        type='text'
-                        placeholder={`Type name here`}
-                        onChange={(e) => handleNameChange(e, i)}
-                    />
-                </div>
-            );
-        }
-
-        return textAreas;
-    }
-
-    const centerFlexStyle: CSSProperties = {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexWrap: 'wrap'
-    };
 
     return (
-        <div>
-            {(step === STEP1) && (
-                <div>
-                    <h1
-                        style={centerFlexStyle}
-                        className={isPhoneInVerticalOrientation() ? 'h2Equivalent' : ''}
-                    >
-                    Players number:
-                        <BetterButton text="<" click={() => reducePlayers()}/>
-                        {playerNumber}
-                        <BetterButton text=">" click={() => increasePlayers()}/>
-                        <BetterButton text="Set player number" click={() => changePanel(STEP2)}/>
-                    </h1>
+        <div className="player-score-panel">
+            {step === STEP1 && (
+                <div className="player-setup">
+                    <label className="player-field-label">Number of players</label>
+                    <div className="player-count-controls">
+                        <button type="button" className="player-stepper" aria-label="Remove player" disabled={playerNumber === 0} onClick={reducePlayers}>−</button>
+                        <output className="player-count" aria-live="polite">{playerNumber}</output>
+                        <button type="button" className="player-stepper" aria-label="Add player" onClick={increasePlayers}>+</button>
+                    </div>
+                    <button type="button" className="player-primary" onClick={() => changePanel(STEP2)}>Set player number</button>
                 </div>
             )}
+
             {step === STEP2 && (
-                <div>
-                    {generateTextAreas()}
-                    <BetterButton text="Set Names" click={() => changePanel(STEP3)}/>
-                </div>
-            )}
-            {step === STEP3 && (
-                <div>
-                    <h2 className={isPhoneInVerticalOrientation() ? 'h3Equivalent' : ''}>
-                        Players score:
-                    </h2>
-                    {playerNames.map((name, index) => (
-                        <h2
-                            key={index}
-                            style={centerFlexStyle}
-                            className={isPhoneInVerticalOrientation() ? 'h3Equivalent' : ''}
-                        >
-                            {name}:
-                            <BetterButton text="<" click={() => reduceScore(index)}/>
-                            {scores[index]}
-                            <BetterButton text=">" click={() => increaseScore(index)}/>
-                        </h2>
+                <div className="player-names-form">
+                    {Array.from({length: playerNumber}, (_, index) => (
+                        <label className="player-name-field" key={index}>
+                            <span>Player {index + 1} name</span>
+                            <input
+                                type="text"
+                                value={playerNames[index] || ''}
+                                placeholder="Enter player name"
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleNameChange(e, index)}
+                            />
+                        </label>
                     ))}
+                    <button type="button" className="player-primary" onClick={() => changePanel(STEP3)}>Set names</button>
                 </div>
             )}
-            <BetterButton text="Reset Score Panel" click={() => resetScore()}/>
+
+            {step === STEP3 && (
+                <div className="player-scores">
+                    <h3>Players score</h3>
+                    <div className="player-score-list">
+                        {playerNames.map((name, index) => (
+                            <div className="player-score-row" key={index}>
+                                <span className="player-score-name" title={name}>{name}</span>
+                                <div className="player-score-controls">
+                                    <button type="button" className="player-stepper" aria-label={'Decrease score for ' + name} disabled={scores[index] === 0} onClick={() => reduceScore(index)}>−</button>
+                                    <output className="player-score-value" aria-live="polite">{scores[index]}</output>
+                                    <button type="button" className="player-stepper" aria-label={'Increase score for ' + name} onClick={() => increaseScore(index)}>+</button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+            <button type="button" className="player-reset" onClick={resetScore}>Reset player scoreboard</button>
         </div>
-    )
+    );
 }
 
 export default ScorePanel;
