@@ -1,6 +1,6 @@
 import '../App.css';
 import { useNavigate } from 'react-router-dom';
-import {KITCHEN_TOOLS, RECIPES, STOCKS, TEMP} from "../logic/Names";
+import {KITCHEN_TOOLS, RECIPES, SCORE_COUNTER, STOCKS, TEMP} from "../logic/Names";
 import {GITHUB_URL} from "../data/games";
 
 interface Tile {
@@ -33,6 +33,7 @@ function Menu(){
     const navigate = useNavigate();
 
     const otherStuff: Tile[] = [
+        {emoji: '🃏', title: 'Score Counter', blurb: 'Briscola and Scopa, no cheating.', go: () => navigate(SCORE_COUNTER)},
         {emoji: '🍝', title: 'Recipes', blurb: 'Tested on real Italians.', go: () => navigate(RECIPES)},
         {emoji: '🥖', title: 'Kitchen Tools', blurb: 'Dough hydration and friends.', go: () => navigate(KITCHEN_TOOLS)},
         {emoji: '🌡️', title: 'TempCasina', blurb: 'Live temperature from the casina.', go: () => navigate(TEMP)},
