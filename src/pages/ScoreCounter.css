@@ -1,0 +1,64 @@
+/* Card score page — scoped casino-table design */
+.score-page { --felt: #124e3d; --felt-dark: #0c342c; --gold: #ecc17b; color: #f7f2e6; font-family: "Space Grotesk", sans-serif; width: min(1120px, 100%); margin: 0 auto; padding: 28px clamp(12px, 3vw, 32px) 70px; box-sizing: border-box; text-align: left; }
+.score-page-heading { text-align: center; position: relative; padding: 12px 0 28px; }
+.score-back { display: inline-block; position: absolute; left: 0; top: 5px; border: 1px solid #556052; background: #232c2a; color: #f6f1e6; border-radius: 999px; padding: 10px 15px; font: inherit; cursor: pointer; }
+.score-back:hover, .score-back:focus-visible { border-color: var(--gold); }
+.score-eyebrow, .score-label { display: block; letter-spacing: .16em; font-size: .72rem; font-weight: 700; color: var(--gold); }
+.score-page-heading h1 { font-size: clamp(2.2rem, 6vw, 4.2rem); margin: 14px 0 8px; line-height: 1.1; }
+.score-page-heading p, .score-players-header p { color: #c4c9c2; margin: 0; }
+.score-board { position: relative; border: 2px solid #bc945c; border-radius: 28px; padding: clamp(18px, 3vw, 32px); background: radial-gradient(ellipse at 50% 10%, #20684f, var(--felt) 60%, var(--felt-dark)); box-shadow: 0 18px 50px #0006, inset 0 0 0 6px #0b362b, inset 0 0 0 8px #c39a5c55; }
+.score-board-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px; }
+.score-game-switch { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.score-game-switch button { border: 1px solid #a5a783; border-radius: 12px; background: #072c25; padding: 13px 19px; color: #faf3df; font: inherit; font-weight: 700; cursor: pointer; }
+.score-game-switch button.active { background: var(--gold); color: #16291f; border-color: var(--gold); box-shadow: 0 2px 14px #0004; }
+.score-game-switch button:hover, .score-game-switch button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.score-total { min-width: 140px; display: flex; flex-direction: column; align-items: center; background: #092f28; border: 1px solid #c19a5d; border-radius: 16px; padding: 13px 24px; }
+.score-total span { color: #dfcba9; font-size: .7rem; font-weight: 700; letter-spacing: .12em; }
+.score-total strong { color: #fff9e9; font-size: clamp(2.8rem, 6vw, 4.1rem); line-height: 1.15; font-variant-numeric: tabular-nums; }
+.score-total small { color: #d2d9cf; }
+.score-card-heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 30px 0 18px; border-top: 1px solid #b5b68e55; padding-top: 22px; }
+.score-card-heading h2 { margin: 0 0 5px; font-size: 1.45rem; }
+.score-card-heading p { color: #d5e0d6; margin: 0; font-size: .9rem; }
+.score-suit-decor { color: var(--gold); font-size: 1.7rem; white-space: nowrap; }
+.score-playing-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 16px; }
+.score-playing-card { min-width: 0; background: #f8f3e7; color: #172e25; border: 2px solid #f6e5bb; border-radius: 14px; padding: 9px; cursor: pointer; font: inherit; box-shadow: 0 5px 0 #082d26, 0 9px 15px #0004; transition: transform .15s, box-shadow .15s; }
+.score-playing-card:hover, .score-playing-card:focus-visible { transform: translateY(-6px); outline: 3px solid #f9c46b; outline-offset: 2px; box-shadow: 0 10px 0 #082d26, 0 14px 22px #0005; }
+.score-playing-card:active { transform: translateY(1px); }
+.score-playing-card img { width: 100%; height: 150px; object-fit: contain; display: block; }
+.score-card-info { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2px 6px; margin-top: 8px; padding: 8px 3px 3px; border-top: 1px solid #dcd2c0; font-size: .85rem; }
+.score-card-info small { color: #276046; font-weight: 700; }
+.score-summary { margin-top: 26px; padding-top: 20px; border-top: 1px solid #b5b68e55; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 18px; }
+.score-history { flex: 1; min-width: 180px; }
+.score-history p { margin: 8px 0; color: #f5f2e7; overflow-wrap: anywhere; }
+.score-result { display: inline-block; border: 1px solid #deba7a; color: #ffe3a3; border-radius: 50px; padding: 5px 12px; margin-top: 6px; font-size: .85rem; }
+.score-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.score-actions button { padding: 12px 17px; border-radius: 10px; font: inherit; font-weight: 700; cursor: pointer; }
+.score-action-secondary { background: transparent; border: 1px solid #c7caaf; color: #f9f4e9; }
+.score-action-primary { background: var(--gold); border: 1px solid var(--gold); color: #18251c; }
+.score-actions button:disabled { opacity: .4; cursor: not-allowed; }
+.score-empty { text-align: center; padding: 45px 12px 28px; }
+.score-empty span { display: block; font-size: 4.5rem; color: var(--gold); }
+.score-empty h2 { margin: 8px 0; }
+.score-empty p { color: #d8e4d8; }
+.score-players { margin-top: 30px; background: #1b2423; border: 1px solid #565044; border-radius: 24px; padding: clamp(16px, 3vw, 28px); text-align: center; }
+.score-players-header h2 { margin: 8px 0 5px; font-size: 1.6rem; }
+.score-players .betterBt { background: #d9b67a; color: #18251c; font-size: 1rem; font-weight: 700; padding: 10px 15px; border-radius: 10px; }
+.score-players .betterBt:hover, .score-players .betterBt:focus { background: #f2ce8b; }
+.score-players .input-player { width: min(340px, 75vw); padding: 10px; font-size: 1rem; background: #f7f3e8; color: #18251c; border: 1px solid #bda476; }
+@media (max-width: 640px) {
+ .score-page { padding-top: 16px; }
+ .score-page-heading { padding-top: 52px; }
+ .score-back { top: 0; }
+ .score-board-top { flex-direction: column; }
+ .score-total { box-sizing: border-box; align-self: stretch; }
+ .score-game-switch button { flex: 1; padding: 11px; }
+ .score-playing-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; }
+ .score-playing-card { padding: 5px; border-radius: 9px; }
+ .score-playing-card img { height: 108px; }
+ .score-card-info { font-size: .72rem; }
+ .score-card-info small { font-size: .7rem; }
+ .score-suit-decor { display: none; }
+ .score-actions { width: 100%; }
+ .score-actions button { flex: 1; }
+}
+@media (max-width: 370px) { .score-playing-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
