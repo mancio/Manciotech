@@ -1,6 +1,10 @@
 export const homeTranslations = {
     EN: {
         tagline: 'AI solutions and software ideas',
+        pcApp: 'PC app',
+        aiBadge: 'AI-powered · Runs locally',
+        piiDesc: 'Redact personal and sensitive information from PDF documents on Windows using local AI models. A command-line tool for preparing review copies.',
+        piiGithub: 'View project on GitHub',
         androidApp: 'Android app',
         download: '⬇ Download APK (Android)',
         viewGitHub: 'View on GitHub',
@@ -17,6 +21,10 @@ export const homeTranslations = {
     },
     IT: {
         tagline: 'Soluzioni di intelligenza artificiale e idee software',
+        pcApp: 'App PC',
+        aiBadge: 'Con AI · Funziona in locale',
+        piiDesc: 'Oscura i dati personali e sensibili nei documenti PDF su Windows usando modelli AI locali. Strumento da riga di comando per preparare copie da revisionare.',
+        piiGithub: 'Vedi il progetto su GitHub',
         androidApp: 'App Android',
         download: '⬇ Scarica APK (Android)',
         viewGitHub: 'Vedi su GitHub',
@@ -33,6 +41,10 @@ export const homeTranslations = {
     },
     PL: {
         tagline: 'Rozwiązania AI i pomysły na oprogramowanie',
+        pcApp: 'Aplikacja na PC',
+        aiBadge: 'AI · Działa lokalnie',
+        piiDesc: 'Ukrywaj dane osobowe i wrażliwe w dokumentach PDF w systemie Windows dzięki lokalnym modelom AI. Narzędzie wiersza poleceń do tworzenia kopii do przeglądu.',
+        piiGithub: 'Zobacz projekt na GitHubie',
         androidApp: 'Aplikacja na Androida',
         download: '⬇ Pobierz APK (Android)',
         viewGitHub: 'Zobacz na GitHubie',
