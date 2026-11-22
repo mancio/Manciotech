@@ -504,3 +504,23 @@ body {
 
 
 
+
+/* HarmonoPattume app identity: genuine launcher icon next to the title. */
+.harmono-app-heading {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.harmono-app-icon {
+  display: block;
+  width: 56px;
+  height: 56px;
+  flex: 0 0 56px;
+  object-fit: contain;
+  border-radius: 13px;
+}
+@media (max-width: 600px) {
+  .harmono-app-heading { gap: 11px; }
+  .harmono-app-icon { width: 48px; height: 48px; flex-basis: 48px; }
+}
