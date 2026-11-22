@@ -6,6 +6,7 @@ import {
     FART, HOW_OLD,
     KITCHEN_TOOLS,
     MENU,
+    SERVICES,
     RECIPES,
     SCORE_COUNTER,
     TEMP
@@ -17,6 +18,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import {useT} from "./i18n/useT";
 import {SiteLanguageProvider, SiteLanguageSwitcher} from "./i18n/SiteLanguage";
 const Menu = lazy(() => import('./pages/Menu'));
+const Services = lazy(() => import('./pages/Services'));
 const Recipes = lazy(() => import('./pages/Recipes'));
 const RecipesGen = lazy(() => import('./pages/RecipesGen'));
 const ScoreCounter = lazy(() => import('./pages/ScoreCounter'));
@@ -49,6 +51,7 @@ function App() {
                         <Suspense fallback={<div>Loading...</div>}>
                         <Routes>
                             <Route path={MENU} element={<Menu />} />
+                            <Route path={SERVICES} element={<Services />} />
                             <Route path={RECIPES} element={<Recipes />} />
                             <Route path={RECIPES + '/:recipeName'} element={<RecipesGen />} />
                             <Route path={SCORE_COUNTER} element={<ScoreCounter />} />
