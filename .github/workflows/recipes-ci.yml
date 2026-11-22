@@ -30,4 +30,5 @@ jobs:
       - name: Run automated tests
         run: CI=true npm test -- --watch=false --runInBand
       - name: Production build
+        if: success() || failure()
         run: npm run build
