@@ -64,3 +64,21 @@ test('selected language follows navigation and remains switchable in tools', () 
     expect(screen.getByRole('button', {name: 'Polski'})).toHaveAttribute('aria-pressed', 'true');
     expect(localStorage.getItem('currentLanguage')).toBe('PL');
 });
+
+test('desktop AI app is above the Android app and has its own illustration', () => {
+    const {container} = renderHome();
+    const desktop = screen.getByRole('heading', {name: 'PC app'});
+    const android = screen.getByRole('heading', {name: 'Android app'});
+    expect(desktop.compareDocumentPosition(android) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(screen.getByText('MancioPIIRemover')).toBeInTheDocument();
+    expect(screen.getByText('AI-powered · Runs locally')).toBeInTheDocument();
+    expect(container.querySelector('img[src="/mancio-pii-remover.svg"]')).toBeInTheDocument();
+    expect(screen.getByRole('link', {name: 'View project on GitHub'}))
+        .toHaveAttribute('href', 'https://github.com/mancio/mancioPIIRemover');
+    fireEvent.click(screen.getByRole('button', {name: 'Italiano'}));
+    expect(screen.getByRole('heading', {name: 'App PC'})).toBeInTheDocument();
+    expect(screen.getByText('Con AI · Funziona in locale')).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', {name: 'Polski'}));
+    expect(screen.getByRole('heading', {name: 'Aplikacja na PC'})).toBeInTheDocument();
+    expect(screen.getByText('AI · Działa lokalnie')).toBeInTheDocument();
+});
