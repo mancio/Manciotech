@@ -1,7 +1,6 @@
 import '../App.css';
 import {useNavigate} from 'react-router-dom';
 import {KITCHEN_TOOLS, RECIPES, SCORE_COUNTER, STOCKS, TEMP} from "../logic/Names";
-import {GITHUB_URL} from "../data/games";
 import {useSiteLanguage} from "../i18n/SiteLanguage";
 import {homeTranslations} from "../i18n/homeTranslations";
 
@@ -49,9 +48,6 @@ function Menu() {
             <header className="hero">
                 <h1 className="hero-logo">Manciotech</h1>
                 <p className="hero-tagline">{t.tagline}</p>
-                <div className="hero-actions">
-                    <a className="btn btn-ghost" href={GITHUB_URL} target="_blank" rel="noopener noreferrer">GitHub</a>
-                </div>
             </header>
 
             <section className="section" aria-labelledby="harmonopattume-title">
