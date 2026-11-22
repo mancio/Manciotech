@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="title desc">
+<title id="title">Documents being erased</title>
+<desc id="desc">Stacked text documents with an eraser removing confidential lines</desc>
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e0f3ff"/><stop offset="1" stop-color="#f5e9d8"/></linearGradient><linearGradient id="eraser" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffb4a7"/><stop offset="1" stop-color="#df6e87"/></linearGradient></defs>
+<rect x="4" y="4" width="152" height="152" rx="30" fill="url(#bg)"/>
+<g transform="rotate(-11 78 74)">
+<rect x="32" y="27" width="74" height="93" rx="7" fill="#c8d9ea" stroke="#6791ad" stroke-width="2"/>
+<rect x="46" y="38" width="78" height="98" rx="8" fill="#fffdf9" stroke="#34668a" stroke-width="3"/>
+<path d="M62 60h42M62 74h38M62 88h27M62 102h41M62 116h30" fill="none" stroke="#6098b3" stroke-width="5" stroke-linecap="round"/>
+<path d="M81 88h23M78 102h27" stroke="#fffdf9" stroke-width="8" stroke-linecap="round"/>
+</g>
+<g transform="rotate(-32 114 111)"><rect x="88" y="100" width="51" height="27" rx="8" fill="url(#eraser)" stroke="#a9536a" stroke-width="2"/><path d="M109 100v27" stroke="#fff5ef" stroke-width="3"/><path d="M91 114h13" stroke="#fff" stroke-width="3" opacity=".8"/></g>
+<g fill="#16a1d6"><path d="M27 116l3 8 8 3-8 3-3 8-3-8-8-3 8-3z"/><circle cx="134" cy="44" r="4"/><path d="M128 63l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></g>
+</svg>
