@@ -23,6 +23,7 @@ export default function Services() {
   const [honeypot,setHoneypot] = useState("");
   const [status,setStatus] = useState<DeliveryState>("idle");
   const [validation,setValidation] = useState("");
+  const [serviceError,setServiceError] = useState("");
 
   async function submit(event:FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -33,6 +34,7 @@ export default function Services() {
       return;
     }
     setValidation("");
+    setServiceError("");
     setStatus("sending");
     try {
       const response=await fetch(ENDPOINT,{
@@ -53,10 +55,14 @@ export default function Services() {
       });
       // A successful HTTP response alone doesn't guarantee service acceptance.
       const result: {success?: boolean | string; message?: string}=await response.json();
-      if(!response.ok || !(result.success===true || result.success==="true")) throw new Error("Form not accepted");
+      if(!response.ok || !(result.success===true || result.success==="true")) {
+        // FormSubmit can reply with HTTP 200 and success: "false". Preserve its error reason.
+        throw new Error(typeof result.message==="string" && result.message.trim() ? result.message.trim() : "");
+      }
       setStatus("submitted");
       setName("");setEmail("");setCompany("");setProblem("");setConsent(false);
-    } catch {
+    } catch (error) {
+      setServiceError(error instanceof Error ? error.message.slice(0,300) : "");
       setStatus("error");
     }
   }
@@ -124,9 +130,8 @@ export default function Services() {
           <label className="services-consent"><input type="checkbox" required checked={consent} onChange={e=>setConsent(e.target.checked)}/><span>{t.consent}</span></label>
           {validation && <p role="alert" className="services-message services-error">{validation}</p>}
           {status==="submitted" && <p role="status" className="services-message services-success">{t.success}</p>}
-          {status==="error" && <p role="alert" className="services-message services-error">{t.error}</p>}
+          {status==="error" && <p role="alert" className="services-message services-error">{t.error}{serviceError && <span className="services-error-detail"> {t.serviceReason}: {serviceError}</span>}</p>}
           <button className="services-button services-submit" type="submit" disabled={status==="sending"}>{status==="sending"?t.sending:t.send} <span aria-hidden="true">↗</span></button>
-          <p className="services-small">{t.contactAlt} <a href={"mailto:"+CONTACT_EMAIL}>{CONTACT_EMAIL}</a>.</p>
         </form>
       </section>
     </main>
