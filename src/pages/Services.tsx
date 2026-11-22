@@ -28,7 +28,7 @@ export default function Services() {
   const [honeypot,setHoneypot] = useState("");
   const [requestId,setRequestId] = useState("");
   const formRef=useRef<HTMLFormElement>(null);
-  const timeoutRef=useRef<ReturnType<typeof setTimeout> | null>(null);
+  const timeoutRef=useRef<number | null>(null);
   const [status,setStatus] = useState<DeliveryState>("idle");
   const [validation,setValidation] = useState("");
   const [serviceError,setServiceError] = useState("");
