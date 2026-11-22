@@ -20,17 +20,17 @@ function KitchenTools() {
         <main className="tools-page">
             <div className="tools-shell">
                 <header className="tools-hero">
-                    <button className="tools-back" type="button" onClick={() => navigate(MENU)}>← Back to MancioTech</button>
-                    <div className="tools-eyebrow">✦ THE LITTLE KITCHEN LAB ✦</div>
+                    <button className="tools-back" type="button" onClick={() => navigate(MENU)}>← {tr("Back to MancioTech")}</button>
+                    <div className="tools-eyebrow">✦ {tr("THE LITTLE KITCHEN LAB")} ✦</div>
                     <div className="tools-illustration" aria-hidden="true">🥖 <span>⚖️</span> 🌾</div>
-                    <h1>Kitchen <em>{tr("Tools.")}</em></h1>
+                    <h1>{tr("Kitchen")} <em>{tr("Tools.")}</em></h1>
                     <p>{tr("Simple measurements for better baking. Start with your flour and water, and let the numbers do the rest.")}</p>
                 </header>
 
                 <section className="tools-card" aria-labelledby="hydration-title">
                     <div className="tools-card-header">
                         <div>
-                            <div className="tools-section-label">DOUGH CALCULATOR · 01</div>
+                            <div className="tools-section-label">{tr("DOUGH CALCULATOR")} · 01</div>
                             <h2 id="hydration-title">{tr("Find your perfect dough")}</h2>
                             <p>{tr("Change any value, then use")} <strong>{tr("Calculate")}</strong> {tr("to work out the missing measurement from the other two.")}</p>
                         </div>
