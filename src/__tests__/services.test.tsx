@@ -45,10 +45,11 @@ test("services page follows the global Italian and Polish language flags",()=>{
 });
 
 test("contact form requires consent and submits the description to the email service",async()=>{
-  const mock=jest.spyOn(global,"fetch").mockResolvedValue({
+  const mock=jest.fn().mockResolvedValue({
     ok:true,
     json:async()=>({success:"true"})
   } as Response);
+  global.fetch=mock;
   renderServices("/services");
   fireEvent.change(screen.getByLabelText("Your name"),{target:{value:"Test Person"}});
   fireEvent.change(screen.getByLabelText("Your email"),{target:{value:"contact@example.org"}});
@@ -70,7 +71,7 @@ test("contact form requires consent and submits the description to the email ser
 });
 
 test("contact form reports remote submission failures instead of claiming delivery",async()=>{
-  jest.spyOn(global,"fetch").mockResolvedValue({ok:false,json:async()=>({success:false})} as Response);
+  global.fetch=jest.fn().mockResolvedValue({ok:false,json:async()=>({success:false})} as Response);
   renderServices("/services");
   fireEvent.change(screen.getByLabelText("Your name"),{target:{value:"Test Person"}});
   fireEvent.change(screen.getByLabelText("Your email"),{target:{value:"contact@example.org"}});
