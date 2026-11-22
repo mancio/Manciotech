@@ -1,6 +1,6 @@
 import '../App.css';
 import {useNavigate} from 'react-router-dom';
-import {KITCHEN_TOOLS, RECIPES, SCORE_COUNTER, STOCKS, TEMP} from "../logic/Names";
+import {KITCHEN_TOOLS, RECIPES, SCORE_COUNTER, STOCKS, TEMP, SERVICES} from "../logic/Names";
 import {useSiteLanguage} from "../i18n/SiteLanguage";
 import {homeTranslations} from "../i18n/homeTranslations";
 
@@ -85,6 +85,18 @@ function Menu() {
             <section className="section">
                 <h2 className="section-title">{t.toolsHeading}</h2>
                 <TileGrid tiles={otherStuff} labels={t.tiles}/>
+            </section>
+
+            <section className="section home-services" aria-labelledby="home-services-title">
+                <p className="home-services-eyebrow">{t.servicesEyebrow}</p>
+                <h2 id="home-services-title">{t.servicesTitle}</h2>
+                <p className="home-services-intro">{t.servicesIntro}</p>
+                <div className="home-services-pillars">
+                    <span>⌘ {t.servicesBuild}</span>
+                    <span>✦ {t.servicesConsult}</span>
+                    <span>📚 {t.servicesWiki}</span>
+                </div>
+                <button type="button" className="home-services-button" onClick={() => navigate(SERVICES)}>{t.servicesButton} <span aria-hidden="true">↗</span></button>
             </section>
         </div>
     );
