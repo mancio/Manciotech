@@ -14,12 +14,19 @@ const firebaseConfig = {
 
 let dbApp: FirebaseApp | null = null;
 
+export function isFirebaseConfigured(): boolean {
+    return Boolean(firebaseConfig.apiKey && firebaseConfig.projectId && firebaseConfig.databaseURL);
+}
+
 export function isDbSet(): boolean {
     return dbApp !== null;
 }
 
 export function getFirebaseSetUp(): void {
-    dbApp = initializeApp(firebaseConfig);
+    if (!isFirebaseConfigured()) {
+        throw new Error("Firebase temperature service is not configured. Set REACT_APP_API_KEY, REACT_APP_PROJECT_ID and REACT_APP_DATABASE at build time.");
+    }
+    if (!dbApp) dbApp = initializeApp(firebaseConfig);
 }
 
 export function setRef(path: string): DatabaseReference {
@@ -28,8 +35,8 @@ export function setRef(path: string): DatabaseReference {
 }
 
 /** The caller declares the payload shape; Realtime Database values are untyped on the wire. */
-export function readDb<T>(path: string, callback: (value: T) => void): void {
-    onValue(setRef(path), snapshot => callback(snapshot.val() as T));
+export function readDb<T>(path: string, callback: (value: T | null) => void, onError?: (error: Error) => void): () => void {
+    return onValue(setRef(path), snapshot => callback(snapshot.val() as T | null), error => onError?.(error));
 }
 
 export function writeDb(reference: DatabaseReference, value: unknown): void {

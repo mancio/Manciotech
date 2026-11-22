@@ -1,87 +1,68 @@
-import BetterButton from "../components/BetterButton";
-import {FLOUR, HYDRATION, MENU, WATER} from "../logic/Names";
+import {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import '../App.css';
-import React, {useState} from "react";
 import {getFlour, getHydration, getWater} from "../logic/Functions";
+import {MENU} from "../logic/Names";
+import "./KitchenTools.css";
 
-function KitchenTools(){
-
+function KitchenTools() {
     const navigate = useNavigate();
+    const [hydration, setHydration] = useState(65);
+    const [flour, setFlour] = useState(600);
+    const [water, setWater] = useState(390);
 
-    const [hy, setHy] = useState(65);
-    const [fl, setFl] = useState(600);
-    const [wt, setWt] = useState(390);
+    const valid = (value: number) => Number.isFinite(value) && value > 0;
+    const actualHydration = valid(flour) && valid(water) ? getHydration(water, flour) : null;
+    const format = (value: number) => Number.isFinite(value) ? value.toLocaleString("en-US") : "—";
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, type: string) => {
-        const newValue = Number(event.target.value);
-        if (type === HYDRATION) {
-            setHy(newValue);
-        } else if (type === FLOUR) {
-            setFl(newValue);
-        } else if (type === WATER) {
-            setWt(newValue);
-        }
-    };
+    return (
+        <main className="tools-page">
+            <div className="tools-shell">
+                <header className="tools-hero">
+                    <button className="tools-back" type="button" onClick={() => navigate(MENU)}>← Back to MancioTech</button>
+                    <div className="tools-eyebrow">✦ THE LITTLE KITCHEN LAB ✦</div>
+                    <div className="tools-illustration" aria-hidden="true">🥖 <span>⚖️</span> 🌾</div>
+                    <h1>Kitchen <em>Tools.</em></h1>
+                    <p>Simple measurements for better baking. Start with your flour and water, and let the numbers do the rest.</p>
+                </header>
 
-    function calculate(type: string) {
-        if(type === HYDRATION) setHy(getHydration(wt, fl));
-        if(type === FLOUR) setFl(getFlour(hy, wt));
-        if(type === WATER) setWt(getWater(hy, fl));
-    }
-
-    return(
-        <div>
-            <div className='recipe-box'>
-                <h3>Dough Hydration Calculator</h3>
-                <div className='border-frame'>
-                    <div className='row-el'>
-                        <label>Hydration (%):
-                        <input
-                            className='input-number'
-                            type="number"
-                            name="hy"
-                            id='hy'
-                            min='1'
-                            max='100'
-                            value={hy}
-                            onChange={(e) => handleInputChange(e, HYDRATION)}
-                        />
-                        </label>
-                        <BetterButton text='find' click={() => calculate(HYDRATION)}/>
+                <section className="tools-card" aria-labelledby="hydration-title">
+                    <div className="tools-card-header">
+                        <div>
+                            <div className="tools-section-label">DOUGH CALCULATOR · 01</div>
+                            <h2 id="hydration-title">Find your perfect dough</h2>
+                            <p>Change any value, then use <strong>Calculate</strong> to work out the missing measurement from the other two.</p>
+                        </div>
+                        <span className="tools-card-illustration" aria-hidden="true">🍞</span>
                     </div>
-                    <div className='row-el'>
-                        <label>Flour (gr):
-                        <input
-                            className='input-number'
-                            type="number"
-                            name="fl"
-                            id='fl'
-                            min='1'
-                            value={fl}
-                            onChange={(e) => handleInputChange(e, FLOUR)}
-                        />
-                        </label>
-                        <BetterButton text='find' click={() => calculate(FLOUR)}/>
+
+                    <div className="tools-fields">
+                        <div className="tools-field">
+                            <label htmlFor="dough-hydration">Hydration</label>
+                            <div className="tools-input-wrap"><input id="dough-hydration" type="number" min="1" max="1000" step="1" value={hydration} onChange={e => setHydration(Number(e.target.value))}/><span>%</span></div>
+                            <button type="button" disabled={!valid(flour) || !valid(water)} onClick={() => setHydration(getHydration(water, flour))}>Calculate hydration ↗</button>
+                        </div>
+                        <div className="tools-field">
+                            <label htmlFor="dough-flour">Flour</label>
+                            <div className="tools-input-wrap"><input id="dough-flour" type="number" min="1" step="1" value={flour} onChange={e => setFlour(Number(e.target.value))}/><span>g</span></div>
+                            <button type="button" disabled={!valid(hydration) || !valid(water)} onClick={() => setFlour(getFlour(hydration, water))}>Calculate flour ↗</button>
+                        </div>
+                        <div className="tools-field">
+                            <label htmlFor="dough-water">Water</label>
+                            <div className="tools-input-wrap"><input id="dough-water" type="number" min="1" step="1" value={water} onChange={e => setWater(Number(e.target.value))}/><span>g / ml</span></div>
+                            <button type="button" disabled={!valid(hydration) || !valid(flour)} onClick={() => setWater(getWater(hydration, flour))}>Calculate water ↗</button>
+                        </div>
                     </div>
-                    <div className='row-el'>
-                        <label>Water (gr/ml):
-                        <input
-                            className='input-number'
-                            type="number"
-                            name="w"
-                            id='w'
-                            min='1'
-                            value={wt}
-                            onChange={(e) => handleInputChange(e, WATER)}
-                        />
-                        </label>
-                        <BetterButton text='find' click={() => calculate(WATER)}/>
+
+                    <div className="tools-summary" aria-live="polite">
+                        <div><span>ACTUAL HYDRATION</span><strong>{actualHydration === null ? "—" : actualHydration + "%"}</strong></div>
+                        <div><span>TOTAL DOUGH WEIGHT</span><strong>{valid(flour) && valid(water) ? format(flour + water) + " g" : "—"}</strong></div>
+                        <p>Hydration = water ÷ flour × 100. A higher percentage usually means a softer, stickier dough.</p>
                     </div>
-                </div>
+                    <button type="button" className="tools-reset" onClick={() => {setHydration(65);setFlour(600);setWater(390);}}>↺ Reset to example</button>
+                </section>
+                <footer className="tools-footer">Good bread starts with a little curiosity. ♡</footer>
             </div>
-            <BetterButton text="Back" click={()=>navigate(MENU)}/>
-        </div>
+        </main>
     );
 }
 

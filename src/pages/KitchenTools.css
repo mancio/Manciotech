@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap');
+.tools-page{--cream:#faf6ec;--paper:#fffdf7;--ink:#302b23;--muted:#726b5e;--green:#526d45;--rust:#b95638;--line:#e5dac7;min-height:100vh;box-sizing:border-box;padding:24px 18px 64px;border-radius:22px;background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;text-align:left}
+.tools-shell{max-width:1000px;margin:auto}
+.tools-hero{text-align:center;padding:20px 24px 48px;background:radial-gradient(circle at 83% 12%,#f7e5c7,transparent 35%)}
+.tools-back{display:block;border:0;background:none;color:var(--green);font:700 .9rem 'DM Sans',sans-serif;cursor:pointer;padding:8px 0}
+.tools-back:hover{color:var(--rust)}
+.tools-eyebrow,.tools-section-label{font-weight:700;font-size:.72rem;letter-spacing:.16em;color:var(--rust)}
+.tools-eyebrow{margin-top:30px}
+.tools-illustration{margin:16px auto 10px;font-size:clamp(2.6rem,6vw,4.2rem)}
+.tools-illustration span{display:inline-block;transform:rotate(-13deg)}
+.tools-hero h1{margin:0;font:600 clamp(3rem,6vw,5rem)/1.15 'Playfair Display',Georgia,serif;letter-spacing:-.04em}
+.tools-hero h1 em{color:var(--green);font-weight:500}
+.tools-hero p{max-width:530px;margin:16px auto 0;color:var(--muted);font-size:1.05rem;line-height:1.7}
+.tools-card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:clamp(22px,4vw,48px);box-shadow:0 14px 42px #55432812}
+.tools-card-header{display:flex;gap:20px;justify-content:space-between;align-items:center;margin-bottom:30px}
+.tools-card-header h2{font:600 clamp(1.65rem,3vw,2.35rem)/1.2 'Playfair Display',Georgia,serif;margin:9px 0 12px}
+.tools-card-header p{color:var(--muted);line-height:1.65;margin:0;max-width:600px}
+.tools-card-illustration{font-size:3.5rem}
+.tools-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.tools-field{padding:20px;border:1px solid var(--line);border-radius:14px;background:#fffaf0;min-width:0}
+.tools-field:nth-child(2){background:#f2f4e9}
+.tools-field:nth-child(3){background:#fbf0e9}
+.tools-field label{font-size:.9rem;font-weight:700;display:block;margin-bottom:13px}
+.tools-input-wrap{position:relative}
+.tools-input-wrap input{width:100%;height:64px;box-sizing:border-box;border:1px solid #d7ccb9;border-radius:10px;background:#fff;color:var(--ink);font:700 1.7rem 'DM Sans',sans-serif;padding:10px 72px 10px 14px}
+.tools-input-wrap span{position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:.8rem;font-weight:700}
+.tools-field button{margin-top:14px;width:100%;min-height:44px;background:var(--green);border:0;border-radius:9px;color:#fff;font:700 .87rem 'DM Sans',sans-serif;cursor:pointer}
+.tools-field button:hover:not(:disabled){background:#394e31}
+.tools-field button:disabled{opacity:.45;cursor:not-allowed}
+.tools-page button:focus-visible,.tools-page input:focus-visible{outline:3px solid var(--rust);outline-offset:3px}
+.tools-summary{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:26px;padding:25px;border:1px solid var(--line);border-radius:14px;background:#f5f0e4}
+.tools-summary div{display:flex;flex-direction:column;gap:6px}
+.tools-summary div span{color:var(--muted);letter-spacing:.12em;font-weight:700;font-size:.7rem}
+.tools-summary strong{font:600 2rem 'Playfair Display',Georgia,serif;color:var(--green)}
+.tools-summary p{grid-column:1/-1;margin:0;color:var(--muted);font-size:.87rem;line-height:1.6}
+.tools-reset{display:block;margin:22px auto 0;padding:10px 16px;border:1px solid var(--line);border-radius:100px;color:var(--green);background:transparent;font:700 .86rem 'DM Sans',sans-serif;cursor:pointer}
+.tools-footer{text-align:center;color:#857b6b;font-size:.84rem;margin:28px 0}
+@media(max-width:700px){.tools-fields{grid-template-columns:1fr}.tools-card-header{align-items:flex-start}.tools-card-illustration{font-size:2.4rem}}
+@media(max-width:560px){.tools-page{padding:8px 8px 34px;border-radius:12px}.tools-hero{padding:12px 12px 34px}.tools-card{padding:20px 16px}.tools-summary{padding:18px}.tools-summary strong{font-size:1.6rem}}
