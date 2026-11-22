@@ -8,7 +8,7 @@ The script uses `MailApp.sendEmail` and runs under the Google account that owns/
 
 1. Sign into the **Google account you want to use as the sender** at [script.google.com](https://script.google.com). This account must have access to `MailApp`; it can differ from the receiving `andrea@manciotech.net` mailbox.
 2. Create a **New project**, call it `MancioTech contact`, and replace its default `Code.gs` with the complete contents of [Code.gs](./Code.gs).
-3. Save. In Apps Script select a function requiring authorization (you may run `authorizeMail` from the editor after adding it temporarily: `function authorizeMail(){ MailApp.getRemainingDailyQuota(); }`), then follow the Google authorization screens. **Do not enter any credentials into the website.** The first real `MailApp.sendEmail` may also trigger a consent prompt during setup, so explicitly grant the required permission before testing public requests.
+3. Save. In Apps Script select the included `authorizeMail` function and click **Run**, then follow the Google authorization screens. **Do not enter any credentials into the website.** The first real `MailApp.sendEmail` may also trigger a consent prompt during setup, so explicitly grant the required permission before testing public requests.
 4. Click **Deploy → New deployment**. Select **Web app**, set **Execute as: Me**, **Who has access: Anyone**, and deploy. Authorize the permissions if asked.
 5. Copy the deployment's exact URL ending with `/exec`, such as `https://script.google.com/macros/s/AKfycb.../exec`.
 6. Configure your React website build with this environment variable:
