@@ -13,6 +13,7 @@ import {ENGLISH, ITALIAN, MAGIC_SEPARATOR, POLISH, RECIPES} from "../logic/Names
 import IngredientMultiplier from "../components/IngredientMultiplier";
 import YouTubeLogo from "../pictures/icons/YouTube.svg";
 import BetterButton from "../components/BetterButton";
+import "./Recipes.css";
 
 const CHECKED_INGREDIENTS_KEY = "checkedIngredients";
 
@@ -62,7 +63,7 @@ function RecipesGen() {
 
     if (!match) {
         return (
-            <div className='recipe-box'>
+            <div className='recipe-box kitchen-recipe'>
                 <div className='title2'>
                     <h3>Recipe not found</h3>
                 </div>
@@ -88,7 +89,7 @@ function RecipesGen() {
     const separator = <span className="magic-separator">{MAGIC_SEPARATOR}</span>;
 
     return (
-        <div className='recipe-box'>
+        <div className='recipe-box kitchen-recipe'>
             <div className='title2'>
                 <h3>{translation.title}</h3>
             </div>
