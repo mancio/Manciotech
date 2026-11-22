@@ -569,3 +569,16 @@ body {
   .home-language-button { transition: none; }
   .home-language-button:hover { transform: none; }
 }
+
+/* Language controls stay at the upper right on every routed page. */
+.site-language-switcher {
+  position: relative;
+  z-index: 5;
+  padding-top: 18px;
+  padding-right: 8px;
+  margin: 0 auto;
+  max-width: 1120px;
+}
+@media (max-width: 600px) {
+  .site-language-switcher { padding-top: 12px; padding-right: 4px; }
+}

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../App.css'
+import {useT} from '../i18n/useT';
 
 interface SearchBarProps {
     onSearchTermChange: (term: string) => void;
@@ -7,6 +8,7 @@ interface SearchBarProps {
 
 function SearchBar({ onSearchTermChange }: SearchBarProps){
 
+    const tr=useT();
     const [inputValue, setInputValue] = useState('');
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value;
@@ -18,7 +20,7 @@ function SearchBar({ onSearchTermChange }: SearchBarProps){
         <div >
             <input id="kitchen-search-input" className="search-bar"
                 type="text"
-                placeholder="Search..."
+                placeholder={tr("Search...")}
                 value={inputValue}
                 onChange={handleInputChange}
             />

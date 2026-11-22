@@ -1,0 +1,51 @@
+export const homeTranslations = {
+    EN: {
+        tagline: 'AI solutions and software ideas',
+        androidApp: 'Android app',
+        download: '⬇ Download APK (Android)',
+        viewGitHub: 'View on GitHub',
+        harmono: 'Never miss bin day in Wieliczka: check your waste collection schedule, get reminders, and add pickup dates to your calendar.',
+        toolsHeading: 'Try my tools',
+        tiles: {
+            score: ['Score Counter', 'Briscola and Scopa, no cheating.'],
+            recipes: ['Recipes', 'Tested on real Italians.'],
+            kitchen: ['Kitchen Tools', 'Dough hydration and friends.'],
+            temp: ['TempCasina', 'Live temperature from the casina.'],
+            stocks: ['Stocks', 'Numbers going up (hopefully).'],
+            lessons: ['Karpathy Lessons', 'My notes on building neural nets.'],
+        },
+    },
+    IT: {
+        tagline: 'Soluzioni di intelligenza artificiale e idee software',
+        androidApp: 'App Android',
+        download: '⬇ Scarica APK (Android)',
+        viewGitHub: 'Vedi su GitHub',
+        harmono: 'Non dimenticare mai la raccolta dei rifiuti a Wieliczka: consulta il calendario, ricevi promemoria e aggiungi le date al tuo calendario.',
+        toolsHeading: 'Prova i miei strumenti',
+        tiles: {
+            score: ['Segnapunti', 'Briscola e Scopa, senza barare.'],
+            recipes: ['Ricette', 'Testate da veri italiani.'],
+            kitchen: ['Strumenti da cucina', 'Idratazione dell’impasto e altro.'],
+            temp: ['TempCasina', 'Temperatura in tempo reale dalla casina.'],
+            stocks: ['Azioni', 'Numeri che salgono (si spera).'],
+            lessons: ['Lezioni di Karpathy', 'I miei appunti sulle reti neurali.'],
+        },
+    },
+    PL: {
+        tagline: 'Rozwiązania AI i pomysły na oprogramowanie',
+        androidApp: 'Aplikacja na Androida',
+        download: '⬇ Pobierz APK (Android)',
+        viewGitHub: 'Zobacz na GitHubie',
+        harmono: 'Nie przegap odbioru odpadów w Wieliczce: sprawdzaj harmonogram, otrzymuj przypomnienia i dodawaj terminy do kalendarza.',
+        toolsHeading: 'Wypróbuj moje narzędzia',
+        tiles: {
+            score: ['Licznik punktów', 'Briscola i Scopa, bez oszukiwania.'],
+            recipes: ['Przepisy', 'Sprawdzone przez prawdziwych Włochów.'],
+            kitchen: ['Narzędzia kuchenne', 'Hydratacja ciasta i nie tylko.'],
+            temp: ['TempCasina', 'Temperatura na żywo z casiny.'],
+            stocks: ['Akcje', 'Liczby idą w górę (oby!).'],
+            lessons: ['Lekcje Karpathy’ego', 'Moje notatki o sieciach neuronowych.'],
+        },
+    },
+} as const;
+

@@ -1,11 +1,13 @@
 import IpPlaceTime from "./IpPlaceTime";
 import {GITHUB_URL} from "../data/games";
 import '../App.css';
+import {useT} from '../i18n/useT';
 
 function Footer(){
+    const tr=useT();
     return (
         <footer className="site-footer">
-            <span>© {new Date().getFullYear()} · made with React and too much espresso ☕</span>
+            <span>© {new Date().getFullYear()} · {tr("made with React and too much espresso")} ☕</span>
             <span className="site-footer-sep">·</span>
             <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">GitHub</a>
             <span className="site-footer-sep">·</span>

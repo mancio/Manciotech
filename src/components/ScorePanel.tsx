@@ -1,4 +1,5 @@
 import '../App.css';
+import {useT} from '../i18n/useT';
 import React, {useEffect, useState} from "react";
 import {PLAYER_NAMES, PLAYERS_SCORE, STEP1, STEP2, STEP3} from "../logic/Names";
 import {
@@ -8,6 +9,7 @@ import {
 } from "../logic/Functions";
 
 function ScorePanel(){
+    const tr=useT();
 
     const [step, setStep] = useState(STEP1);
     const [playerNumber, setPlayerNumber] = useState(0);
@@ -75,7 +77,7 @@ function ScorePanel(){
 
     function changePanel(moveTo: string){
         if (moveTo === STEP2){
-            if (playerNumber === 0) alert("at least one player");
+            if (playerNumber === 0) alert(tr("at least one player"));
             else {
                 setPlayerNames(Array(playerNumber).fill(''));
                 setScores(Array(playerNumber).fill(0));
@@ -83,7 +85,7 @@ function ScorePanel(){
             }
         }
         if (moveTo === STEP3){
-            if (!areAllNamesFilled()) alert("please write all the players names");
+            if (!areAllNamesFilled()) alert(tr("please write all the players names"));
             else {
                 setSharedObject(PLAYER_NAMES, playerNames);
                 setStep(STEP3);
@@ -102,13 +104,13 @@ function ScorePanel(){
         <div className="player-score-panel">
             {step === STEP1 && (
                 <div className="player-setup">
-                    <label className="player-field-label">Number of players</label>
+                    <label className="player-field-label">{tr("Number of players")}</label>
                     <div className="player-count-controls">
-                        <button type="button" className="player-stepper" aria-label="Remove player" disabled={playerNumber === 0} onClick={reducePlayers}>−</button>
+                        <button type="button" className="player-stepper" aria-label={tr("Remove player")} disabled={playerNumber === 0} onClick={reducePlayers}>−</button>
                         <output className="player-count" aria-live="polite">{playerNumber}</output>
-                        <button type="button" className="player-stepper" aria-label="Add player" onClick={increasePlayers}>+</button>
+                        <button type="button" className="player-stepper" aria-label={tr("Add player")} onClick={increasePlayers}>+</button>
                     </div>
-                    <button type="button" className="player-primary" onClick={() => changePanel(STEP2)}>Set player number</button>
+                    <button type="button" className="player-primary" onClick={() => changePanel(STEP2)}>{tr("Set player number")}</button>
                 </div>
             )}
 
@@ -116,22 +118,22 @@ function ScorePanel(){
                 <div className="player-names-form">
                     {Array.from({length: playerNumber}, (_, index) => (
                         <label className="player-name-field" key={index}>
-                            <span>Player {index + 1} name</span>
+                            <span>{tr("Player")} {index + 1} {tr("name")}</span>
                             <input
                                 type="text"
                                 value={playerNames[index] || ''}
-                                placeholder="Enter player name"
+                                placeholder={tr("Enter player name")}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleNameChange(e, index)}
                             />
                         </label>
                     ))}
-                    <button type="button" className="player-primary" onClick={() => changePanel(STEP3)}>Set names</button>
+                    <button type="button" className="player-primary" onClick={() => changePanel(STEP3)}>{tr("Set names")}</button>
                 </div>
             )}
 
             {step === STEP3 && (
                 <div className="player-scores">
-                    <h3>Players score</h3>
+                    <h3>{tr("Players score")}</h3>
                     <div className="player-score-list">
                         {playerNames.map((name, index) => (
                             <div className="player-score-row" key={index}>
@@ -146,7 +148,7 @@ function ScorePanel(){
                     </div>
                 </div>
             )}
-            <button type="button" className="player-reset" onClick={resetScore}>Reset player scoreboard</button>
+            <button type="button" className="player-reset" onClick={resetScore}>{tr("Reset player scoreboard")}</button>
         </div>
     );
 }

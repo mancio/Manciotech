@@ -14,6 +14,8 @@ import IngredientMultiplier from "../components/IngredientMultiplier";
 import YouTubeLogo from "../pictures/icons/YouTube.svg";
 import BetterButton from "../components/BetterButton";
 import "./Recipes.css";
+import {useSiteLanguage} from "../i18n/SiteLanguage";
+import {useT} from "../i18n/useT";
 
 const CHECKED_INGREDIENTS_KEY = "checkedIngredients";
 
@@ -38,6 +40,8 @@ function RecipesGen() {
     }, [isSupported]);
 
     const navigate = useNavigate();
+    const {setLanguage}=useSiteLanguage();
+    const tr=useT();
     const { recipeName: recipeURLName } = useParams();
 
     const languageList: Language[] = [ITALIAN, ENGLISH, POLISH];
@@ -65,9 +69,9 @@ function RecipesGen() {
         return (
             <div className='recipe-box kitchen-recipe'>
                 <div className='title2'>
-                    <h3>Recipe not found</h3>
+                    <h3>{tr("Recipe not found")}</h3>
                 </div>
-                <BetterButton text="Back" click={() => navigate(RECIPES)} />
+                <BetterButton text={tr("Back")} click={() => navigate(RECIPES)} />
             </div>
         );
     }
@@ -82,6 +86,7 @@ function RecipesGen() {
     };
 
     function goToRecipe(ln: Language) {
+        setLanguage(ln);
         navigate(getRecipeURLByIdAndLanguage(recipe.id, ln));
     }
 
@@ -97,7 +102,7 @@ function RecipesGen() {
             <p>{translation.servings}</p>
             {separator}
             <IngredientMultiplier multiplier={multiplier} setMultiplier={setMultiplier} />
-            <h3>Ingredients</h3>
+            <h3>{tr("Ingredients")}</h3>
             <div className="ingredient-list">
                 {translation.ingredients.map((ingredient, index) => (
                     <div key={index} className="ingredient-item">
@@ -114,7 +119,7 @@ function RecipesGen() {
                 ))}
             </div>
             {separator}
-            <h3>Steps:</h3>
+            <h3>{tr("Steps")}:</h3>
             {translation.steps.map((step, index) => {
                 const stepImage = findPictureUrl(recipe, language, index + 1);
                 return (
@@ -128,21 +133,21 @@ function RecipesGen() {
             {translation.notes && (
                 <div>
                     {separator}
-                    <h3>Notes</h3>
+                    <h3>{tr("Notes")}</h3>
                     <p>{translation.notes}</p>
                 </div>
             )}
             {recipe.video && (
                 <div>
                     {separator}
-                    <h1>Link to video</h1>
+                    <h1>{tr("Link to video")}</h1>
                     <a href={recipe.video} target="_blank" rel="noopener noreferrer">
-                        <img src={YouTubeLogo} alt="Watch on YouTube" width="100" />
+                        <img src={YouTubeLogo} alt={tr("Watch on YouTube")} width="100" />
                     </a>
                 </div>
             )}
             <div className='language-line'>
-                <h3>Languages:</h3>
+                <h3>{tr("Languages")}:</h3>
                 {languageList.map((lang) => (
                     <BetterButton key={lang} text={lang} click={() => goToRecipe(lang)} />
                 ))}
