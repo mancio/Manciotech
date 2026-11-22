@@ -43,9 +43,9 @@ function Recipes() {
             <div className="kitchen-shell">
                 <header className="kitchen-hero">
                     <button className="kitchen-back" type="button" onClick={() => navigate(MENU)}>
-                        <span aria-hidden="true">←</span> Back to MancioTech
+                        <span aria-hidden="true">←</span> {tr("Back to MancioTech")}
                     </button>
-                    <div className="kitchen-eyebrow"><span aria-hidden="true">✦</span> FROM OUR KITCHEN <span aria-hidden="true">✦</span></div>
+                    <div className="kitchen-eyebrow"><span aria-hidden="true">✦</span> {tr("FROM OUR KITCHEN")} <span aria-hidden="true">✦</span></div>
                     <div className="kitchen-hero-illustration" aria-hidden="true">🍅 <span>🍝</span> 🌿</div>
                     <h1>{tr("Recipes")} <em>{tr("& good food.")}</em></h1>
                     <p className="kitchen-intro">{tr("A little collection of dishes worth making, sharing, and coming back to.")}</p>
