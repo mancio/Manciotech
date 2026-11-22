@@ -50,6 +50,23 @@ function Menu() {
                 <p className="hero-tagline">{t.tagline}</p>
             </header>
 
+            <section className="section" aria-labelledby="pii-remover-title">
+                <h2 id="pii-remover-title" className="section-title">{t.pcApp}</h2>
+                <div className="tile pc-app-card">
+                    <div className="harmono-app-heading">
+                        <img className="harmono-app-icon pc-app-icon" src="/mancio-pii-remover.svg" alt="" width="64" height="64" />
+                        <span className="tile-title">MancioPIIRemover</span>
+                        <span className="pc-ai-badge" aria-label={t.aiBadge}>
+                            <span aria-hidden="true">✦</span> {t.aiBadge}
+                        </span>
+                    </div>
+                    <p className="tile-blurb">{t.piiDesc}</p>
+                    <div className="hero-actions">
+                        <a className="btn btn-ghost" href="https://github.com/mancio/mancioPIIRemover" target="_blank" rel="noopener noreferrer">{t.piiGithub}</a>
+                    </div>
+                </div>
+            </section>
+
             <section className="section" aria-labelledby="harmonopattume-title">
                 <h2 id="harmonopattume-title" className="section-title">{t.androidApp}</h2>
                 <div className="tile">
