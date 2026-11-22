@@ -3,10 +3,12 @@ import {useNavigate} from "react-router-dom";
 import {MENU} from "../logic/Names";
 import {useState} from "react";
 import {calculateAge} from "../logic/Functions";
+import {useT} from "../i18n/useT";
 
 function HowOld(){
 
     const navigate = useNavigate();
+    const tr=useT();
 
     const [days, setDays] = useState(12);
     const [months, setMonths] = useState(8);
@@ -15,14 +17,14 @@ function HowOld(){
     return(
         <div>
             <div className="title">
-                <p>How Old am I</p>
+                <p>{tr("How Old am I")}</p>
             </div>
             <div className='dashboard'>
                 <input
                     type="number"
                     value={days}
                     onChange={(e) => setDays(Number(e.target.value))}
-                    placeholder="Enter day"
+                    placeholder={tr("Enter day")}
                     className="age-field"
                 />
                 /
@@ -30,7 +32,7 @@ function HowOld(){
                     type="number"
                     value={months}
                     onChange={(e) => setMonths(Number(e.target.value))}
-                    placeholder="Enter month"
+                    placeholder={tr("Enter month")}
                     className="age-field"
                 />
                 /
@@ -38,13 +40,13 @@ function HowOld(){
                     type="number"
                     value={years}
                     onChange={(e) => setYears(Number(e.target.value))}
-                    placeholder="Enter years"
+                    placeholder={tr("Enter years")}
                     className="age-field"
                 />
 
-                <h1>Today you are {calculateAge(days,months, years)} years old</h1>
+                <h1>{tr("Today you are")} {calculateAge(days,months, years)} {tr("years old")}</h1>
             </div>
-            <BetterButton text="Back" click={() => navigate(MENU)}/>
+            <BetterButton text={tr("Back")} click={() => navigate(MENU)}/>
         </div>)
 }
 
