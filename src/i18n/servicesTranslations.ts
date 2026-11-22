@@ -46,7 +46,8 @@ export const servicesTranslations = {
     consent:"I agree to have my contact details and message sent to FormSubmit for forwarding to MancioTech so I can be contacted about my request.",
     send:"Send request",sending:"Sending…",
     success:"Your request has been submitted. Email delivery requires the recipient to activate the form once; I'll receive it when that setup is complete.",
-    error:"The message could not be submitted. Please try again or email me directly.",
+    error:"The request was not accepted by the email service. Please check the details below and try again.",
+    serviceReason:"Service response",
     invalid:"Please provide a valid name, email, and description of at least 20 characters.",
     contactAlt:"Or write directly to",service:"Messages are processed through FormSubmit (an external service) to deliver them by email.",
     activation:"The first submission triggers an activation email to the recipient. Until the address is verified, submissions will not be delivered to the mailbox."
@@ -98,7 +99,8 @@ export const servicesTranslations = {
     consent:"Acconsento all'invio dei miei dati di contatto e del messaggio a FormSubmit, servizio esterno che li inoltra via email a MancioTech per ricevere una risposta.",
     send:"Invia richiesta",sending:"Invio in corso…",
     success:"Richiesta inviata al servizio. La consegna email richiede una prima attivazione da parte del destinatario; riceverò il messaggio quando la configurazione sarà completata.",
-    error:"Impossibile inviare il messaggio. Riprova oppure scrivimi direttamente via email.",
+    error:"Il servizio email non ha accettato la richiesta. Controlla il dettaglio qui sotto e riprova.",
+    serviceReason:"Risposta del servizio",
     invalid:"Inserisci nome, email valida e descrizione di almeno 20 caratteri.",
     contactAlt:"Oppure scrivi direttamente a",service:"I messaggi passano attraverso FormSubmit (servizio esterno) per essere inoltrati via email.",
     activation:"Il primo invio genera un'email di attivazione al destinatario. Finché l'indirizzo non viene verificato, i messaggi non vengono consegnati alla casella."
@@ -150,7 +152,8 @@ export const servicesTranslations = {
     consent:"Zgadzam się na przesłanie moich danych kontaktowych i wiadomości do zewnętrznego serwisu FormSubmit w celu przekazania zapytania e-mailem do MancioTech i uzyskania odpowiedzi.",
     send:"Wyślij zapytanie",sending:"Wysyłanie…",
     success:"Zapytanie zostało przekazane do serwisu. Dostarczenie e-maila wymaga jednorazowej aktywacji adresu odbiorcy.",
-    error:"Nie udało się wysłać wiadomości. Spróbuj ponownie lub napisz bezpośrednio e-mailem.",
+    error:"Usługa pocztowa nie przyjęła zgłoszenia. Sprawdź szczegóły poniżej i spróbuj ponownie.",
+    serviceReason:"Odpowiedź usługi",
     invalid:"Podaj imię, poprawny e-mail i opis liczący co najmniej 20 znaków.",
     contactAlt:"Możesz też napisać bezpośrednio na",service:"Wiadomości są przekazywane przez zewnętrzny serwis FormSubmit.",
     activation:"Pierwsza wiadomość powoduje wysłanie e-maila aktywacyjnego do odbiorcy. Do czasu weryfikacji wiadomości nie będą dostarczane do skrzynki."
