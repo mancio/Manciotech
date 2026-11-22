@@ -1,22 +1,17 @@
 import CookieConsent from "react-cookie-consent";
 import './App.css';
-import Dice3 from './pictures/dice/dice-3.svg'
-import Dice5 from './pictures/dice/dice-5.svg'
-import Face from './pictures/icons/face.svg'
-import {getDisplayType, getRandomNumber} from "./logic/Functions";
 import { Routes, Route, BrowserRouter } from "react-router-dom"
 import {
     DICE,
     FART, HOW_OLD,
     KITCHEN_TOOLS,
     MENU,
-    PHONE,
     RECIPES,
     SCORE_COUNTER,
-    TABLET, TEMP
+    TEMP
 } from "./logic/Names";
 import {lazy, Suspense} from "react";
-import MoveSVG from "./animation/MoveSVG";
+import AutoSnake from "./animation/AutoSnake";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 const Menu = lazy(() => import('./pages/Menu'));
@@ -31,31 +26,6 @@ const HowOld = lazy(() => import('./pages/HowOld'));
 
 
 function App() {
-    const svgs = [Dice3, Dice5, Face];
-    const type = getDisplayType();
-    const elements =
-        type === PHONE ? 3 :
-        type === TABLET ? 5 :
-        8;
-
-    const generateRandomArray = (size: number, svgs: string[]): string[] => {
-        const randomArray: string[] = [];
-        for (let i = 0; i < size; i++) {
-            const randomIndex = getRandomNumber(0, svgs.length - 1);
-            const randomElement = svgs[randomIndex];
-            randomArray.push(randomElement);
-        }
-        return randomArray;
-    };
-
-    const svgArray = generateRandomArray(elements, svgs);
-
-    function renderMoveSVGs(svgFiles: string[]) {
-        return svgFiles.map((svg, index) => (
-            <MoveSVG key={`svg-${index}`} svgFile={svg} />
-        ));
-    }
-
     return (
         <div className="App">
             <CookieConsent
@@ -63,8 +33,8 @@ function App() {
                 contentStyle={{flex: '1 1 auto', minWidth: 0, margin: '10px'}}
                 buttonStyle={{fontSize: '16px', padding: '10px 18px', borderRadius: '8px'}}
             >This website uses cookies to enhance the user experience.</CookieConsent>
+            <AutoSnake />
             <Suspense fallback={<div>Loading...</div>}>
-                {renderMoveSVGs(svgArray)}
                 <div className="frame">
                     <BrowserRouter>
                         <ScrollToTop />
