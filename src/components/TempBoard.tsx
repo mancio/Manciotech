@@ -1,3 +1,4 @@
+import {useT} from "../i18n/useT";
 import {useEffect, useState} from "react";
 import Camel from "../pictures/icons/camel.svg";
 import Temperato from "../pictures/icons/temperato.svg";
@@ -16,6 +17,7 @@ const asNumber = (value: Reading): number | null => {
 };
 
 function TempBoard() {
+    const tr=useT();
     const [datetime, setDatetime] = useState<Reading>(null);
     const [temperature, setTemperature] = useState<Reading>(null);
     const [voltage, setVoltage] = useState<Reading>(null);
@@ -47,19 +49,19 @@ function TempBoard() {
     const age = timestamp !== null && timestamp > 0 ? getTimeDifference(timestamp, getUnixTime()) : null;
 
     return (
-        <section className="temp-reading" aria-label="Casina sensor readings">
-            {error && <div className="temp-error" role="alert"><strong>Sensor data unavailable</strong><p>{error}</p><p>The page is working, but live readings cannot be loaded. Check the Firebase build configuration and database permissions.</p></div>}
-            {!error && !connected && <p className="temp-loading" role="status">Connecting to the sensor…</p>}
+        <section className="temp-reading" aria-label={tr("Casina sensor readings")}>
+            {error && <div className="temp-error" role="alert"><strong>{tr("Sensor data unavailable")}</strong><p>{error}</p><p>{tr("The page is working, but live readings cannot be loaded. Check the Firebase build configuration and database permissions.")}</p></div>}
+            {!error && !connected && <p className="temp-loading" role="status">{tr("Connecting to the sensor…")}</p>}
             <div className="temp-reading-grid">
                 <div className="temp-primary">
-                    <span className="temp-label">CURRENT TEMPERATURE</span>
+                    <span className="temp-label">{tr("CURRENT TEMPERATURE")}</span>
                     <strong>{temp === null ? "—" : roundStringToTwoDecimals(String(temp)) + " °C"}</strong>
                     {icon && <img src={icon} alt="" aria-hidden="true"/>}
                     <p>{temp === null ? "No temperature reading available" : temp > 29 ? "It's hot outside!" : temp >= 13 ? "A mild day in Casina" : "It's chilly outside!"}</p>
                 </div>
                 <div className="temp-secondary">
-                    <div><span className="temp-label">LAST SENSOR UPDATE</span><strong>{lastUpdate ?? "Not available"}</strong><small>{age ? age + " ago · Polish time" : "Polish time"}</small></div>
-                    <div><span className="temp-label">BATTERY</span><strong>{volts === null ? "—" : batteryPercentage(String(volts))}</strong><small>{volts === null ? "No voltage reading" : roundStringToTwoDecimals(String(volts)) + " V"}</small></div>
+                    <div><span className="temp-label">{tr("LAST SENSOR UPDATE")}</span><strong>{lastUpdate ?? tr("Not available")}</strong><small>{age ? age + " " + tr("ago · Polish time") : tr("Polish time")}</small></div>
+                    <div><span className="temp-label">{tr("BATTERY")}</span><strong>{volts === null ? "—" : batteryPercentage(String(volts))}</strong><small>{volts === null ? tr("No voltage reading") : roundStringToTwoDecimals(String(volts)) + " V"}</small></div>
                 </div>
             </div>
         </section>
