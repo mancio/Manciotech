@@ -92,7 +92,7 @@ function respond_(requestId, success, message) {
   };
   var payload = JSON.stringify(response).replace(/</g, "\\u003c");
   var html = "<!doctype html><html><head><meta charset='utf-8'></head><body>" +
-    "<script>window.top.postMessage(" + payload + ", " + JSON.stringify(ALLOWED_SITE) + ");<\\/script>" +
+    "<script>window.top.postMessage(" + payload + ", " + JSON.stringify(ALLOWED_SITE) + ");</script>" +
     "</body></html>";
   return HtmlService.createHtmlOutput(html)
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
