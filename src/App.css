@@ -173,7 +173,7 @@ body {
   position: relative;
   z-index: 1;
   width: fit-content;
-  margin: 0 auto 24px;
+  margin: 40px auto 24px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -183,9 +183,10 @@ body {
   border: 1px solid var(--border);
   color: var(--muted);
   font-family: "Space Grotesk", sans-serif;
-  font-size: small;
+  font-size: 1rem;
+  line-height: 1.5;
   border-radius: 30px;
-  padding: 6px 16px;
+  padding: 14px 22px;
   max-width: 92vw;
   box-sizing: border-box;
 }
@@ -205,8 +206,9 @@ body {
 
 @media (max-width: 600px) {
   .site-footer {
-    font-size: x-small;
-    padding: 5px 12px;
+    font-size: 0.95rem;
+    padding: 12px 16px;
+    margin-top: 32px;
   }
 }
 
