@@ -77,9 +77,7 @@ function draw(ctx:CanvasRenderingContext2D,game:Game,columns:number,rows:number)
     for(let y=0;y<=rows;y++) {ctx.beginPath();ctx.moveTo(0,y*CELL);ctx.lineTo(width,y*CELL);ctx.stroke();}
     game.snake.forEach((part,index)=>{
         ctx.fillStyle=index===0 ? "#b4e37b" : index%2 ? "#5c9c74" : "#75b78a";
-        ctx.beginPath();
-        ctx.roundRect(part.x*CELL+3,part.y*CELL+3,CELL-6,CELL-6,6);
-        ctx.fill();
+        ctx.fillRect(part.x*CELL+3,part.y*CELL+3,CELL-6,CELL-6);
     });
     ctx.fillStyle="#ffae74";
     ctx.beginPath();ctx.arc(game.food.x*CELL+CELL/2,game.food.y*CELL+CELL/2,6,0,Math.PI*2);ctx.fill();
