@@ -5,7 +5,7 @@
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
-  opacity: 0.52;
+  opacity: 0.84;
 }
 .auto-snake-background canvas {
   display: block;
@@ -13,5 +13,5 @@
   height: 100%;
 }
 @media (prefers-reduced-motion: reduce) {
-  .auto-snake-background { opacity: 0.32; }
+  .auto-snake-background { opacity: 0.55; }
 }
