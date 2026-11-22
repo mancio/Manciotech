@@ -16,7 +16,7 @@ function SearchBar({ onSearchTermChange }: SearchBarProps){
 
     return (
         <div >
-            <input className="search-bar"
+            <input id="kitchen-search-input" className="search-bar"
                 type="text"
                 placeholder="Search..."
                 value={inputValue}
