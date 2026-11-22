@@ -3,6 +3,8 @@ const translations: Record<"EN"|"IT"|"PL",Record<string,string>> = {
   "EN": {
     "Back to MancioTech": "Back to MancioTech",
     "Back to home": "Back to home",
+    "card counted": "card counted",
+    "cards counted": "cards counted",
     "Back": "Back",
     "FROM OUR KITCHEN": "FROM OUR KITCHEN",
     "Recipes": "Recipes",
@@ -118,6 +120,8 @@ const translations: Record<"EN"|"IT"|"PL",Record<string,string>> = {
   "IT": {
     "Back to MancioTech": "Torna a MancioTech",
     "Back to home": "Torna alla home",
+    "card counted": "carta contata",
+    "cards counted": "carte contate",
     "Back": "Indietro",
     "FROM OUR KITCHEN": "DALLA NOSTRA CUCINA",
     "Recipes": "Ricette",
@@ -233,6 +237,8 @@ const translations: Record<"EN"|"IT"|"PL",Record<string,string>> = {
   "PL": {
     "Back to MancioTech": "Wróć do MancioTech",
     "Back to home": "Wróć na stronę główną",
+    "card counted": "karta policzona",
+    "cards counted": "kart policzonych",
     "Back": "Wróć",
     "FROM OUR KITCHEN": "Z NASZEJ KUCHNI",
     "Recipes": "Przepisy",
