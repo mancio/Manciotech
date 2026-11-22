@@ -136,8 +136,8 @@ function ScoreCounter(){
     return (
         <main className="score-page">
             <div className="score-page-heading">
-                <button className="score-back" type="button" onClick={() => navigate(MENU)}>← Back to home</button>
-                <span className="score-eyebrow">♠ ♥ ♦ ♣ &nbsp; THE CARD TABLE</span>
+                <button className="score-back" type="button" onClick={() => navigate(MENU)}>← {tr("Back to home")}</button>
+                <span className="score-eyebrow">♠ ♥ ♦ ♣ &nbsp; {tr("THE CARD TABLE")}</span>
                 <h1>{tr("Card Score Counter")}</h1>
                 <p>{tr("Pick a game, tap the cards you collected, and keep your score.")}</p>
             </div>
@@ -154,7 +154,7 @@ function ScoreCounter(){
                     <div className="score-total" aria-live="polite">
                         <span>{tr("TOTAL POINTS")}</span>
                         <strong>{score}</strong>
-                        <small>{selCards.length} card{selCards.length === 1 ? '' : 's'} counted</small>
+                        <small>{selCards.length} {tr(selCards.length === 1 ? "card counted" : "cards counted")}</small>
                     </div>
                 </div>
 
@@ -180,7 +180,7 @@ function ScoreCounter(){
                         <div className="score-summary">
                             <div className="score-history">
                                 <span className="score-label">{tr("SELECTED CARDS")}</span>
-                                <p>{selCards.length ? selCards.join(' · ') : 'Your cards will appear here.'}</p>
+                                <p>{selCards.length ? selCards.join(' · ') : tr('Your cards will appear here.')}</p>
                                 {result && <span className="score-result">{result}</span>}
                             </div>
                             <div className="score-actions">
