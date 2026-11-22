@@ -1,6 +1,7 @@
 import type {Language} from "../data/recipes/types";
 
 export const MENU = '/';
+export const SERVICES = '/services';
 export const RECIPES = '/recipes';
 export const SCORE_COUNTER = '/score';
 export const KITCHEN_TOOLS = '/kitchenTools';
