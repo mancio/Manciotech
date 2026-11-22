@@ -12,7 +12,7 @@ interface Tile {
     go: () => void;
 }
 
-function TileGrid({tiles, labels}: {tiles: Tile[]; labels: typeof homeTranslations['EN']['tiles']}) {
+function TileGrid({tiles, labels}: {tiles: Tile[]; labels: {[K in TileKey]: readonly [string, string]}}) {
     return (
         <div className="tile-grid">
             {tiles.map(tile => (
