@@ -8,14 +8,16 @@ import "./Services.css";
 
 const CONTACT_EMAIL = "andrea@manciotech.net";
 // Set this only after publishing the Google Apps Script as a web app.
-const ENDPOINT = (process.env.REACT_APP_GOOGLE_APPS_SCRIPT_URL || "").trim();
-const ENDPOINT_READY = /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(ENDPOINT);
+function scriptEndpoint(){return (process.env.REACT_APP_GOOGLE_APPS_SCRIPT_URL || "").trim();}
+function validScriptEndpoint(url:string){return /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(url);}
 const FRAME_NAME = "manciotech-contact-response";
 type DeliveryState = "idle" | "sending" | "submitted" | "error";
 
 export default function Services() {
   const {language} = useSiteLanguage();
   const t = servicesTranslations[language];
+  const endpoint=scriptEndpoint();
+  const endpointReady=validScriptEndpoint(endpoint);
   const navigate = useNavigate();
   const [name,setName] = useState("");
   const [email,setEmail] = useState("");
@@ -57,7 +59,7 @@ export default function Services() {
     event.preventDefault();
     if (status==="sending") return;
     if (honeypot) return;
-    if (!ENDPOINT_READY) {
+    if (!endpointReady) {
       setStatus("error");
       setServiceError(t.unavailable);
       return;
@@ -134,7 +136,7 @@ export default function Services() {
           <p className="services-small">{t.activation}</p>
         </div>
         <iframe name={FRAME_NAME} title="Google Apps Script contact response" className="services-response-frame" tabIndex={-1} aria-hidden="true"/>
-        <form ref={formRef} className="services-form" action={ENDPOINT_READY?ENDPOINT:undefined} target={FRAME_NAME} method="POST" onSubmit={submit} noValidate>
+        <form ref={formRef} className="services-form" action={endpointReady?endpoint:undefined} target={FRAME_NAME} method="POST" onSubmit={submit} noValidate>
           <input type="hidden" name="requestId" value={requestId}/>
           <input type="hidden" name="source" value="manciotech.net"/>
           <input type="hidden" name="subject" value="MancioTech · richiesta servizi AI"/>
@@ -149,11 +151,11 @@ export default function Services() {
           <label>{t.message}<textarea name="message" required minLength={20} maxLength={4000} rows={7} placeholder={t.messagePlaceholder} value={problem} onChange={e=>setProblem(e.target.value)}/></label>
           <div className="services-honeypot" aria-hidden="true"><label>Leave this empty<input name="website" tabIndex={-1} autoComplete="off" value={honeypot} onChange={e=>setHoneypot(e.target.value)}/></label></div>
           <label className="services-consent"><input type="checkbox" name="consent" value="yes" required checked={consent} onChange={e=>setConsent(e.target.checked)}/><span>{t.consent}</span></label>
-          {!ENDPOINT_READY && <p className="services-message services-error" role="status">{t.unavailable}</p>}
+          {!endpointReady && <p className="services-message services-error" role="status">{t.unavailable}</p>}
           {validation && <p role="alert" className="services-message services-error">{validation}</p>}
           {status==="submitted" && <p role="status" className="services-message services-success">{t.success}</p>}
           {status==="error" && <p role="alert" className="services-message services-error">{t.error}{serviceError && <span className="services-error-detail"> {t.serviceReason}: {serviceError}</span>}</p>}
-          <button className="services-button services-submit" type="submit" disabled={status==="sending" || !ENDPOINT_READY}>{status==="sending"?t.sending:t.send} <span aria-hidden="true">↗</span></button>
+          <button className="services-button services-submit" type="submit" disabled={status==="sending" || !endpointReady}>{status==="sending"?t.sending:t.send} <span aria-hidden="true">↗</span></button>
         </form>
       </section>
     </main>
