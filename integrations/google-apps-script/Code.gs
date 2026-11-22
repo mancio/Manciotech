@@ -13,6 +13,11 @@ var SOURCE_NAME = "manciotech.net";
 var MIN_MESSAGE_LENGTH = 20;
 var MAX_MESSAGE_LENGTH = 4000;
 
+/** Run this once from the script editor to grant the required MailApp permission. */
+function authorizeMail() {
+  Logger.log("Remaining daily email recipients: " + MailApp.getRemainingDailyQuota());
+}
+
 function doPost(e) {
   var fields = (e && e.parameter) || {};
   var requestId = String(fields.requestId || "").slice(0, 100);
