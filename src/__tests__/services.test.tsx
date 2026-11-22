@@ -7,6 +7,7 @@ import {SiteLanguageProvider,SiteLanguageSwitcher} from "../i18n/SiteLanguage";
 beforeEach(()=>{
   localStorage.clear();
   jest.restoreAllMocks();
+  delete process.env.REACT_APP_GOOGLE_APPS_SCRIPT_URL;
 });
 
 function renderServices(start="/") {
@@ -44,55 +45,61 @@ test("services page follows the global Italian and Polish language flags",()=>{
   expect(screen.getByLabelText("Opisz problem")).toBeInTheDocument();
 });
 
-test("contact form requires consent and submits the description to the email service",async()=>{
-  const mock=jest.fn().mockResolvedValue({
-    ok:true,
-    json:async()=>({success:"true"})
-  } as Response);
-  global.fetch=mock;
-  renderServices("/services");
+const SCRIPT_URL="https://script.google.com/macros/s/AKfycb-test123/exec";
+function fillContact(){
   fireEvent.change(screen.getByLabelText("Your name"),{target:{value:"Test Person"}});
   fireEvent.change(screen.getByLabelText("Your email"),{target:{value:"contact@example.org"}});
   fireEvent.change(screen.getByLabelText("Describe the problem"),{target:{value:"I need help improving repetitive reporting workflows."}});
+}
+function simulateScriptResponse(success:boolean, message=""){
+  const id=(document.querySelector('input[name="requestId"]') as HTMLInputElement).value;
+  expect(id).not.toBe("");
+  window.dispatchEvent(new MessageEvent("message",{
+    origin:"https://script.googleusercontent.com",
+    data:{source:"manciotech-apps-script",requestId:id,success,message}
+  }));
+}
+
+test("contact form is safely disabled until a Google Apps Script endpoint is configured",()=>{
+  delete process.env.REACT_APP_GOOGLE_APPS_SCRIPT_URL;
+  renderServices("/services");
+  expect(screen.getByRole("button",{name:/Send request/})).toBeDisabled();
+  expect(screen.getByRole("status")).toHaveTextContent(/being configured/);
+  expect(screen.queryByText(/FormSubmit/i)).not.toBeInTheDocument();
+  expect(screen.queryByRole("link",{name:"andrea@manciotech.net"})).not.toBeInTheDocument();
+});
+
+test("contact form validates consent and submits to Google Apps Script without fetch",async()=>{
+  process.env.REACT_APP_GOOGLE_APPS_SCRIPT_URL=SCRIPT_URL;
+  const submit=jest.spyOn(HTMLFormElement.prototype,"submit").mockImplementation(()=>{});
+  renderServices("/services");
+  fillContact();
   fireEvent.click(screen.getByRole("button",{name:/Send request/}));
   expect(screen.getByRole("alert")).toHaveTextContent(/Please provide/);
-  expect(mock).not.toHaveBeenCalled();
+  expect(submit).not.toHaveBeenCalled();
 
   fireEvent.click(screen.getByRole("checkbox"));
   fireEvent.click(screen.getByRole("button",{name:/Send request/}));
-  await waitFor(()=>expect(mock).toHaveBeenCalledTimes(1));
-  const [url,options]=mock.mock.calls[0];
-  expect(url).toBe("https://formsubmit.co/ajax/andrea@manciotech.net");
-  const body=JSON.parse(String((options as RequestInit).body));
-  expect(body.email).toBe("contact@example.org");
-  expect(body.message).toMatch(/repetitive reporting/);
-  expect(body._subject).toMatch(/MancioTech/);
-  expect(await screen.findByRole("status")).toHaveTextContent(/submitted/);
+  await waitFor(()=>expect(submit).toHaveBeenCalledTimes(1));
+  const form=screen.getByRole("button",{name:/Sending/}).closest("form") as HTMLFormElement;
+  expect(form.action).toBe(SCRIPT_URL);
+  expect(form.method.toLowerCase()).toBe("post");
+  expect(form.target).toBe("manciotech-contact-response");
+  expect((form.querySelector('input[name="email"]') as HTMLInputElement).value).toBe("contact@example.org");
+  expect((form.querySelector('textarea[name="message"]') as HTMLTextAreaElement).value).toMatch(/repetitive reporting/);
+  simulateScriptResponse(true);
+  expect(await screen.findByRole("status")).toHaveTextContent(/notification email was sent/);
 });
 
-test("contact form reports remote submission failures instead of claiming delivery",async()=>{
-  global.fetch=jest.fn().mockResolvedValue({ok:false,json:async()=>({success:false})} as Response);
+test("contact form reports errors from the authorized Google iframe",async()=>{
+  process.env.REACT_APP_GOOGLE_APPS_SCRIPT_URL=SCRIPT_URL;
+  jest.spyOn(HTMLFormElement.prototype,"submit").mockImplementation(()=>{});
   renderServices("/services");
-  fireEvent.change(screen.getByLabelText("Your name"),{target:{value:"Test Person"}});
-  fireEvent.change(screen.getByLabelText("Your email"),{target:{value:"contact@example.org"}});
-  fireEvent.change(screen.getByLabelText("Describe the problem"),{target:{value:"This reporting workflow needs a reliable automation."}});
+  fillContact();
   fireEvent.click(screen.getByRole("checkbox"));
   fireEvent.click(screen.getByRole("button",{name:/Send request/}));
-  expect(await screen.findByRole("alert")).toHaveTextContent(/not accepted by the email service/);
-});
-
-test("shows a useful FormSubmit rejection reason when HTTP succeeds but the service rejects",async()=>{
-  global.fetch=jest.fn().mockResolvedValue({
-    ok:true,json:async()=>({success:"false",message:"This form needs Activation"})
-  } as Response);
-  renderServices("/services");
-  expect(screen.queryByText(/Or write directly to/)).not.toBeInTheDocument();
-  expect(screen.queryByRole("link",{name:"andrea@manciotech.net"})).not.toBeInTheDocument();
-  fireEvent.change(screen.getByLabelText("Your name"),{target:{value:"Test Person"}});
-  fireEvent.change(screen.getByLabelText("Your email"),{target:{value:"contact@example.org"}});
-  fireEvent.change(screen.getByLabelText("Describe the problem"),{target:{value:"I would like to automate our weekly workflow."}});
-  fireEvent.click(screen.getByRole("checkbox"));
-  fireEvent.click(screen.getByRole("button",{name:/Send request/}));
-  expect(await screen.findByRole("alert")).toHaveTextContent(/This form needs Activation/);
-  expect(screen.queryByRole("status")).not.toBeInTheDocument();
+  await waitFor(()=>expect(screen.getByRole("button",{name:/Sending/})).toBeInTheDocument());
+  simulateScriptResponse(false,"Email quota exceeded");
+  expect(await screen.findByRole("alert")).toHaveTextContent(/Email quota exceeded/);
+  expect(screen.queryByText(/notification email was sent/)).not.toBeInTheDocument();
 });
