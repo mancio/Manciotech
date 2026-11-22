@@ -52,10 +52,12 @@ function Menu(){
             </header>
 
             <section className="section" aria-labelledby="harmonopattume-title">
-                <h2 id="harmonopattume-title" className="section-title">Android app · HarmonoPattume</h2>
+                <h2 id="harmonopattume-title" className="section-title">Android app</h2>
                 <div className="tile">
-                    <span className="tile-emoji" aria-hidden="true">🎵</span>
-                    <span className="tile-title">HarmonoPattume</span>
+                    <div className="harmono-app-heading">
+                        <img className="harmono-app-icon" src="https://raw.githubusercontent.com/mancio/harmonoPattume/b36ba507e522ac697c7facff7d463b8f193e20a0/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" alt="" width="56" height="56" />
+                        <span className="tile-title">HarmonoPattume</span>
+                    </div>
                     <span className="tile-blurb">Never miss bin day in Wieliczka: check your waste collection schedule, get reminders, and add pickup dates to your calendar.</span>
                     <div className="hero-actions">
                         <a className="btn btn-primary" href="https://github.com/mancio/harmonoPattume/releases/latest/download/harmonopattume.apk">⬇ Download APK (Android)</a>
