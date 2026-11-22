@@ -62,7 +62,7 @@ export default function Services() {
       setServiceError(t.unavailable);
       return;
     }
-    if (!name.trim() || !/^\\S+@\\S+\\.\\S+$/.test(email.trim()) || problem.trim().length<20 || !consent) {
+    if (!name.trim() || !/^\S+@\S+\.\S+$/.test(email.trim()) || problem.trim().length<20 || !consent) {
       setValidation(t.invalid);
       return;
     }
