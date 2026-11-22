@@ -16,7 +16,7 @@ test("kitchen calculator recomputes water and hydration", () => {
 
 test("temperature page renders an explanation instead of crashing without Firebase configuration", () => {
     render(<MemoryRouter><Temperature/></MemoryRouter>);
-    expect(screen.getByRole("heading", {name:"TempCasina."})).toBeInTheDocument();
+    expect(screen.getByRole("heading", {name:"Temp Casina."})).toBeInTheDocument();
     expect(screen.getByText("Sensor data unavailable")).toBeInTheDocument();
     expect(screen.getByText("No temperature reading available")).toBeInTheDocument();
 });
