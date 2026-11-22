@@ -67,7 +67,7 @@ function Menu(){
             </section>
 
             <section className="section">
-                <h2 className="section-title">Kitchen &amp; other stuff</h2>
+                <h2 className="section-title">Try my tools</h2>
                 <TileGrid tiles={otherStuff}/>
             </section>
         </div>
