@@ -78,5 +78,21 @@ test("contact form reports remote submission failures instead of claiming delive
   fireEvent.change(screen.getByLabelText("Describe the problem"),{target:{value:"This reporting workflow needs a reliable automation."}});
   fireEvent.click(screen.getByRole("checkbox"));
   fireEvent.click(screen.getByRole("button",{name:/Send request/}));
-  expect(await screen.findByRole("alert")).toHaveTextContent(/could not be submitted/);
+  expect(await screen.findByRole("alert")).toHaveTextContent(/not accepted by the email service/);
+});
+
+test("shows a useful FormSubmit rejection reason when HTTP succeeds but the service rejects",async()=>{
+  global.fetch=jest.fn().mockResolvedValue({
+    ok:true,json:async()=>({success:"false",message:"This form needs Activation"})
+  } as Response);
+  renderServices("/services");
+  expect(screen.queryByText(/Or write directly to/)).not.toBeInTheDocument();
+  expect(screen.queryByRole("link",{name:"andrea@manciotech.net"})).not.toBeInTheDocument();
+  fireEvent.change(screen.getByLabelText("Your name"),{target:{value:"Test Person"}});
+  fireEvent.change(screen.getByLabelText("Your email"),{target:{value:"contact@example.org"}});
+  fireEvent.change(screen.getByLabelText("Describe the problem"),{target:{value:"I would like to automate our weekly workflow."}});
+  fireEvent.click(screen.getByRole("checkbox"));
+  fireEvent.click(screen.getByRole("button",{name:/Send request/}));
+  expect(await screen.findByRole("alert")).toHaveTextContent(/This form needs Activation/);
+  expect(screen.queryByRole("status")).not.toBeInTheDocument();
 });
