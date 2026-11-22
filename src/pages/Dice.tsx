@@ -1,4 +1,5 @@
 import '../App.css'
+import {useT} from '../i18n/useT';
 import {MENU} from "../logic/Names";
 import BetterButton from "../components/BetterButton";
 import {useNavigate} from "react-router-dom";
@@ -15,6 +16,7 @@ import six from '../pictures/dice/dice-6.svg'
 function Dice(){
 
     const navigate = useNavigate();
+    const tr=useT();
 
     const faces = [one, two, three, four, five, six];
 
@@ -40,9 +42,9 @@ function Dice(){
     return(
         <div>
             <div className='recipe-box'>
-                <h3>DiCe - Random number generator</h3>
+                <h3>{tr("DiCe - Random number generator")}</h3>
                 <div className='border-frame'>
-                    <BetterButton text="6 Face - Throw it! " click={()=>getNumber()}/>
+                    <BetterButton text={tr("6 Face - Throw it!")} click={()=>getNumber()}/>
                     <img
                         // className={index === lastCardIndex ? 'card-selected' : 'card'}
                         src={face}
@@ -51,7 +53,7 @@ function Dice(){
                     />
                 </div>
             </div>
-            <BetterButton text="Back" click={()=>navigate(MENU)}/>
+            <BetterButton text={tr("Back")} click={()=>navigate(MENU)}/>
         </div>
     )
 }
