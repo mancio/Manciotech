@@ -2,7 +2,18 @@ import {useEffect, useRef} from "react";
 import "./AutoSnake.css";
 
 type Cell = {x: number; y: number};
-type Game = {snake: Cell[]; food: Cell; direction: Cell; score: number};
+type Game = {snake: Cell[]; food: Cell; foodIcon: string; direction: Cell; score: number};
+// A playful mix of snacks, animals, and unexpected treasures.
+const COLLECTIBLES = [
+    '🥕','🥦','🌽','🍅','🥒','🍆','🥑','🫑','🍄','🧄','🧅','🥔',
+    '🍎','🍓','🍉','🍋','🍌','🍍','🍒','🍇','🥝','🥨','🍕','🍩',
+    '🐈','🐕','🐶','🐱','🐸','🐢','🦊','🐻','🐼','🦄','🐙','🦋',
+    '🚀','🪐','⭐','💎','👑','🎮','🤖','🛸','🧸','🎸','☕','🎁','⚡','🧲'
+];
+function nextCollectible(previous?: string): string {
+    const options = COLLECTIBLES.filter(icon => icon !== previous);
+    return options[Math.floor(Math.random() * options.length)];
+}
 const CELL = 24;
 const TICK_MS = 155;
 const DIRS: Cell[] = [{x:1,y:0},{x:0,y:1},{x:-1,y:0},{x:0,y:-1}];
@@ -22,7 +33,7 @@ function newGame(columns: number, rows: number): Game {
     const x = Math.floor(columns/2);
     const y = Math.floor(rows/2);
     const snake = [{x,y},{x:x-1,y},{x:x-2,y}];
-    return {snake, food:randomFood(snake,columns,rows), direction:DIRS[0],score:0};
+    return {snake, food:randomFood(snake,columns,rows), foodIcon:nextCollectible(), direction:DIRS[0],score:0};
 }
 
 function inBounds(cell: Cell, columns:number, rows:number) {
@@ -65,22 +76,34 @@ function advance(game: Game, columns:number, rows:number): Game {
     if (!inBounds(head,columns,rows) || blocked.has(key(head))) return newGame(columns,rows);
     const snake=[head,...game.snake.slice(0,eats ? undefined : -1)];
     if (snake.length >= columns*rows) return newGame(columns,rows);
-    return {snake,food:eats ? randomFood(snake,columns,rows) : game.food,direction,score:game.score+Number(eats)};
+    return {
+        snake,
+        food:eats ? randomFood(snake,columns,rows) : game.food,
+        foodIcon:eats ? nextCollectible(game.foodIcon) : game.foodIcon,
+        direction,
+        score:game.score+Number(eats)
+    };
 }
 
 function draw(ctx:CanvasRenderingContext2D,game:Game,columns:number,rows:number) {
     const width=columns*CELL, height=rows*CELL;
     ctx.clearRect(0,0,width,height);
-    ctx.strokeStyle="rgba(140,173,148,.08)";
+    ctx.strokeStyle="rgba(25,155,255,.1)";
     ctx.lineWidth=1;
     for(let x=0;x<=columns;x++) {ctx.beginPath();ctx.moveTo(x*CELL,0);ctx.lineTo(x*CELL,height);ctx.stroke();}
     for(let y=0;y<=rows;y++) {ctx.beginPath();ctx.moveTo(0,y*CELL);ctx.lineTo(width,y*CELL);ctx.stroke();}
     game.snake.forEach((part,index)=>{
-        ctx.fillStyle=index===0 ? "#b4e37b" : index%2 ? "#5c9c74" : "#75b78a";
+        ctx.fillStyle=index===0 ? "#00d9ff" : index%2 ? "#008dff" : "#176bff";
+        ctx.shadowColor="rgba(0,165,255,.7)";
+        ctx.shadowBlur=index===0 ? 15 : 8;
         ctx.fillRect(part.x*CELL+3,part.y*CELL+3,CELL-6,CELL-6);
+        ctx.shadowBlur=0;
     });
-    ctx.fillStyle="#ffae74";
-    ctx.beginPath();ctx.arc(game.food.x*CELL+CELL/2,game.food.y*CELL+CELL/2,6,0,Math.PI*2);ctx.fill();
+    // Draw the current collectible as an emoji centered in its grid cell.
+    ctx.font=`${CELL - 2}px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif`;
+    ctx.textAlign="center";
+    ctx.textBaseline="middle";
+    ctx.fillText(game.foodIcon,game.food.x*CELL+CELL/2,game.food.y*CELL+CELL/2+1);
 }
 
 export default function AutoSnake() {
