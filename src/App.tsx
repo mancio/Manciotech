@@ -14,6 +14,7 @@ import {lazy, Suspense} from "react";
 import AutoSnake from "./animation/AutoSnake";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
+import {useT} from "./i18n/useT";
 import {SiteLanguageProvider, SiteLanguageSwitcher} from "./i18n/SiteLanguage";
 const Menu = lazy(() => import('./pages/Menu'));
 const Recipes = lazy(() => import('./pages/Recipes'));
@@ -26,17 +27,22 @@ const Temperature = lazy(() => import('./pages/Temperature'));
 const HowOld = lazy(() => import('./pages/HowOld'));
 
 
+function CookieNotice(){
+    const tr=useT();
+    return <CookieConsent
+        style={{zIndex: 10001, alignItems: 'center'}}
+        contentStyle={{flex: '1 1 auto', minWidth: 0, margin: '10px'}}
+        buttonStyle={{fontSize: '16px', padding: '10px 18px', borderRadius: '8px'}}
+    >{tr('This website uses cookies to enhance the user experience.')}</CookieConsent>;
+}
+
 function App() {
     return (
         <div className="App">
-            <CookieConsent
-                style={{zIndex: 10001, alignItems: 'center'}}
-                contentStyle={{flex: '1 1 auto', minWidth: 0, margin: '10px'}}
-                buttonStyle={{fontSize: '16px', padding: '10px 18px', borderRadius: '8px'}}
-            >This website uses cookies to enhance the user experience.</CookieConsent>
             <AutoSnake />
             <BrowserRouter>
                 <SiteLanguageProvider>
+                    <CookieNotice />
                     <div className="frame">
                         <SiteLanguageSwitcher />
                         <ScrollToTop />
