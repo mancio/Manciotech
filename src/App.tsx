@@ -18,6 +18,7 @@ import {
 import {lazy, Suspense} from "react";
 import MoveSVG from "./animation/MoveSVG";
 import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
 const Menu = lazy(() => import('./pages/Menu'));
 const Recipes = lazy(() => import('./pages/Recipes'));
 const RecipesGen = lazy(() => import('./pages/RecipesGen'));
@@ -66,6 +67,7 @@ function App() {
                 {renderMoveSVGs(svgArray)}
                 <div className="frame">
                     <BrowserRouter>
+                        <ScrollToTop />
                         <Routes>
                             <Route path={MENU} element={<Menu />} />
                             <Route path={RECIPES} element={<Recipes />} />
