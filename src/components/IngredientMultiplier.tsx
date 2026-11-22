@@ -1,4 +1,5 @@
 import {DECREASE, INCREASE} from "../logic/Names";
+import {useT} from "../i18n/useT";
 
 interface IngredientMultiplierProps {
     multiplier: number;
@@ -7,6 +8,7 @@ interface IngredientMultiplierProps {
 
 function IngredientMultiplier({ multiplier, setMultiplier }: IngredientMultiplierProps) {
 
+    const tr=useT();
     const increment = 0.5;
 
     const buttonStyle = { background: "transparent",
@@ -19,7 +21,7 @@ function IngredientMultiplier({ multiplier, setMultiplier }: IngredientMultiplie
 
     return (
         <div>
-            <h3>Multiplier:
+            <h3>{tr("Multiplier")}:
                 <button onClick={() => changeQuantity(DECREASE)} style={buttonStyle}>⬅️</button>
                 X{multiplier}
                 <button onClick={() => changeQuantity(INCREASE)} style={buttonStyle}>➡️</button>
