@@ -524,3 +524,48 @@ body {
   .harmono-app-heading { gap: 11px; }
   .harmono-app-icon { width: 48px; height: 48px; flex-basis: 48px; }
 }
+
+/* Compact, accessible three-language switcher at the top-right of the homepage. */
+.home-language-switcher {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+}
+.home-language-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 44px;
+  padding: 4px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: rgba(25,27,34,.78);
+  font-size: 1.65rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color .15s, background .15s, transform .15s;
+}
+.home-language-button:hover {
+  border-color: var(--accent);
+  background: var(--panel-hover);
+  transform: translateY(-2px);
+}
+.home-language-button.is-active {
+  border-color: var(--accent);
+  background: #3b3020;
+}
+.home-language-button:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+@media (max-width: 600px) {
+  .home-language-switcher { gap: 5px; padding: 0 5px; }
+  .home-language-button { width: 44px; height: 44px; font-size: 1.45rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-language-button { transition: none; }
+  .home-language-button:hover { transform: none; }
+}
