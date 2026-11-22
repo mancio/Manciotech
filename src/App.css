@@ -582,3 +582,39 @@ body {
 @media (max-width: 600px) {
   .site-language-switcher { padding-top: 12px; padding-right: 4px; }
 }
+
+/* Desktop privacy tool: illustrated icon and visible AI marker. */
+.pc-app-card {
+  gap: 14px;
+  cursor: default;
+}
+.pc-app-card:hover {
+  transform: none;
+}
+.pc-app-card .harmono-app-heading {
+  gap: 12px;
+}
+.pc-app-icon {
+  width: 64px;
+  height: 64px;
+  flex-basis: 64px;
+  border-radius: 16px;
+}
+.pc-ai-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 11px;
+  border: 1px solid #8ab8ed;
+  border-radius: 999px;
+  background: rgba(23, 99, 189, .20);
+  color: #b9e6ff;
+  font: 700 .78rem "Space Grotesk", sans-serif;
+  letter-spacing: .02em;
+}
+.pc-ai-badge span { color: #71d9ff; font-size: 1.1em; }
+.pc-app-card .tile-blurb { margin: 0; line-height: 1.6; }
+@media(max-width:600px) {
+  .pc-app-icon { width: 56px; height: 56px; flex-basis: 56px; }
+  .pc-ai-badge { font-size: .75rem; }
+}
