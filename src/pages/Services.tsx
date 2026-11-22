@@ -17,7 +17,7 @@ export default function Services() {
   const [name,setName] = useState("");
   const [email,setEmail] = useState("");
   const [company,setCompany] = useState("");
-  const [topic,setTopic] = useState<string>(t.topics[0]);
+  const [topicIndex,setTopicIndex] = useState(0);
   const [problem,setProblem] = useState("");
   const [consent,setConsent] = useState(false);
   const [honeypot,setHoneypot] = useState("");
@@ -43,7 +43,7 @@ export default function Services() {
           email:email.trim(),
           _replyto:email.trim(),
           company:company.trim(),
-          topic,
+          topic:t.topics[topicIndex],
           message:problem.trim(),
           _subject:"MancioTech · richiesta servizi AI",
           _template:"table",
@@ -116,8 +116,8 @@ export default function Services() {
             <label>{t.email}<input name="email" type="email" autoComplete="email" required maxLength={240} value={email} onChange={e=>setEmail(e.target.value)}/></label>
           </div>
           <label>{t.company}<input name="company" autoComplete="organization" maxLength={150} value={company} onChange={e=>setCompany(e.target.value)}/></label>
-          <label>{t.topic}<select name="topic" value={topic} onChange={e=>setTopic(e.target.value)}>
-            {t.topics.map(item=><option key={item} value={item}>{item}</option>)}
+          <label>{t.topic}<select name="topic" value={topicIndex} onChange={e=>setTopicIndex(Number(e.target.value))}>
+            {t.topics.map((item,i)=><option key={i} value={i}>{item}</option>)}
           </select></label>
           <label>{t.message}<textarea name="message" required minLength={20} maxLength={4000} rows={7} placeholder={t.messagePlaceholder} value={problem} onChange={e=>setProblem(e.target.value)}/></label>
           <div className="services-honeypot" aria-hidden="true"><label>Leave this empty<input tabIndex={-1} autoComplete="off" value={honeypot} onChange={e=>setHoneypot(e.target.value)}/></label></div>
