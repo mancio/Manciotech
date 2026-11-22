@@ -19,7 +19,7 @@ test('home page shows language flags and current homepage sections', () => {
     expect(screen.getByRole('button', {name: 'English'})).toHaveAttribute('aria-pressed', 'true');
     expect(screen.getByRole('button', {name: 'Polski'})).toBeInTheDocument();
     expect(screen.getByRole('button', {name: /Recipes/})).toBeInTheDocument();
-    expect(screen.getByRole('link', {name: 'GitHub'})).toHaveAttribute('href', 'https://github.com/mancio');
+    expect(screen.queryByRole('link', {name: 'GitHub'})).not.toBeInTheDocument();
 });
 
 test('Italian and Polish flags translate homepage and save recipe preference', () => {
