@@ -3,11 +3,10 @@
 .temp-shell{max-width:960px;margin:auto}
 .temp-hero{text-align:center;padding:20px 24px 42px;background:radial-gradient(circle at 83% 12%,#f7e5c7,transparent 35%)}
 .temp-back{display:block;background:none;border:none;color:var(--green);font:700 .9rem 'DM Sans',sans-serif;cursor:pointer;padding:8px 0}
-.temp-eyebrow,.temp-label{color:var(--rust);font-size:.72rem;font-weight:700;letter-spacing:.15em}
-.temp-eyebrow{display:block;margin:30px auto 0}
+.temp-label{color:var(--rust);font-size:.72rem;font-weight:700;letter-spacing:.15em}
 .temp-illustration{font-size:clamp(2.5rem,6vw,4rem);margin:16px auto 10px}
 .temp-hero h1{margin:0;font:600 clamp(2.8rem,6vw,5rem)/1.15 'Playfair Display',Georgia,serif;letter-spacing:-.04em}
-.temp-hero h1 em{color:var(--green)}
+.temp-project{color:var(--green);font-weight:700}
 .temp-hero p{max-width:500px;margin:16px auto 0;color:var(--muted);line-height:1.7}
 .temp-reading{padding:clamp(20px,4vw,44px);background:var(--paper);border-radius:22px;border:1px solid var(--line);box-shadow:0 14px 42px #55432812}
 .temp-reading-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:16px}
@@ -21,10 +20,8 @@
 .temp-secondary>div:last-child{background:#fbf0e9}
 .temp-secondary strong{font:600 clamp(1.4rem,3vw,2rem) 'Playfair Display',Georgia,serif;overflow-wrap:anywhere}
 .temp-secondary small{color:var(--muted);font-size:.84rem}
-.temp-error{padding:18px 22px;background:#fff1e8;border:1px solid #e9bb9e;border-radius:12px;color:#66351f;margin-bottom:18px;line-height:1.6}
-.temp-error p{margin:5px 0}
+.temp-demo{padding:18px 22px;background:#fff1e8;border:1px solid #e9bb9e;border-radius:12px;color:#66351f;margin-bottom:18px;line-height:1.6}
 .temp-loading{color:var(--muted);text-align:center}
-.temp-footer{text-align:center;margin:28px 0;color:#857b6b;font-size:.84rem}
-.temp-page button:focus-visible{outline:3px solid var(--rust);outline-offset:3px}
+.temp-page :is(button,a):focus-visible{outline:3px solid var(--rust);outline-offset:3px}
 @media(max-width:680px){.temp-reading-grid{grid-template-columns:1fr}.temp-primary{min-height:210px}.temp-secondary{grid-template-columns:1fr 1fr}.temp-secondary>div{padding:18px}}
 @media(max-width:500px){.temp-page{padding:8px 8px 34px;border-radius:12px}.temp-hero{padding:12px 12px 34px}.temp-reading{padding:17px 14px}.temp-secondary{grid-template-columns:1fr}}
