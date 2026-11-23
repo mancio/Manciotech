@@ -317,7 +317,7 @@ body {
 
 .tile:hover,
 .tile:focus-visible {
-  transform: translateY(-3px) rotate(-0.5deg);
+  transform: translateY(-3px);
   border-color: var(--accent);
   background-color: var(--panel-hover);
 }
