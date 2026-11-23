@@ -1,5 +1,5 @@
 # Change directory to the upper directory
-#Set-Location -Path "C:\Users\Andrea\IdeaProjects\mancioweb2"
+Set-Location -LiteralPath (Split-Path -Parent $PSScriptRoot)
 
 # Run React build
 Write-Host "Building React app..."

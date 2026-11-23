@@ -14,9 +14,12 @@ test("kitchen calculator recomputes water and hydration", () => {
     expect(screen.getByLabelText("Flour")).toHaveValue(600);
 });
 
-test("temperature page renders an explanation instead of crashing without Firebase configuration", () => {
+test("temperature page shows clearly labelled sample data without live readings", () => {
     render(<MemoryRouter><Temperature/></MemoryRouter>);
-    expect(screen.getByRole("heading", {name:"Temp Casina."})).toBeInTheDocument();
-    expect(screen.getByText("Sensor data unavailable")).toBeInTheDocument();
-    expect(screen.getByText("No temperature reading available")).toBeInTheDocument();
+    expect(screen.getByRole("heading", {name:"Smart temperature monitor"})).toBeInTheDocument();
+    expect(screen.getByRole("link", {name:"View the project on GitHub"}))
+        .toHaveAttribute("href", "https://github.com/mancio/CasinaWifiTemp");
+    expect(screen.getByRole("status")).toHaveTextContent("The figures below are simulated.");
+    expect(screen.getByText("SAMPLE TEMPERATURE")).toBeInTheDocument();
+    expect(screen.getByText("21.50 °C")).toBeInTheDocument();
 });

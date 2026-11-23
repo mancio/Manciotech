@@ -12,13 +12,11 @@ function Temperature() {
             <div className="temp-shell">
                 <header className="temp-hero">
                     <button className="temp-back" type="button" onClick={() => navigate(MENU)}>← {tr("Back to MancioTech")}</button>
-                    <span className="temp-eyebrow">✦ {tr("LIVE FROM CASINA")} ✦</span>
-                    <div className="temp-illustration" aria-hidden="true">🏡 🌡️ 🌿</div>
-                    <h1>Temp<em>Casina.</em></h1>
-                    <p>{tr("A small window into the weather at Casina, with readings from the outdoor sensor.")}</p>
+                    <div className="temp-illustration" aria-hidden="true">🌡️</div>
+                    <h1>{tr("Smart temperature monitor")}</h1>
+                    <p><a className="temp-project" href="https://github.com/mancio/CasinaWifiTemp">{tr("View the project on GitHub")}</a></p>
                 </header>
                 <TempBoard/>
-                <footer className="temp-footer">{tr("Measured in Casina, viewed from anywhere.")} ♡</footer>
             </div>
         </main>
     );

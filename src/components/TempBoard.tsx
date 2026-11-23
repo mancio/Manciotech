@@ -9,63 +9,86 @@ import {
 } from "../logic/Functions";
 import {DB_TEMP_PATH, DB_TIME_PATH, DB_VOLTAGE_PATH} from "../logic/Names";
 
-type Reading = string | number | null;
-const asNumber = (value: Reading): number | null => {
-    if (value === null || value === "") return null;
+const DEMO_READING = {temperature: 21.5, voltage: 5.1};
+const READ_TIMEOUT_MS = 5000;
+
+function asNumber(value: unknown): number | null {
+    if (typeof value !== "number" && (typeof value !== "string" || !value.trim())) return null;
     const number = Number(value);
     return Number.isFinite(number) ? number : null;
-};
+}
 
 function TempBoard() {
-    const tr=useT();
-    const [datetime, setDatetime] = useState<Reading>(null);
-    const [temperature, setTemperature] = useState<Reading>(null);
-    const [voltage, setVoltage] = useState<Reading>(null);
-    const [error, setError] = useState<string | null>(null);
-    const [connected, setConnected] = useState(false);
+    const tr = useT();
+    const [datetime, setDatetime] = useState<number | null>(null);
+    const [temperature, setTemperature] = useState<number | null>();
+    const [voltage, setVoltage] = useState<number | null>(null);
 
     useEffect(() => {
-        let active = true;
         const unsubscribe: Array<() => void> = [];
-        const fail = (err: Error) => {
-            if (active) setError(err.message || "Unable to connect to the temperature sensor.");
+        const timer = window.setTimeout(() => setTemperature(null), READ_TIMEOUT_MS);
+        const receiveTemperature = (value: unknown) => {
+            window.clearTimeout(timer);
+            setTemperature(asNumber(value));
         };
+
         try {
             if (!isDbSet()) getFirebaseSetUp();
-            unsubscribe.push(readDb<Reading>(DB_TIME_PATH, value => {if(active) {setDatetime(value);setConnected(true);}}, fail));
-            unsubscribe.push(readDb<Reading>(DB_TEMP_PATH, value => {if(active) {setTemperature(value);setConnected(true);}}, fail));
-            unsubscribe.push(readDb<Reading>(DB_VOLTAGE_PATH, value => {if(active) {setVoltage(value);setConnected(true);}}, fail));
-        } catch (err) {
-            fail(err instanceof Error ? err : new Error("Unable to initialize the temperature service."));
+            unsubscribe.push(readDb(DB_TEMP_PATH, receiveTemperature, () => receiveTemperature(null)));
+            unsubscribe.push(readDb(DB_TIME_PATH, value => setDatetime(asNumber(value))));
+            unsubscribe.push(readDb(DB_VOLTAGE_PATH, value => setVoltage(asNumber(value))));
+        } catch {
+            receiveTemperature(null);
         }
-        return () => { active = false; unsubscribe.forEach(stop => stop()); };
+
+        return () => {
+            window.clearTimeout(timer);
+            unsubscribe.forEach(stop => stop());
+        };
     }, []);
 
-    const temp = asNumber(temperature);
-    const volts = asNumber(voltage);
-    const timestamp = asNumber(datetime);
-    const icon = temp === null ? null : temp > 29 ? Camel : temp >= 13 ? Temperato : SantaCold;
-    const lastUpdate = timestamp !== null && timestamp > 0 ? unixToPolishTime(timestamp) : null;
-    const age = timestamp !== null && timestamp > 0 ? getTimeDifference(timestamp, getUnixTime()) : null;
+    const demo = temperature === null;
+    const volts = demo ? DEMO_READING.voltage : voltage;
+    const timestamp = datetime !== null && datetime > 0 ? datetime : null;
+    const lastUpdate = timestamp === null ? null : unixToPolishTime(timestamp);
+    const now = getUnixTime();
+    const age = timestamp !== null && timestamp <= now ? getTimeDifference(timestamp, now) : null;
 
     return (
-        <section className="temp-reading" aria-label={tr("Casina sensor readings")}>
-            {error && <div className="temp-error" role="alert"><strong>{tr("Sensor data unavailable")}</strong><p>{error}</p><p>{tr("The page is working, but live readings cannot be loaded. Check the Firebase build configuration and database permissions.")}</p></div>}
-            {!error && !connected && <p className="temp-loading" role="status">{tr("Connecting to the sensor…")}</p>}
-            <div className="temp-reading-grid">
-                <div className="temp-primary">
-                    <span className="temp-label">{tr("CURRENT TEMPERATURE")}</span>
-                    <strong>{temp === null ? "—" : roundStringToTwoDecimals(String(temp)) + " °C"}</strong>
-                    {icon && <img src={icon} alt="" aria-hidden="true"/>}
-                    <p>{temp === null ? "No temperature reading available" : temp > 29 ? "It's hot outside!" : temp >= 13 ? "A mild day in Casina" : "It's chilly outside!"}</p>
-                </div>
-                <div className="temp-secondary">
-                    <div><span className="temp-label">{tr("LAST SENSOR UPDATE")}</span><strong>{lastUpdate ?? tr("Not available")}</strong><small>{age ? age + " " + tr("ago · Polish time") : tr("Polish time")}</small></div>
-                    <div><span className="temp-label">{tr("BATTERY")}</span><strong>{volts === null ? "—" : batteryPercentage(String(volts))}</strong><small>{volts === null ? tr("No voltage reading") : roundStringToTwoDecimals(String(volts)) + " V"}</small></div>
-                </div>
-            </div>
+        <section className="temp-reading" aria-label={tr("Temperature readings")}>
+            {temperature === undefined ? (
+                <p className="temp-loading" role="status">{tr("Waiting for a reading…")}</p>
+            ) : (
+                <>
+                    {demo && <p className="temp-demo" role="status">{tr("Demo — live data unavailable. The figures below are simulated.")}</p>}
+                    <div className="temp-reading-grid">
+                        <div className="temp-primary">
+                            <span className="temp-label">{tr(demo ? "SAMPLE TEMPERATURE" : "CURRENT TEMPERATURE")}</span>
+                            <strong>{roundStringToTwoDecimals(String(temperature ?? DEMO_READING.temperature))} °C</strong>
+                            <img src={temperatureIcon(temperature ?? DEMO_READING.temperature)} alt=""/>
+                        </div>
+                        <div className="temp-secondary">
+                            {!demo && <div>
+                                <span className="temp-label">{tr("LAST SENSOR UPDATE")}</span>
+                                <strong>{lastUpdate ?? tr("Not available")}</strong>
+                                {age && <small>{age} {tr("ago")}</small>}
+                            </div>}
+                            <div>
+                                <span className="temp-label">{tr(demo ? "SAMPLE BATTERY" : "BATTERY")}</span>
+                                <strong>{volts === null ? "—" : batteryPercentage(String(volts))}</strong>
+                                <small>{volts === null ? tr("No voltage reading") : roundStringToTwoDecimals(String(volts)) + " V"}</small>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )}
         </section>
     );
+}
+
+function temperatureIcon(temperature: number) {
+    if (temperature > 29) return Camel;
+    return temperature >= 13 ? Temperato : SantaCold;
 }
 
 export default TempBoard;
