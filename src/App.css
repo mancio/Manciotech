@@ -592,9 +592,6 @@ body {
   gap: 14px;
   cursor: default;
 }
-.pc-app-card:hover {
-  transform: none;
-}
 .pc-app-card .harmono-app-heading {
   gap: 12px;
 }
