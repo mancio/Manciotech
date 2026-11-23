@@ -98,7 +98,7 @@ export const servicesTranslations = {
     message:"Descrivi la problematica",messagePlaceholder:"Come funziona oggi? Cosa richiede tempo? Chi utilizza il processo? Quale sarebbe il risultato ideale?",
     consent:"Acconsento all'invio dei miei dati di contatto e del messaggio a FormSubmit, servizio esterno che li inoltra via email a MancioTech per ricevere una risposta.",
     send:"Invia richiesta",sending:"Invio in corso…",
-    success:"FormSubmit ha accettato la tua richiesta.",
+    success:"Richiesta inviata",
     error:"Il servizio email non ha accettato la richiesta. Controlla il dettaglio qui sotto e riprova.",
     serviceReason:"Risposta del servizio",
     invalid:"Inserisci nome, email valida e descrizione di almeno 20 caratteri.",
