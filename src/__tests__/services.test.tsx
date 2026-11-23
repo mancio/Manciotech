@@ -17,6 +17,8 @@ function renderServices(start="/") {
         <Routes>
           <Route path="/" element={<Menu/>}/>
           <Route path="/services" element={<Services/>}/>
+          <Route path="/it/servizi-ai" element={<Services/>}/>
+          <Route path="/pl/uslugi-ai" element={<Services/>}/>
         </Routes>
       </SiteLanguageProvider>
     </MemoryRouter>

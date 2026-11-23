@@ -4,7 +4,7 @@ export const pastaRaguBianco: Recipe = {
     id: 21,
     key: "pastaRaguBianco",
     pictures: [
-        {index: 0, url: "https://sundaypasta.com/wp-content/uploads/2016/03/Sunday-Pasta-Ragu-di-Salsiccia-in-Bianco-Garrubbo-Guide.jpg"},
+        {index: 0, url: "https://www.ricettedalmondo.it/images/foto-ricette/p/29735-pasta-in-bianco-con-salsiccia-4.jpg"},
     ],
     i18n: {
         IT: {

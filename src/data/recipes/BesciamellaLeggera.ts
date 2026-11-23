@@ -4,7 +4,7 @@ export const besciamellaLeggera: Recipe = {
     id: 25,
     key: "besciamellaLeggera",
     pictures: [
-        {index: 0, url: "https://images.fidhouse.com/fidelitynews/wp-content/uploads/sites/6/2014/07/besciamella-32226-2.jpg?width=1600&height=650&quality=80"},
+        {index: 0, url: "https://www.gzrecipes.com/content/uploads/sites/2/2025/12/3-1-7-6938242b0cb6a4-25355683.jpg"},
     ],
     video: "https://www.youtube.com/watch?v=eC0p97OdyE0",
     i18n: {

@@ -4,7 +4,7 @@ export const rigatoniCipolla: Recipe = {
     id: 22,
     key: "rigatoniCipolla",
     pictures: [
-        {index: 0, url: "https://www.example.com/rigatoni-alla-cipolla.jpg"},
+        {index: 0, url: "https://substack-post-media.s3.amazonaws.com/public/images/eb7c13e6-8818-4548-9601-7bf6a05c54f4_1290x1290.jpeg"},
     ],
     i18n: {
         IT: {
@@ -28,7 +28,7 @@ export const rigatoniCipolla: Recipe = {
                 "Cuoci i rigatoni in abbondante acqua salata e scolali al dente. Trasferisci la pasta nella padella con il sugo e aggiungi un po' di acqua di cottura. Mescola bene e servi immediatamente.",
             ],
             pictures: [
-                {index: 0, url: "https://www.example.com/rigatoni-alla-cipolla.jpg"},
+                {index: 0, url: "https://substack-post-media.s3.amazonaws.com/public/images/eb7c13e6-8818-4548-9601-7bf6a05c54f4_1290x1290.jpeg"},
             ],
         },
         EN: {
@@ -52,7 +52,7 @@ export const rigatoniCipolla: Recipe = {
                 "Cook the rigatoni in salted boiling water and drain it al dente. Transfer the pasta to the pan with the sauce, add a little cooking water, and mix well. Serve immediately.",
             ],
             pictures: [
-                {index: 0, url: "https://www.example.com/rigatoni-with-onion-sauce.jpg"},
+                {index: 0, url: "https://substack-post-media.s3.amazonaws.com/public/images/eb7c13e6-8818-4548-9601-7bf6a05c54f4_1290x1290.jpeg"},
             ],
         },
         PL: {
@@ -76,7 +76,7 @@ export const rigatoniCipolla: Recipe = {
                 "Gotuj rigatoni w osolonej, wrzącej wodzie i odcedź al dente. Przełóż makaron na patelnię z sosem, dodaj trochę wody z gotowania i dobrze wymieszaj. Podawaj od razu.",
             ],
             pictures: [
-                {index: 0, url: "https://www.example.com/rigatoni-z-sosem-cebulowym.jpg"},
+                {index: 0, url: "https://substack-post-media.s3.amazonaws.com/public/images/eb7c13e6-8818-4548-9601-7bf6a05c54f4_1290x1290.jpeg"},
             ],
         },
     },

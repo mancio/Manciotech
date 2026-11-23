@@ -1,6 +1,6 @@
 import '../App.css';
 import {useNavigate} from 'react-router-dom';
-import {KITCHEN_TOOLS, RECIPES, SCORE_COUNTER, STOCKS, TEMP, SERVICES} from "../logic/Names";
+import {KITCHEN_TOOLS, RECIPES, SCORE_COUNTER, STOCKS, TEMP, SERVICE_PATHS} from "../logic/Names";
 import {useSiteLanguage} from "../i18n/SiteLanguage";
 import {homeTranslations} from "../i18n/homeTranslations";
 
@@ -96,7 +96,7 @@ function Menu() {
                     <span>✦ {t.servicesConsult}</span>
                     <span>📚 {t.servicesWiki}</span>
                 </div>
-                <button type="button" className="home-services-button" onClick={() => navigate(SERVICES)}>{t.servicesButton} <span aria-hidden="true">↗</span></button>
+                <button type="button" className="home-services-button" onClick={() => navigate(SERVICE_PATHS[language])}>{t.servicesButton} <span aria-hidden="true">↗</span></button>
             </section>
         </div>
     );

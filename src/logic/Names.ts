@@ -2,6 +2,7 @@ import type {Language} from "../data/recipes/types";
 
 export const MENU = '/';
 export const SERVICES = '/services';
+export const SERVICE_PATHS = { EN: SERVICES, IT: '/it/servizi-ai', PL: '/pl/uslugi-ai' } as const;
 export const RECIPES = '/recipes';
 export const SCORE_COUNTER = '/score';
 export const KITCHEN_TOOLS = '/kitchenTools';
@@ -10,7 +11,7 @@ export const FART = '/Fart';
 
 export const TEMP = '/Temp';
 export const HOW_OLD = '/HowOld';
-export const STOCKS = '/stocks.html';
+export const STOCKS = '/stocks';
 
 export const ENGLISH: Language = 'EN';
 export const ITALIAN: Language = 'IT';

@@ -4,7 +4,7 @@ export const trotaPatateForno: Recipe = {
     id: 23,
     key: "trotaPatateForno",
     pictures: [
-        {index: 0, url: "https://www.italiancook.it/wp-content/uploads/2017/02/IMG_1610-1-600x400.jpg"},
+        {index: 0, url: "https://imag.bonviveur.com/servir-la-trucha-al-horno-con-las-patatas.jpg"},
     ],
     i18n: {
         IT: {

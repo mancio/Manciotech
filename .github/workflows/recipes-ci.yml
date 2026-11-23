@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "src/**"
+      - "scripts/build-seo.cjs"
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/recipes-ci.yml"

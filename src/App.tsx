@@ -6,7 +6,7 @@ import {
     FART, HOW_OLD,
     KITCHEN_TOOLS,
     MENU,
-    SERVICES,
+    SERVICE_PATHS,
     RECIPES,
     SCORE_COUNTER,
     TEMP
@@ -51,7 +51,7 @@ function App() {
                         <Suspense fallback={<div>Loading...</div>}>
                         <Routes>
                             <Route path={MENU} element={<Menu />} />
-                            <Route path={SERVICES} element={<Services />} />
+                            {Object.values(SERVICE_PATHS).map(path => <Route key={path} path={path} element={<Services />} />)}
                             <Route path={RECIPES} element={<Recipes />} />
                             <Route path={RECIPES + '/:recipeName'} element={<RecipesGen />} />
                             <Route path={SCORE_COUNTER} element={<ScoreCounter />} />
