@@ -67,7 +67,7 @@ test("contact form requires consent and submits the description to the email ser
   expect(body.email).toBe("contact@example.org");
   expect(body.message).toMatch(/repetitive reporting/);
   expect(body._subject).toMatch(/MancioTech/);
-  expect(await screen.findByRole("status")).toHaveTextContent("FormSubmit accepted your request.");
+  expect(await screen.findByRole("status")).toHaveTextContent("Request sent");
 });
 
 test("contact form reports remote submission failures instead of claiming delivery",async()=>{
