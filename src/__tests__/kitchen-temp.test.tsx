@@ -21,5 +21,5 @@ test("temperature page shows clearly labelled sample data without live readings"
         .toHaveAttribute("href", "https://github.com/mancio/CasinaWifiTemp");
     expect(screen.getByRole("status")).toHaveTextContent("The figures below are simulated.");
     expect(screen.getByText("SAMPLE TEMPERATURE")).toBeInTheDocument();
-    expect(screen.getByText("21.50 °C")).toBeInTheDocument();
+    expect(screen.getByText("21.50")).toHaveTextContent("21.50 °C");
 });

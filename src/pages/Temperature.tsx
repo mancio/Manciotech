@@ -12,9 +12,8 @@ function Temperature() {
             <div className="temp-shell">
                 <header className="temp-hero">
                     <button className="temp-back" type="button" onClick={() => navigate(MENU)}>← {tr("Back to MancioTech")}</button>
-                    <div className="temp-illustration" aria-hidden="true">🌡️</div>
                     <h1>{tr("Smart temperature monitor")}</h1>
-                    <p><a className="temp-project" href="https://github.com/mancio/CasinaWifiTemp">{tr("View the project on GitHub")}</a></p>
+                    <a className="temp-project" href="https://github.com/mancio/CasinaWifiTemp">{tr("View the project on GitHub")} <span aria-hidden="true">↗</span></a>
                 </header>
                 <TempBoard/>
             </div>
