@@ -57,6 +57,7 @@ function Menu() {
                             <path d="M10 14v64h140M10 45h140" fill="none" stroke="#405464" strokeWidth="1"/>
                             <path d="m14 25 24-10 20 18 17 4 17 27" fill="none" stroke="#ff987e" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
                             <path d="m92 64 17-15 9 3 15-25 13-10" fill="none" stroke="#a8ecd3" strokeWidth="4" strokeDasharray="5 6" strokeLinecap="round"/>
+                            <text x="126" y="14" fill="#a8ecd3" fontSize="13" fontWeight="700">$$$</text>
                             <circle cx="92" cy="64" r="5" fill="#ffd58a" stroke="#101a22" strokeWidth="2"/>
                         </svg>
                         <figcaption>{t.stocksCaption}</figcaption>
