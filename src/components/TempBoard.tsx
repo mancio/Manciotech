@@ -1,8 +1,5 @@
 import {useT} from "../i18n/useT";
 import {useEffect, useState} from "react";
-import Camel from "../pictures/icons/camel.svg";
-import Temperato from "../pictures/icons/temperato.svg";
-import SantaCold from "../pictures/icons/santa-cold.svg";
 import {
     batteryPercentage, getFirebaseSetUp, getTimeDifference, getUnixTime,
     isDbSet, readDb, roundStringToTwoDecimals, unixToPolishTime
@@ -49,6 +46,7 @@ function TempBoard() {
 
     const demo = temperature === null;
     const volts = demo ? DEMO_READING.voltage : voltage;
+    const battery = volts === null ? null : batteryPercentage(String(volts));
     const timestamp = datetime !== null && datetime > 0 ? datetime : null;
     const lastUpdate = timestamp === null ? null : unixToPolishTime(timestamp);
     const now = getUnixTime();
@@ -62,20 +60,20 @@ function TempBoard() {
                 <>
                     {demo && <p className="temp-demo" role="status">{tr("Demo — live data unavailable. The figures below are simulated.")}</p>}
                     <div className="temp-reading-grid">
-                        <div className="temp-primary">
+                        <div className="temp-panel temp-primary">
                             <span className="temp-label">{tr(demo ? "SAMPLE TEMPERATURE" : "CURRENT TEMPERATURE")}</span>
-                            <strong>{roundStringToTwoDecimals(String(temperature ?? DEMO_READING.temperature))} °C</strong>
-                            <img src={temperatureIcon(temperature ?? DEMO_READING.temperature)} alt=""/>
+                            <strong>{roundStringToTwoDecimals(String(temperature ?? DEMO_READING.temperature))} <span>°C</span></strong>
                         </div>
                         <div className="temp-secondary">
-                            {!demo && <div>
+                            {!demo && <div className="temp-panel temp-update">
                                 <span className="temp-label">{tr("LAST SENSOR UPDATE")}</span>
                                 <strong>{lastUpdate ?? tr("Not available")}</strong>
                                 {age && <small>{age} {tr("ago")}</small>}
                             </div>}
-                            <div>
+                            <div className="temp-panel temp-battery">
                                 <span className="temp-label">{tr(demo ? "SAMPLE BATTERY" : "BATTERY")}</span>
-                                <strong>{volts === null ? "—" : batteryPercentage(String(volts))}</strong>
+                                <strong>{battery ?? "—"}</strong>
+                                {battery !== null && <meter aria-hidden="true" min={0} max={100} value={parseFloat(battery)}/>}
                                 <small>{volts === null ? tr("No voltage reading") : roundStringToTwoDecimals(String(volts)) + " V"}</small>
                             </div>
                         </div>
@@ -84,11 +82,6 @@ function TempBoard() {
             )}
         </section>
     );
-}
-
-function temperatureIcon(temperature: number) {
-    if (temperature > 29) return Camel;
-    return temperature >= 13 ? Temperato : SantaCold;
 }
 
 export default TempBoard;
