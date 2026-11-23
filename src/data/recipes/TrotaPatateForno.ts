@@ -4,7 +4,7 @@ export const trotaPatateForno: Recipe = {
     id: 23,
     key: "trotaPatateForno",
     pictures: [
-        {index: 0, url: "https://imag.bonviveur.com/servir-la-trucha-al-horno-con-las-patatas.jpg"},
+        {index: 0, url: "https://imag.bonviveur.com/servir-la-trucha-al-horno-con-patatas.jpg"},
     ],
     i18n: {
         IT: {
