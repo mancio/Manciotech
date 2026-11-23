@@ -543,10 +543,14 @@ body {
   border: 1px solid transparent;
   border-radius: 12px;
   background: rgba(25,27,34,.78);
-  font-size: 1.65rem;
-  line-height: 1;
   cursor: pointer;
   transition: border-color .15s, background .15s, transform .15s;
+}
+.home-language-button img {
+  display: block;
+  width: 26px;
+  height: 18px;
+  object-fit: contain;
 }
 .home-language-button:hover {
   border-color: var(--accent);
@@ -563,7 +567,7 @@ body {
 }
 @media (max-width: 600px) {
   .home-language-switcher { gap: 5px; padding: 0 5px; }
-  .home-language-button { width: 44px; height: 44px; font-size: 1.45rem; }
+  .home-language-button { width: 44px; height: 44px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .home-language-button { transition: none; }

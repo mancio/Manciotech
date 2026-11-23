@@ -3,13 +3,16 @@ import type {ReactNode} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import {LANGUAGE_RECIPE_KEY, RECIPES} from "../logic/Names";
 import {findRecipeByUrl, getRecipeURLByIdAndLanguage} from "../logic/Functions";
+import italianFlag from "./flags/it.svg";
+import englishFlag from "./flags/gb.svg";
+import polishFlag from "./flags/pl.svg";
 
 export type SiteLanguage = "IT" | "EN" | "PL";
 export const LANGUAGE_KEY = "manciotechSiteLanguage";
 export const LANGUAGES: {code: SiteLanguage; flag: string; name: string}[] = [
-    {code:"IT",flag:"🇮🇹",name:"Italiano"},
-    {code:"EN",flag:"🇬🇧",name:"English"},
-    {code:"PL",flag:"🇵🇱",name:"Polski"},
+    {code:"IT",flag:italianFlag,name:"Italiano"},
+    {code:"EN",flag:englishFlag,name:"English"},
+    {code:"PL",flag:polishFlag,name:"Polski"},
 ];
 function storedLanguage(): SiteLanguage {
     try {
@@ -58,6 +61,6 @@ export function SiteLanguageSwitcher() {
             className={"home-language-button"+(language===item.code?" is-active":"")}
             onClick={()=>choose(item.code)}
             aria-label={item.name} aria-pressed={language===item.code} title={item.name}
-        ><span aria-hidden="true">{item.flag}</span></button>)}
+        ><img src={item.flag} alt="" /></button>)}
     </nav>;
 }
