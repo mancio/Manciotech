@@ -78,7 +78,8 @@ writePage({
     url: '/', title: 'MancioTech | AI Consulting, Custom Software and Tools', description: homeTranslations.EN.servicesIntro,
     content: heading('MancioTech') + paragraph(homeTranslations.EN.servicesIntro)
         + list([...Object.keys(routes.SERVICE_PATHS).map(language => link(routes.SERVICE_PATHS[language], servicesTranslations[language].homeButton)),
-            link(routes.RECIPES, 'Recipes'), ...tools.map(([url, title]) => link(url, title)), link('/stocks', 'Stock Screener')]),
+            link(routes.RECIPES, 'Recipes'), ...tools.map(([url, title]) => link(url, title)), link(routes.STOCKS, homeTranslations.EN.stocksTitle)])
+        + '<h2>' + escapeHtml(homeTranslations.EN.browserToolsHeading) + '</h2>' + paragraph(homeTranslations.EN.stocksDescription),
 });
 
 for (const [language, url] of Object.entries(routes.SERVICE_PATHS)) {
