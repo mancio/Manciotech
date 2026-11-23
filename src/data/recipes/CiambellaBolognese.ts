@@ -4,7 +4,7 @@ export const ciambellaBolognese: Recipe = {
     id: 11,
     key: "ciambellaBolognese",
     pictures: [
-        {index: 0, url: "https://www.odino.com/wp-content/uploads/2015/10/Brazadela-700x510.jpg"},
+        {index: 0, url: "https://www.casapappagallo.it/storage/10831/ciambella-bolognese._1.JPG"},
     ],
     video: "https://youtu.be/D_vtv_8magg?si=z7deXAcF9K1QpIca",
     i18n: {

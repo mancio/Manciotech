@@ -1,7 +1,7 @@
 import {createContext, useContext, useEffect, useState} from "react";
 import type {ReactNode} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
-import {LANGUAGE_RECIPE_KEY, RECIPES} from "../logic/Names";
+import {LANGUAGE_RECIPE_KEY, RECIPES, SERVICE_PATHS} from "../logic/Names";
 import {findRecipeByUrl, getRecipeURLByIdAndLanguage} from "../logic/Functions";
 import italianFlag from "./flags/it.svg";
 import englishFlag from "./flags/gb.svg";
@@ -24,8 +24,14 @@ type Context = {language:SiteLanguage; setLanguage:(language:SiteLanguage)=>void
 const SiteContext = createContext<Context>({language:"EN",setLanguage:()=>{},hasProvider:false});
 export const useSiteLanguage = () => useContext(SiteContext);
 
+function languageForPath(path: string): SiteLanguage | undefined {
+    return LANGUAGES.find(({code}) => SERVICE_PATHS[code] === path.replace(/\/$/, ""))?.code;
+}
+
 export function SiteLanguageProvider({children}:{children:ReactNode}) {
-    const [language,setValue]=useState<SiteLanguage>(storedLanguage);
+    const {pathname}=useLocation();
+    const [preference,setValue]=useState<SiteLanguage>(storedLanguage);
+    const language = languageForPath(pathname) ?? preference;
     function setLanguage(next:SiteLanguage) {
         setValue(next);
         try {
@@ -49,7 +55,9 @@ export function SiteLanguageSwitcher() {
     const navigate=useNavigate();
     function choose(next:SiteLanguage) {
         setLanguage(next);
-        if (location.pathname.startsWith(RECIPES + "/")) {
+        if (languageForPath(location.pathname)) {
+            navigate(SERVICE_PATHS[next] + location.hash, {replace:true});
+        } else if (location.pathname.startsWith(RECIPES + "/")) {
             const slug=decodeURIComponent(location.pathname.slice((RECIPES+"/").length));
             const recipe=findRecipeByUrl(slug);
             if (recipe) navigate(getRecipeURLByIdAndLanguage(recipe.recipe.id,next),{replace:true});

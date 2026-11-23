@@ -637,3 +637,42 @@ body {
 .home-services-button {font:700 1rem "Space Grotesk",sans-serif;display:inline-flex;align-items:center;gap:13px;background:#aae9d8;color:#142a2c;border:0;border-radius:100px;padding:13px 22px;cursor:pointer;transition:transform .15s}
 .home-services-button:hover,.home-services-button:focus-visible {transform:translateY(-2px);background:#c1ffeb}
 @media (prefers-reduced-motion:reduce) {.home-services-button{transition:none}.home-services-button:hover{transform:none}}
+
+.stocks-card {
+  display: grid;
+  grid-template-columns: minmax(7rem, 11rem) minmax(0, 1fr);
+  align-items: center;
+  gap: 20px;
+  cursor: default;
+}
+
+.stocks-chart {
+  margin: 0;
+  color: var(--muted);
+  font-size: .8rem;
+}
+
+.stocks-chart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-bottom: 8px;
+  padding: 4px;
+  border: 1px solid #405464;
+  border-radius: 10px;
+  background: #101a22;
+}
+
+.stocks-copy .btn {
+  margin-top: 10px;
+}
+
+@media (max-width: 550px) {
+  .stocks-card {
+    grid-template-columns: 1fr;
+  }
+
+  .stocks-chart {
+    max-width: 13rem;
+  }
+}
