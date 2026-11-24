@@ -139,6 +139,10 @@ def _extract(df, symbol: str = "?") -> list[dict]:
                 if num is not None:
                     values[key] = num
                     break
+        if "Cash And Cash Equivalents" in df.index:
+            cash = _clean(df.at["Cash And Cash Equivalents", column])
+            if cash is not None:
+                values["cash_and_equivalents"] = cash
         if not values:
             continue
         date = str(getattr(column, "date", lambda: column)())
@@ -147,32 +151,38 @@ def _extract(df, symbol: str = "?") -> list[dict]:
     return periods
 
 
-def fetch_fundamentals(ticker: str) -> dict | None:
+def fetch_fundamentals(ticker: str, *, handle=None, currency: str | None = None) -> dict | None:
     """Return {currency, annual: [...], quarterly: [...]} or None if unavailable."""
     cached = _read_cache(ticker)
-    if cached is not None:
+    if isinstance(cached, dict) and cached.get("schema") == 2:
+        cached.pop("schema")
         return cached or None
 
-    try:
+    if handle is None:
         handle = yf.Ticker(ticker)
-        annual = _extract(handle.balance_sheet, ticker)
-        quarterly = _extract(handle.quarterly_balance_sheet, ticker)
-    except Exception as exc:  # noqa: BLE001 - network/parse errors
-        print(f"[fundamentals] {ticker}: Yahoo error ({type(exc).__name__})")
+    periods = {}
+    failed = False
+    for period, attribute in (("annual", "balance_sheet"), ("quarterly", "quarterly_balance_sheet")):
+        try:
+            periods[period] = _extract(getattr(handle, attribute), ticker)
+        except Exception as exc:  # noqa: BLE001 - a missing period is optional
+            print(f"[fundamentals] {ticker}: Yahoo {period} error ({type(exc).__name__})")
+            periods[period] = []
+            failed = True
+
+    if not any(periods.values()):
+        if not failed:
+            _write_cache(ticker, {"schema": 2})
         return None
 
-    if not annual and not quarterly:
-        _write_cache(ticker, {})
-        return None
+    if currency is None:
+        try:
+            currency = handle.info.get("financialCurrency", "")
+        except Exception:  # noqa: BLE001 - currency is optional
+            currency = ""
 
-    currency = ""
-    try:
-        currency = str(getattr(handle.fast_info, "currency", "") or "")
-    except Exception:  # noqa: BLE001
-        currency = ""
-
-    payload = {"currency": currency, "annual": annual, "quarterly": quarterly}
-    _write_cache(ticker, payload)
+    payload = {"currency": currency, **periods}
+    _write_cache(ticker, {**payload, "schema": 2})
     return payload
 
 

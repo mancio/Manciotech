@@ -10,19 +10,21 @@ Flow:
   4. Compute support + 52w metrics; keep only "near support" rows.
   5. Fetch Finnhub ratings for survivors only.
   6. Drop every row whose rating is not Buy / Strong Buy.
-  7. Fetch balance-sheet fundamentals for the survivors (detail panel).
-  8. Sort ascending by last close.
+  7. Score and rank the survivors.
+  8. Fetch company financials for the detail panel.
   9. Render report.html.
 """
 from __future__ import annotations
+
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import pandas as pd
 from tqdm import tqdm
 
 from . import config
 from .community import community_signal, get_community_map
+from .company_details import fetch_company_details, target_price_history
 from .demand import demand_signal
-from .fundamentals import fetch_fundamentals
 from .prices import download_history
 from .ratings import fetch_rating
 from .report import render_report
@@ -173,14 +175,23 @@ def run() -> None:
     # Rank by composite score (desc); tie-break cheapest first.
     rows.sort(key=lambda r: (-r["score"], r["last_close"]))
 
-    print("[9/10] Fetching balance-sheet fundamentals for the detail panel...")
-    with_fundamentals = 0
-    for r in tqdm(rows):
-        data = fetch_fundamentals(r["ticker"])
-        if data is not None:
-            r["fundamentals"] = data
-            with_fundamentals += 1
-    print(f"      {with_fundamentals}/{len(rows)} rows have a balance sheet")
+    print("[9/10] Fetching Yahoo Finance company details...")
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        pending = {executor.submit(fetch_company_details, row["ticker"]): row for row in rows}
+        for result in tqdm(as_completed(pending), total=len(pending)):
+            row = pending[result]
+            try:
+                row.update(result.result())
+            except Exception as exc:  # An unavailable company must not stop the screener.
+                print(f"[company details] {row['ticker']}: {type(exc).__name__}")
+                continue
+            finance = row.get("finance") or {}
+            target = finance.get("market", {}).get("price_target")
+            if target:
+                prices = target_price_history(history[row["ticker"]], target)
+                if prices:
+                    row["finance"] = {**finance, "price_history": prices}
+    print(f"      {sum(bool(row.get('finance')) for row in rows)}/{len(rows)} rows have company details")
 
     print("[10/10] Rendering report.html...")
     path = render_report(rows)

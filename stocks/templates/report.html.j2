@@ -181,13 +181,14 @@
     table.bs th:first-child { background: #f3f4f6; }
     table.bs tr.total td.lbl { background: #f9fafb; }
   }
+{% include "company-charts.css" %}
 </style>
 </head>
 <body>
   <h1>Stocks Near Support</h1>
   <div class="updated">Data updated <time id="updated-time" datetime="{{ generated_iso }}">{{ generated_utc }} UTC</time><span class="ago" id="updated-ago"></span></div>
   <div class="sub">{{ row_count }} rows &middot; {{ us_count }} US &middot; {{ eu_count }} EU &middot; near-support threshold &le; {{ threshold }}% &middot; ranked by composite Score</div>
-  <div class="hint">Click a row to keep it highlighted (only one row at a time). Click a ticker or company name (on a phone, tap anywhere on a card) to open its details: balance sheet with short- and long-term assets/liabilities, plus the analyst buy/sell breakdown.</div>
+  <div class="hint">Select a ticker or company name to see analyst ratings and available financial data.</div>
 
   <div class="searchbar" role="search">
     <input type="search" id="stock-search" placeholder="Search ticker or company name" aria-label="Search stocks by ticker or company name" autocomplete="off" spellcheck="false" />
@@ -248,7 +249,7 @@
   </div>
   <div id="no-results"></div>
 
-  <footer>Generated {{ generated_utc }} UTC &middot; NEAR_THRESHOLD_PCT = {{ threshold }} &middot; balance sheet and analyst buckets fetched live from Yahoo Finance / Finnhub &mdash; no estimated or placeholder values</footer>
+  <footer>Generated {{ generated_utc }} UTC &middot; NEAR_THRESHOLD_PCT = {{ threshold }} &middot; Company financials and estimates from Yahoo Finance. Analyst ratings from Finnhub or Yahoo Finance.</footer>
 
   <div id="overlay" role="dialog" aria-modal="true" aria-labelledby="panel-title">
     <div id="panel">
@@ -400,6 +401,8 @@
   var panelTitle = document.getElementById("panel-title");
   var panelMeta = document.getElementById("panel-meta");
   var panelBody = document.getElementById("panel-body");
+  var closeButton = document.getElementById("close-panel");
+  var panelTrigger = null;
   var current = null;
   var period = "quarterly";
 
@@ -429,6 +432,8 @@
   function num(v, digits) {
     return (v === null || v === undefined) ? "n/a" : v.toFixed(digits);
   }
+
+{% include "company-charts.js" %}
 
   function metricsSection(d) {
     var s = section("Key metrics");
@@ -461,19 +466,23 @@
       s.appendChild(el("div", "nodata", "The data source did not return a per-bucket breakdown for this ticker."));
       return s;
     }
-    var max = d.buckets.reduce(function (m, b) { return Math.max(m, b.count); }, 0) || 1;
+    var total = d.buckets.reduce(function (sum, b) { return sum + b.count; }, 0) || 1;
     d.buckets.forEach(function (b) {
       var row = el("div", "meter");
       row.appendChild(el("span", null, b.label));
       var bar = el("div", "bar");
       var fill = el("i", "b-" + b.key);
-      fill.style.width = (b.count / max * 100).toFixed(1) + "%";
+      fill.style.width = (b.count / total * 100).toFixed(1) + "%";
       bar.appendChild(fill);
       row.appendChild(bar);
       row.appendChild(el("span", "n", String(b.count)));
       s.appendChild(row);
     });
-    s.appendChild(el("div", "nodata", "Consensus: " + d.rating));
+    var counts = Object.fromEntries(d.buckets.map(function (b) { return [b.key, b.count]; }));
+    var buys = (counts.strongBuy || 0) + (counts.buy || 0);
+    var sells = (counts.strongSell || 0) + (counts.sell || 0);
+    s.appendChild(el("div", "nodata", buys + " bullish \u00b7 " + (counts.hold || 0) + " hold \u00b7 " + sells + " bearish"));
+    s.appendChild(el("div", "nodata", "Most common rating: " + d.rating + ". Bars show the share of analysts in each category. Ties favor the more bullish category."));
     return s;
   }
 
@@ -490,7 +499,12 @@
     [["quarterly", "Quarterly"], ["annual", "Annual"]].forEach(function (t) {
       var btn = el("button", period === t[0] ? "active" : null, t[1]);
       btn.disabled = !(f[t[0]] && f[t[0]].length);
-      btn.addEventListener("click", function () { period = t[0]; renderPanel(); });
+      btn.addEventListener("click", function () {
+        period = t[0];
+        var replacement = balanceSheetSection(d);
+        s.replaceWith(replacement);
+        replacement.querySelector(".tabs .active").focus();
+      });
       tabs.appendChild(btn);
     });
     s.appendChild(tabs);
@@ -533,31 +547,52 @@
     var d = DETAILS[current];
     if (!d) return;
     panelTitle.textContent = d.ticker + " - " + d.name;
-    panelMeta.textContent = d.market + " \u00b7 consensus " + d.rating + " \u00b7 " + d.num_analysts + " analysts";
+    panelMeta.textContent = d.market + " \u00b7 Most common rating: " + d.rating + " \u00b7 " + d.num_analysts + " analysts";
     panelBody.textContent = "";
     panelBody.appendChild(metricsSection(d));
     panelBody.appendChild(analystSection(d));
+    var charts = companyCharts(d);
+    if (charts.length) {
+      panelBody.append(el("p", "company-note", "Financials, price targets, and analyst actions from Yahoo Finance."), ...charts);
+    }
     panelBody.appendChild(balanceSheetSection(d));
   }
 
   function openPanel(ticker) {
     if (!DETAILS[ticker]) return;
+    panelTrigger = document.activeElement;
     current = ticker;
     period = "quarterly";
     renderPanel();
     overlay.classList.add("open");
+    overlay.scrollTop = 0;
+    closeButton.focus();
   }
 
   function closePanel() {
+    if (!current) return;
     overlay.classList.remove("open");
     current = null;
+    if (panelTrigger) panelTrigger.focus();
   }
 
   applySearch();
 
-  document.getElementById("close-panel").addEventListener("click", closePanel);
+  closeButton.addEventListener("click", closePanel);
   overlay.addEventListener("click", function (ev) { if (ev.target === overlay) closePanel(); });
-  document.addEventListener("keydown", function (ev) { if (ev.key === "Escape") closePanel(); });
+  document.addEventListener("keydown", function (ev) {
+    if (ev.key === "Escape") closePanel();
+    if (ev.key !== "Tab" || !current) return;
+    var focusable = overlay.querySelectorAll("button:not(:disabled), summary");
+    var first = focusable[0], last = focusable[focusable.length - 1];
+    if (ev.shiftKey && document.activeElement === first) {
+      ev.preventDefault();
+      last.focus();
+    } else if (!ev.shiftKey && document.activeElement === last) {
+      ev.preventDefault();
+      first.focus();
+    }
+  });
 })();
 </script>
 </body>

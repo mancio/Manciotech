@@ -51,6 +51,7 @@ def _detail_payload(row: dict) -> dict:
         "reasons": row.get("reasons", ""),
         "buckets": buckets,
         "fundamentals": fundamentals,
+        "finance": row.get("finance"),
     }
 
 
@@ -59,8 +60,7 @@ def render_report(rows: list[dict], out_path: Path = OUTPUT_PATH) -> Path:
 
     Each row dict must contain: ticker, name, market, last_close, support,
     distance_pct, high_52w, drawdown_pct, days_since_high, rating, num_analysts.
-    Optional: rating_counts (analyst buckets) and fundamentals (balance sheet);
-    when absent the detail panel says so rather than showing placeholder values.
+    Optional: rating_counts, fundamentals, and finance (company charts).
     """
     env = Environment(
         loader=FileSystemLoader(str(TEMPLATE_DIR)),
