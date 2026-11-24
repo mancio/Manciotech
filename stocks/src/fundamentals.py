@@ -18,6 +18,7 @@ import time
 from pathlib import Path
 
 import yfinance as yf
+from yfinance.exceptions import YFRateLimitError
 
 from . import config
 
@@ -165,6 +166,8 @@ def fetch_fundamentals(ticker: str, *, handle=None, currency: str | None = None)
     for period, attribute in (("annual", "balance_sheet"), ("quarterly", "quarterly_balance_sheet")):
         try:
             periods[period] = _extract(getattr(handle, attribute), ticker)
+        except YFRateLimitError:
+            raise
         except Exception as exc:  # noqa: BLE001 - a missing period is optional
             print(f"[fundamentals] {ticker}: Yahoo {period} error ({type(exc).__name__})")
             periods[period] = []

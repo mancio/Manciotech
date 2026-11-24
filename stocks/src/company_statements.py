@@ -8,6 +8,8 @@ from __future__ import annotations
 from collections.abc import Callable, Mapping
 from datetime import date
 
+from yfinance.exceptions import YFRateLimitError
+
 from .fundamentals import _clean
 
 _INCOME_FIELDS = {
@@ -38,6 +40,8 @@ def _statement(
     """Read usable cells from one statement, independently of other requests."""
     try:
         frame = getter(freq=frequency, pretty=False)
+    except YFRateLimitError:
+        raise
     except Exception as exc:  # noqa: BLE001 - a missing statement is optional
         print(f"[company statements] {ticker}: {frequency} {type(exc).__name__}")
         return {}

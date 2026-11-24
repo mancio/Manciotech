@@ -27,7 +27,8 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    # Company-data retries can spend up to 105 minutes waiting on Yahoo.
+    timeout-minutes: 180
     steps:
       - name: Checkout site
         uses: actions/checkout@v4
@@ -57,6 +58,7 @@ jobs:
           python -m pytest tests -q
           python -m src.main
           test -s report.html
+          python -m pytest tests/test_report_numbers.py -q
 
       - name: Copy report into the site
         run: cp stocks/report.html public/stocks.html

@@ -8,6 +8,8 @@ import time
 from types import SimpleNamespace
 
 import pandas as pd
+import pytest
+from yfinance.exceptions import YFRateLimitError
 
 from src import company_details
 from src.report import render_report
@@ -73,6 +75,46 @@ def test_rate_limit_reuses_only_recent_cached_details(monkeypatch, tmp_path):
     last_week = time.time() - 8 * 86400
     os.utime(path, (last_week, last_week))
     assert company_details.fetch_company_details("VOD.L") == {}
+
+
+@pytest.mark.parametrize("failures", [3, 4])
+def test_endpoint_rate_limit_waits_for_each_retry(monkeypatch, tmp_path, failures):
+    monkeypatch.setattr(company_details.config, "COMPANY_DETAILS_CACHE_DIR", tmp_path)
+    for field in ("_rate_limits", "_retry_after", "_next_company_start"):
+        monkeypatch.setattr(company_details, field, 0)
+
+    waits = []
+    started = []
+    monkeypatch.setattr(company_details, "time", SimpleNamespace(
+        monotonic=lambda: sum(waits),
+        sleep=waits.append,
+        time=lambda: time.time() + sum(waits),
+    ))
+    monkeypatch.setattr(company_details, "fetch_fundamentals", lambda *args, **kwargs: None)
+    monkeypatch.setattr(company_details, "fetch_company_statements", lambda *args, **kwargs: None)
+
+    class Ticker:
+        info = {}
+
+        def __init__(self, symbol):
+            started.append(sum(waits))
+
+        def get_valuation_measures(self, *, freq, periods):
+            if len(started) <= failures:
+                raise YFRateLimitError()
+            return pd.DataFrame({"Current": [20]}, index=["Trailing P/E"])
+
+    monkeypatch.setattr(company_details.yf, "Ticker", Ticker)
+    result = company_details.fetch_company_details("TEST")
+    assert waits == [900, 1800, 3600]
+    assert started == [0, 900, 2700, 6300]
+    if failures == 3:
+        assert result["finance"]["market"]["valuation"]["current"] == {"pe": 20}
+        assert company_details.fetch_company_details("TEST") == result
+    else:
+        assert result == {}
+        assert company_details.fetch_company_details("ANOTHER") == {}
+    assert len(started) == 4
 
 
 def test_target_history_preserves_weekly_actual_closes_and_checks_quote_scale():

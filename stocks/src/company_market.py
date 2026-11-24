@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 import pandas as pd
+from yfinance.exceptions import YFRateLimitError
 
 
 _CAPITAL_FIELDS = {
@@ -73,6 +74,8 @@ def _frame(ticker: str, handle, field: str, **kwargs) -> pd.DataFrame:
         result = endpoint(**kwargs) if callable(endpoint) else endpoint
         if isinstance(result, pd.DataFrame):
             return result
+    except YFRateLimitError:
+        raise
     except Exception as exc:  # Optional Yahoo response for this company only.
         print(f"[company market] {ticker} {field}: Yahoo error ({type(exc).__name__})")
     return pd.DataFrame()

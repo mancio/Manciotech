@@ -19,6 +19,7 @@ from __future__ import annotations
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import pandas as pd
+import yfinance as yf
 from tqdm import tqdm
 
 from . import config
@@ -176,21 +177,27 @@ def run() -> None:
     rows.sort(key=lambda r: (-r["score"], r["last_close"]))
 
     print("[9/10] Fetching Yahoo Finance company details...")
-    with ThreadPoolExecutor(max_workers=4) as executor:
-        pending = {executor.submit(fetch_company_details, row["ticker"]): row for row in rows}
-        for result in tqdm(as_completed(pending), total=len(pending)):
-            row = pending[result]
-            try:
-                row.update(result.result())
-            except Exception as exc:  # An unavailable company must not stop the screener.
-                print(f"[company details] {row['ticker']}: {type(exc).__name__}")
-                continue
-            finance = row.get("finance") or {}
-            target = finance.get("market", {}).get("price_target")
-            if target:
-                prices = target_price_history(history[row["ticker"]], target)
-                if prices:
-                    row["finance"] = {**finance, "price_history": prices}
+    debug = yf.config.debug
+    hide_exceptions = debug.hide_exceptions
+    debug.hide_exceptions = False  # Let the company fetcher see rate limits from all detail endpoints.
+    try:
+        with ThreadPoolExecutor(max_workers=4) as executor:
+            pending = {executor.submit(fetch_company_details, row["ticker"]): row for row in rows}
+            for result in tqdm(as_completed(pending), total=len(pending)):
+                row = pending[result]
+                try:
+                    row.update(result.result())
+                except Exception as exc:  # An unavailable company must not stop the screener.
+                    print(f"[company details] {row['ticker']}: {type(exc).__name__}")
+                    continue
+                finance = row.get("finance") or {}
+                target = finance.get("market", {}).get("price_target")
+                if target:
+                    prices = target_price_history(history[row["ticker"]], target)
+                    if prices:
+                        row["finance"] = {**finance, "price_history": prices}
+    finally:
+        debug.hide_exceptions = hide_exceptions
     print(f"      {sum(bool(row.get('finance')) for row in rows)}/{len(rows)} rows have company details")
 
     print("[10/10] Rendering report.html...")
