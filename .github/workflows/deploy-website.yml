@@ -9,7 +9,6 @@ on:
       - "src/**"
       - "scripts/build-seo.cjs"
       - "public/**"
-      - "!public/stocks.html"
       - "package.json"
       - "package-lock.json"
       - "firebase.json"
@@ -50,3 +49,4 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_MANCIOTECH_244AC }}
           projectId: manciotech-244ac
           channelId: live
+

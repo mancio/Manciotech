@@ -15,9 +15,8 @@ from src import config
 
 # Column indexes in the rendered table.
 C_SCORE, C_TICKER, C_NAME, C_MARKET = 0, 1, 2, 3
-C_LAST, C_SUPPORT, C_DIST, C_HIGH = 4, 5, 6, 7
-C_DRAWDOWN, C_DAYS, C_RATING, C_ANALYSTS = 8, 9, 10, 11
-C_COMMUNITY, C_DEMAND, C_SHORT = 12, 13, 14
+C_DRAWDOWN, C_RATING, C_ANALYSTS = 4, 5, 6
+C_DEMAND, C_SHORT, C_DEBT = 7, 8, 9
 
 
 def test_distance_percent_matches_last_and_support(details):
@@ -123,20 +122,17 @@ def test_rendered_cells_match_the_detail_payload(table_rows, details):
         assert cells[C_NAME] == d["name"]
         assert cells[C_MARKET] == d["market"]
         assert cells[C_SCORE] == f"{d['score']:.1f}"
-        assert cells[C_LAST] == f"{d['last_close']:.2f}"
-        assert cells[C_SUPPORT] == f"{d['support']:.2f}"
-        assert cells[C_DIST] == f"{d['distance_pct']:.2f}"
-        assert cells[C_HIGH] == f"{d['high_52w']:.2f}"
         assert cells[C_DRAWDOWN] == f"{-d['drawdown_pct']:.2f}%"
-        assert cells[C_DAYS] == str(d["days_since_high"])
         assert cells[C_RATING] == d["rating"]
         assert cells[C_ANALYSTS] == str(d["num_analysts"])
-        assert cells[C_COMMUNITY] == f"{d['community']:.1f}"
         assert cells[C_DEMAND] == f"{d['demand']:.1f}"
         expected_short = (
             "n/a" if d["short_pct"] is None else f"{d['short_pct']:.1f}"
         )
         assert cells[C_SHORT] == expected_short
+        from src.report import format_debt, latest_debt
+        assert d["debt_now"] == latest_debt(d)
+        assert cells[C_DEBT] == format_debt(d["debt_now"])
 
 
 def test_market_split_matches_the_header_counts(report_html, details):
@@ -164,3 +160,4 @@ def test_detail_payload_balance_sheets_are_real_and_consistent(details):
                 ), f"{ticker} {period['date']}"
                 checked += 1
     assert checked > 0, "no row carried a usable balance sheet"
+

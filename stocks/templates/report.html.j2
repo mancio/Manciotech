@@ -30,7 +30,6 @@
   td.num { text-align: right; font-family: "SF Mono", ui-monospace, "Cascadia Code", Consolas, monospace; }
   td.neg { color: #b91c1c; }
   td.score { font-weight: 700; color: #1f2937; }
-  td.reasons { color: #444; font-size: 12px; white-space: nowrap; }
   .open-details {
     background: none; border: 0; padding: 0; font: inherit; color: #1d4ed8;
     cursor: pointer; text-align: left;
@@ -116,7 +115,7 @@
   @media (max-width: 1100px) {
     body { padding: 16px; }
     .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--border); }
-    .c-high, .c-days, .c-analysts, .c-community, .c-reasons { display: none; }
+    .c-analysts { display: none; }
     td.c-name { white-space: normal; min-width: 140px; }
     #report thead th, #report tbody td { padding: 7px 8px; }
     #report thead th::after { content: none; }
@@ -144,8 +143,8 @@
         "ticker ticker score"
         "name name name"
         "rating market market"
-        "last support dist"
-        "drawdown demand short";
+        "debt debt drawdown"
+        "demand short analysts";
       background: #fff; border: 1px solid var(--border); border-radius: 8px;
       padding: 12px; margin-bottom: 10px; cursor: pointer;
     }
@@ -153,22 +152,20 @@
     #report tbody tr.selected { background: #dbeafe; }
     #report tbody td { display: block; padding: 0; border: 0; white-space: normal; min-width: 0; }
     #report td.num { text-align: left; }
-    #report .c-high, #report .c-days, #report .c-analysts, #report .c-community, #report .c-reasons { display: none; }
+    #report .c-analysts { display: block; grid-area: analysts; }
     td.c-name { min-width: 0; }
     #report td.c-score { grid-area: score; text-align: right; font-size: 18px; }
     .c-ticker { grid-area: ticker; }
     .c-name { grid-area: name; }
     .c-rating { grid-area: rating; }
     .c-market { grid-area: market; align-self: center; }
-    .c-last { grid-area: last; }
-    .c-support { grid-area: support; }
-    .c-dist { grid-area: dist; }
+    .c-debt { grid-area: debt; }
     .c-drawdown { grid-area: drawdown; }
     .c-demand { grid-area: demand; }
     .c-short { grid-area: short; }
     .c-ticker .open-details { font-size: 16px; font-weight: 700; }
     .c-name .open-details { color: #374151; }
-    .c-score::before, .c-last::before, .c-support::before, .c-dist::before,
+    .c-score::before, .c-debt::before, .c-analysts::before,
     .c-drawdown::before, .c-demand::before, .c-short::before {
       content: attr(data-label); display: block; font-size: 11px; font-weight: 400;
       color: #6b7280; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -209,18 +206,12 @@
         <th class="c-ticker" data-type="text">Ticker</th>
         <th class="c-name" data-type="text">Name</th>
         <th class="c-market" data-type="text">Market</th>
-        <th class="c-last" data-type="num">Last</th>
-        <th class="c-support" data-type="num">Support</th>
-        <th class="c-dist" data-type="num">Dist %</th>
-        <th class="c-high" data-type="num">52w High</th>
         <th class="c-drawdown" data-type="num">Drawdown</th>
-        <th class="c-days" data-type="num">Days since high</th>
         <th class="c-rating" data-type="text">Rating</th>
         <th class="c-analysts" data-type="num"># Analysts</th>
-        <th class="c-community" data-type="num">Community</th>
         <th class="c-demand" data-type="num">Demand</th>
         <th class="c-short" data-type="num">Short %</th>
-        <th class="c-reasons" data-type="text">Reasons</th>
+        <th class="c-debt" data-type="num" title="Latest reported total debt, using the most recent available annual or interim period">Debt now</th>
       </tr>
     </thead>
     <tbody>
@@ -230,18 +221,12 @@
         <td data-label="Ticker" class="c-ticker"><button type="button" class="open-details" data-ticker="{{ r.ticker }}">{{ r.ticker }}<span class="ico">&#9432;</span></button></td>
         <td data-label="Name" class="c-name"><button type="button" class="open-details" data-ticker="{{ r.ticker }}">{{ r.name }}</button></td>
         <td data-label="Market" class="c-market"><span class="pill">{{ r.market }}</span></td>
-        <td data-label="Last" class="c-last num">{{ "%.2f"|format(r.last_close) }}</td>
-        <td data-label="Support" class="c-support num">{{ "%.2f"|format(r.support) }}</td>
-        <td data-label="Dist %" class="c-dist num">{{ "%.2f"|format(r.distance_pct) }}</td>
-        <td data-label="52w High" class="c-high num">{{ "%.2f"|format(r.high_52w) }}</td>
         <td data-label="Drawdown" class="c-drawdown num neg">{{ "%.2f"|format(-r.drawdown_pct) }}%</td>
-        <td data-label="Days since high" class="c-days num">{{ r.days_since_high }}</td>
         <td data-label="Rating" class="c-rating"><span class="rating {{ r.rating_class }}">{{ r.rating }}</span></td>
         <td data-label="# Analysts" class="c-analysts num">{{ r.num_analysts }}</td>
-        <td data-label="Community" class="c-community num">{{ "%.1f"|format(r.community) }}</td>
         <td data-label="Demand" class="c-demand num">{{ "%.1f"|format(r.demand) }}</td>
         <td data-label="Short %" class="c-short num">{% if r.short_pct is not none %}{{ "%.1f"|format(r.short_pct) }}{% else %}n/a{% endif %}</td>
-        <td data-label="Reasons" class="c-reasons reasons">{{ r.reasons }}</td>
+        <td data-label="Debt now" class="c-debt num" data-sort-value="{{ r.debt_now.value if r.debt_now is not none else '' }}"{% if r.debt_now is not none %} title="Total debt as of {{ r.debt_now.date }}{% if r.debt_now.currency %} ({{ r.debt_now.currency }}){% endif %}"{% endif %}>{{ r.debt_now|debt_money }}</td>
       </tr>
     {% endfor %}
     </tbody>
@@ -287,6 +272,12 @@
       var x = a.cells[idx].textContent.trim();
       var y = b.cells[idx].textContent.trim();
       if (type === "num") {
+        if (headers[idx].classList.contains("c-debt")) {
+          var dx = a.cells[idx].getAttribute("data-sort-value");
+          var dy = b.cells[idx].getAttribute("data-sort-value");
+          if (!dx || !dy) return !dx && !dy ? 0 : (!dx ? 1 : -1);
+          return asc ? Number(dx) - Number(dy) : Number(dy) - Number(dx);
+        }
         var nx = parseFloat(x.replace(/[^0-9.\-]/g, "")) || 0;
         var ny = parseFloat(y.replace(/[^0-9.\-]/g, "")) || 0;
         return asc ? nx - ny : ny - nx;
@@ -440,6 +431,7 @@
     var kv = el("div", "kv");
     [
       ["Score", num(d.score, 1)],
+      ["Debt now", d.debt_now ? fmtMoney(d.debt_now.value) + (d.debt_now.currency ? " " + d.debt_now.currency : "") + " · " + d.debt_now.date : "n/a"],
       ["Last close", num(d.last_close, 2)],
       ["Support", num(d.support, 2)],
       ["Distance to support", num(d.distance_pct, 2) + "%"],
@@ -599,3 +591,4 @@
 </script>
 </body>
 </html>
+

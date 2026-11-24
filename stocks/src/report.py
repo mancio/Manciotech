@@ -1,7 +1,8 @@
 """Render the final standalone report.html from the Jinja2 template."""
 from __future__ import annotations
 
-from datetime import datetime, timezone
+import math
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
@@ -20,6 +21,40 @@ _RATING_CLASS = {
 
 TEMPLATE_DIR = config.ROOT / "templates"
 OUTPUT_PATH = config.ROOT / "report.html"
+
+
+def latest_debt(row: dict) -> dict | None:
+    """Most recent reported debt across annual and interim balance sheets."""
+    latest = None
+    sources = [row.get("fundamentals"), (row.get("finance") or {}).get("statements")]
+    for source in sources:
+        if not source:
+            continue
+        for frequency in ("quarterly", "annual"):
+            for period in source.get(frequency, []):
+                value = period.get("values", {}).get("total_debt")
+                try:
+                    reported = date.fromisoformat(period.get("date", ""))
+                except (TypeError, ValueError):
+                    continue
+                if (isinstance(value, bool) or not isinstance(value, (int, float))
+                        or not math.isfinite(value) or value < 0
+                        or reported > datetime.now(timezone.utc).date()):
+                    continue
+                if latest is None or reported.isoformat() > latest["date"]:
+                    latest = {"value": value, "date": reported.isoformat(),
+                              "currency": source.get("currency") or ""}
+    return latest
+
+
+def format_debt(debt: dict | None) -> str:
+    if debt is None:
+        return "n/a"
+    value = debt["value"]
+    for divisor, suffix in ((1e12, "T"), (1e9, "B"), (1e6, "M"), (1e3, "K"), (1, "")):
+        if value >= divisor or divisor == 1:
+            amount = f"{value / divisor:.2f}{suffix}"
+            return f"{amount} {debt['currency']}".strip()
 
 
 def _detail_payload(row: dict) -> dict:
@@ -51,6 +86,7 @@ def _detail_payload(row: dict) -> dict:
         "reasons": row.get("reasons", ""),
         "buckets": buckets,
         "fundamentals": fundamentals,
+        "debt_now": row.get("debt_now"),
         "finance": row.get("finance"),
     }
 
@@ -66,12 +102,14 @@ def render_report(rows: list[dict], out_path: Path = OUTPUT_PATH) -> Path:
         loader=FileSystemLoader(str(TEMPLATE_DIR)),
         autoescape=select_autoescape(["html", "xml", "j2"]),
     )
+    env.filters["debt_money"] = format_debt
     template = env.get_template("report.html.j2")
 
     enriched = []
     for r in rows:
         r = dict(r)
         r["rating_class"] = _RATING_CLASS.get(r["rating"], "r-hold")
+        r["debt_now"] = latest_debt(r)
         enriched.append(r)
 
     us_count = sum(1 for r in enriched if r["market"] == "US")
@@ -111,3 +149,4 @@ if __name__ == "__main__":
     ]
     path = render_report(demo)
     print(f"Wrote {path}")
+
