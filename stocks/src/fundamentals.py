@@ -155,14 +155,18 @@ def _extract(df, symbol: str = "?") -> list[dict]:
 def fetch_fundamentals(ticker: str, *, handle=None, currency: str | None = None) -> dict | None:
     """Return {currency, annual: [...], quarterly: [...]} or None if unavailable."""
     cached = _read_cache(ticker)
-    if isinstance(cached, dict) and cached.get("schema") == 2:
+    if (
+        isinstance(cached, dict)
+        and cached.get("schema") == 2
+        and (cached.get("annual") or cached.get("quarterly"))
+        and (not currency or cached.get("currency") == currency)
+    ):
         cached.pop("schema")
         return cached or None
 
     if handle is None:
         handle = yf.Ticker(ticker)
     periods = {}
-    failed = False
     for period, attribute in (("annual", "balance_sheet"), ("quarterly", "quarterly_balance_sheet")):
         try:
             periods[period] = _extract(getattr(handle, attribute), ticker)
@@ -171,11 +175,8 @@ def fetch_fundamentals(ticker: str, *, handle=None, currency: str | None = None)
         except Exception as exc:  # noqa: BLE001 - a missing period is optional
             print(f"[fundamentals] {ticker}: Yahoo {period} error ({type(exc).__name__})")
             periods[period] = []
-            failed = True
 
     if not any(periods.values()):
-        if not failed:
-            _write_cache(ticker, {"schema": 2})
         return None
 
     if currency is None:

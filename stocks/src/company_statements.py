@@ -88,6 +88,27 @@ def _derive_income_values(values: dict[str, float]) -> None:
     )
 
 
+def merge_balance_sheet(statements: dict | None, fundamentals: dict | None) -> dict | None:
+    """Add reported balance values by fiscal date, including to cached cash flows."""
+    if not fundamentals:
+        return statements
+    statements = statements or {}
+    currency = statements.get("currency")
+    balance_currency = fundamentals.get("currency")
+    if currency and balance_currency and currency != balance_currency:
+        return statements
+    merged = {"currency": currency or balance_currency or ""}
+    for period in ("annual", "quarterly"):
+        series = {row["date"]: dict(row["values"]) for row in statements.get(period, [])}
+        for row in fundamentals.get(period, []):
+            reported = row["values"]
+            values = {key: reported[source] for source, key in _BALANCE_FIELDS.items() if source in reported}
+            if values:
+                series.setdefault(row["date"], {}).update(values)
+        merged[period] = [{"date": date, "values": series[date]} for date in sorted(series, reverse=True)]
+    return merged if merged["annual"] or merged["quarterly"] else None
+
+
 def fetch_company_statements(
     ticker: str,
     fundamentals: dict | None,
@@ -105,20 +126,13 @@ def fetch_company_statements(
         for period_end, values in cash_flows.items():
             series.setdefault(period_end, {}).update(values)
 
-        for item in (fundamentals or {}).get(period, []):
-            reported = item["values"]
-            values = {key: reported[row] for row, key in _BALANCE_FIELDS.items() if row in reported}
-            if values:
-                series.setdefault(item["date"], {}).update(values)
-
         result[period] = [
             {"date": period_end, "values": series[period_end]}
             for period_end in sorted(series, reverse=True)
             if series[period_end]
         ]
 
-    if not result["annual"] and not result["quarterly"]:
-        return None
     currency = (info or {}).get("financialCurrency")
     result["currency"] = currency if isinstance(currency, str) else ""
-    return result
+    statements = result if result["annual"] or result["quarterly"] else None
+    return merge_balance_sheet(statements, fundamentals)

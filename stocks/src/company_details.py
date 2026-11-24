@@ -14,7 +14,7 @@ from yfinance.exceptions import YFRateLimitError
 
 from . import config
 from .company_market import fetch_company_market
-from .company_statements import fetch_company_statements
+from .company_statements import fetch_company_statements, merge_balance_sheet
 from .fundamentals import fetch_fundamentals
 
 
@@ -78,7 +78,9 @@ def fetch_company_details(ticker: str) -> dict:
         if isinstance(payload, dict) and isinstance(payload.get("details"), dict):
             cached = payload
             saved_at = path.stat().st_mtime
-            if now - saved_at < _SNAPSHOT_TTL_SECONDS:
+            # Older entries without a balance sheet may have cached a throttled response.
+            balance_checked = cached.get("balance_checked") or cached["details"].get("fundamentals")
+            if balance_checked and now - saved_at < _SNAPSHOT_TTL_SECONDS:
                 return cached["details"]
     except (OSError, ValueError):
         pass
@@ -109,12 +111,16 @@ def _fetch_uncached_details(ticker: str, path: Path, cached: dict) -> dict:
     )
     # Financial statements are dated reports. Reuse them across daily quote refreshes.
     statements = cached.get("details", {}).get("finance", {}).get("statements")
+    statement_currency = (statements or {}).get("currency")
+    if statement_currency and financial_currency and statement_currency != financial_currency:
+        statements = None
     statements_at = cached.get("statements_at", 0)
     if not statements or time.time() - statements_at >= _STATEMENT_TTL_SECONDS:
-        updated = fetch_company_statements(ticker, balance_sheet, handle=handle, info=info)
+        updated = fetch_company_statements(ticker, None, handle=handle, info=info)
         if updated:
             statements = updated
             statements_at = time.time()
+    statements = merge_balance_sheet(statements, balance_sheet)
     market = fetch_company_market(ticker, statements, handle=handle, info=info)
 
     details = {}
@@ -127,7 +133,10 @@ def _fetch_uncached_details(ticker: str, path: Path, cached: dict) -> dict:
         if market:
             details["finance"]["market"] = market
         try:
-            encoded = json.dumps({"details": details, "statements_at": statements_at}, allow_nan=False)
+            encoded = json.dumps(
+                {"details": details, "statements_at": statements_at, "balance_checked": True},
+                allow_nan=False,
+            )
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(encoded, encoding="utf-8")
         except (OSError, ValueError) as exc:

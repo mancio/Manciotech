@@ -25,7 +25,7 @@ def test_statement_series_align_periods_and_reconcile_reported_totals():
         get_cashflow=lambda freq, pretty: annual_cash if freq == "yearly" else pd.DataFrame(),
     )
     balances = {
-        "currency": "USD",
+        "currency": "EUR",
         "annual": [
             {"date": "2025-12-31", "values": {"total_debt": 17, "cash_and_equivalents": 4}},
             {"date": "2024-12-31", "values": {"cash": 85}},

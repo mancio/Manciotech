@@ -77,6 +77,34 @@ def test_rate_limit_reuses_only_recent_cached_details(monkeypatch, tmp_path):
     assert company_details.fetch_company_details("VOD.L") == {}
 
 
+def test_recovers_missing_balance_sheet_and_preserves_cached_cash_flow(monkeypatch, tmp_path):
+    balance_path = tmp_path / "fundamentals"
+    balance_path.mkdir()
+    monkeypatch.setattr(company_details.config, "COMPANY_DETAILS_CACHE_DIR", tmp_path)
+    monkeypatch.setattr(company_details.config, "FUNDAMENTALS_CACHE_DIR", balance_path)
+    monkeypatch.setattr(company_details, "_wait_for_yahoo", lambda: True)
+    (balance_path / "TEST.json").write_text('{"schema": 2}', encoding="utf-8")
+    period = "2025-12-31"
+    (tmp_path / "TEST.json").write_text(json.dumps({
+        "details": {"finance": {"statements": {
+            "currency": "USD", "annual": [{"date": period, "values": {"free_cash_flow": 80}}],
+        }}},
+        "statements_at": time.time(),
+    }), encoding="utf-8")
+    balance = pd.DataFrame({pd.Timestamp(period): {"Total Debt": 100, "Cash And Cash Equivalents": 50}})
+    handle = SimpleNamespace(
+        info={"financialCurrency": "USD"}, balance_sheet=balance, quarterly_balance_sheet=pd.DataFrame(),
+    )
+    monkeypatch.setattr(company_details.yf, "Ticker", lambda symbol: handle)
+    monkeypatch.setattr(company_details, "fetch_company_market", lambda *args, **kwargs: {})
+
+    details = company_details.fetch_company_details("TEST")
+    assert details["finance"]["statements"]["annual"] == [{
+        "date": period, "values": {"free_cash_flow": 80, "total_debt": 100, "cash": 50},
+    }]
+    assert company_details.fetch_company_details("TEST") == details
+
+
 @pytest.mark.parametrize("failures", [3, 4])
 def test_endpoint_rate_limit_waits_for_each_retry(monkeypatch, tmp_path, failures):
     monkeypatch.setattr(company_details.config, "COMPANY_DETAILS_CACHE_DIR", tmp_path)
