@@ -15,6 +15,7 @@ from src.report import render_report
 
 def test_shared_quote_and_cache(monkeypatch, tmp_path):
     monkeypatch.setattr(company_details.config, "COMPANY_DETAILS_CACHE_DIR", tmp_path)
+    monkeypatch.setattr(company_details, "_wait_for_yahoo", lambda: True)
     info = {"financialCurrency": "EUR", "currency": "GBp"}
     handle = SimpleNamespace(info=info)
     quotes = []
@@ -54,6 +55,24 @@ def test_shared_quote_and_cache(monkeypatch, tmp_path):
     assert company_details.fetch_company_details("VOD.L") == first
     assert quotes == ["VOD.L", "VOD.L"]
     assert statement_calls == ["VOD.L"]
+
+
+def test_rate_limit_reuses_only_recent_cached_details(monkeypatch, tmp_path):
+    monkeypatch.setattr(company_details.config, "COMPANY_DETAILS_CACHE_DIR", tmp_path)
+    monkeypatch.setattr(company_details, "_wait_for_yahoo", lambda: False)
+    path = tmp_path / "VOD.L.json"
+    market = {"price_target": {"current": 100, "mean": 120}}
+    path.write_text(json.dumps({"details": {"finance": {"market": market}}}), encoding="utf-8")
+
+    yesterday = time.time() - 86400
+    os.utime(path, (yesterday, yesterday))
+    result = company_details.fetch_company_details("VOD.L")
+    assert result["finance"]["market"] == market
+    assert result["finance"]["cached_as_of"].endswith("UTC")
+
+    last_week = time.time() - 8 * 86400
+    os.utime(path, (last_week, last_week))
+    assert company_details.fetch_company_details("VOD.L") == {}
 
 
 def test_target_history_preserves_weekly_actual_closes_and_checks_quote_scale():

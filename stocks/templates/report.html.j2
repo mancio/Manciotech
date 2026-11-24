@@ -553,7 +553,9 @@
     panelBody.appendChild(analystSection(d));
     var charts = companyCharts(d);
     if (charts.length) {
-      panelBody.append(el("p", "company-note", "Financials, price targets, and analyst actions from Yahoo Finance."), ...charts);
+      var source = d.finance.cached_as_of ? "Cached Yahoo Finance data from " + d.finance.cached_as_of + "."
+        : "Financials, price targets, and analyst actions from Yahoo Finance.";
+      panelBody.append(el("p", "company-note", source), ...charts);
     }
     panelBody.appendChild(balanceSheetSection(d));
   }

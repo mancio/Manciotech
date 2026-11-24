@@ -4,9 +4,12 @@ from __future__ import annotations
 import json
 import math
 import time
+from datetime import datetime, timezone
+from threading import Lock
 
 import pandas as pd
 import yfinance as yf
+from yfinance.exceptions import YFRateLimitError
 
 from . import config
 from .company_market import fetch_company_market
@@ -16,27 +19,85 @@ from .fundamentals import fetch_fundamentals
 
 _SNAPSHOT_TTL_SECONDS = 12 * 60 * 60
 _STATEMENT_TTL_SECONDS = 3 * 24 * 60 * 60
+_STALE_TTL_SECONDS = 7 * 24 * 60 * 60
+_YAHOO_INTERVAL_SECONDS = 1.5
+_YAHOO_BACKOFF_SECONDS = 60
+_YAHOO_MAX_BACKOFFS = 2
+_rate_lock = Lock()
+_next_company_start = 0.0
+_retry_after = 0.0
+_rate_limits = 0
+
+
+def _wait_for_yahoo() -> bool:
+    """Pace ticker fetches across all workers, including after Yahoo signals a limit."""
+    global _next_company_start
+    while True:
+        with _rate_lock:
+            if _rate_limits > _YAHOO_MAX_BACKOFFS:
+                return False
+            now = time.monotonic()
+            delay = max(_next_company_start, _retry_after) - now
+            if delay <= 0:
+                _next_company_start = now + _YAHOO_INTERVAL_SECONDS
+                return True
+        time.sleep(delay)
+
+
+def _back_off_yahoo() -> None:
+    global _retry_after, _rate_limits
+    with _rate_lock:
+        now = time.monotonic()
+        if now < _retry_after or _rate_limits > _YAHOO_MAX_BACKOFFS:
+            return
+        _rate_limits += 1
+        if _rate_limits <= _YAHOO_MAX_BACKOFFS:
+            delay = _YAHOO_BACKOFF_SECONDS * 2 ** (_rate_limits - 1)
+            _retry_after = now + delay
+            print(f"[company details] Yahoo rate limit: pausing new fetches for {delay} seconds")
+        else:
+            print("[company details] Yahoo rate limit persisted; using available cached details")
+
+
+def _stale_details(cached: dict, saved_at: float, now: float) -> dict:
+    details = cached.get("details") or {}
+    if not details or now - saved_at >= _STALE_TTL_SECONDS:
+        return {}
+    finance = details.get("finance") or {}
+    captured = datetime.fromtimestamp(saved_at, timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    return {**details, "finance": {**finance, "cached_as_of": captured}}
 
 
 def fetch_company_details(ticker: str) -> dict:
     path = config.COMPANY_DETAILS_CACHE_DIR / f"{ticker.replace('/', '_')}.json"
     now = time.time()
     cached = {}
+    saved_at = 0.0
     try:
         payload = json.loads(path.read_text(encoding="utf-8"))
         if isinstance(payload, dict) and isinstance(payload.get("details"), dict):
             cached = payload
-            if now - path.stat().st_mtime < _SNAPSHOT_TTL_SECONDS:
+            saved_at = path.stat().st_mtime
+            if now - saved_at < _SNAPSHOT_TTL_SECONDS:
                 return cached["details"]
     except (OSError, ValueError):
         pass
 
-    handle = yf.Ticker(ticker)
-    try:
-        info = handle.info or {}
-    except Exception as exc:  # Optional Yahoo quote data can fail on its own.
-        print(f"[company details] {ticker}: Yahoo quote error ({type(exc).__name__})")
-        info = {}
+    for _ in range(_YAHOO_MAX_BACKOFFS + 1):
+        if not _wait_for_yahoo():
+            return _stale_details(cached, saved_at, now)
+        handle = yf.Ticker(ticker)
+        try:
+            info = handle.info or {}
+        except YFRateLimitError:
+            _back_off_yahoo()
+            continue
+        except Exception as exc:  # Optional Yahoo quote data can fail on its own.
+            print(f"[company details] {ticker}: Yahoo quote error ({type(exc).__name__})")
+            info = {}
+        break
+    else:
+        return _stale_details(cached, saved_at, now)
 
     financial_currency = info.get("financialCurrency")
     balance_sheet = fetch_fundamentals(
