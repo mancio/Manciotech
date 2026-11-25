@@ -10,7 +10,7 @@ afterEach(() => jest.restoreAllMocks());
 
 test('renders the app shell with the cookie notice', () => {
     render(<App/>);
-    expect(screen.getByText(/This website uses cookies/i)).toBeInTheDocument();
+    expect(screen.getByText(/This site uses only storage/i)).toBeInTheDocument();
 });
 
 test('shows the automatic snake canvas instead of floating SVG pieces', () => {

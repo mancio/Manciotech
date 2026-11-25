@@ -4,36 +4,13 @@ export interface DateTimeParts {
 }
 
 export async function getInfoFromIp(): Promise<DateTimeParts | null> {
-    try {
-        const response = await fetch('https://get.geojs.io/v1/ip/geo.json');
-        const data = await response.json();
-        const currentTime = new Date().toLocaleString('en-US', {timeZone: data.timezone});
-        const [date, time] = currentTime.split(', ');
-        return {date, time};
-    } catch (error) {
-        console.error(error);
-        return null;
-    }
-}
-
-async function getTimeZone(): Promise<string | null> {
-    try {
-        const response = await fetch('https://get.geojs.io/v1/ip/geo.json');
-        const data = await response.json();
-        return data.timezone ?? null;
-    } catch (error) {
-        console.error(error);
-        return null;
-    }
+    const currentTime = new Date().toLocaleString('en-US');
+    const [date, time] = currentTime.split(', ');
+    return {date, time};
 }
 
 export async function getTimeDateFormatted(): Promise<DateTimeParts | null> {
-    const timeZone = await getTimeZone();
-
-    if (!timeZone) {
-        console.error('Unable to retrieve timezone.');
-        return null;
-    }
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     const currentDate = new Date();
 
