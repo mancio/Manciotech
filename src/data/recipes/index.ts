@@ -30,6 +30,30 @@ import {zucchineRipiene} from './ZucchineRipiene';
 
 import {costoletteAlFornoConPatate} from './CostoletteAlFornoConPatate';
 
+import {costoletteBrandyGriglia} from './CostoletteBrandyGriglia';
+import {salsaFunghiFreschi} from './SalsaFunghiFreschi';
+import {filettoMaialeFinferli} from './FilettoMaialeFinferli';
+import {insalataPasquale} from './InsalataPasquale';
+import {risottoZucchineCocco} from './RisottoZucchineCocco';
+import {polpetteSalsaAneto} from './PolpetteSalsaAneto';
+import {murzynek} from './Murzynek';
+import {grapeLove} from './GrapeLove';
+import {costineMieleBirra} from './CostineMieleBirra';
+import {muffinLamponiCioccolatoBianco} from './MuffinLamponiCioccolatoBianco';
+import {coppaMaialePomodoriCipolle} from './CoppaMaialePomodoriCipolle';
+import {tortaCaroteNoci} from './TortaCaroteNoci';
+import {costineStufateVerdure} from './CostineStufateVerdure';
+import {filettoSenapeFunghi} from './FilettoSenapeFunghi';
+import {rosettePastaPizza} from './RosettePastaPizza';
+import {cremaPasticceraClassica} from './CremaPasticceraClassica';
+import {costineStufateMaggiorana} from './CostineStufateMaggiorana';
+import {crepesSottili} from './CrepesSottili';
+import {impastoPizza} from './ImpastoPizza';
+import {muffinCioccolato} from './MuffinCioccolato';
+import {cremaPasticceraPolacca} from './CremaPasticceraPolacca';
+import {risottoPolloZucchine} from './RisottoPolloZucchine';
+import {insalataCavoloPechinoSenape} from './InsalataCavoloPechinoSenape';
+
 export * from './types';
 
 export const recipes: readonly Recipe[] = [
@@ -62,6 +86,29 @@ export const recipes: readonly Recipe[] = [
     besciamellaLeggera,
     focacciaInPadella,
     costoletteAlFornoConPatate,
+    costoletteBrandyGriglia,
+    salsaFunghiFreschi,
+    filettoMaialeFinferli,
+    insalataPasquale,
+    risottoZucchineCocco,
+    polpetteSalsaAneto,
+    murzynek,
+    grapeLove,
+    costineMieleBirra,
+    muffinLamponiCioccolatoBianco,
+    coppaMaialePomodoriCipolle,
+    tortaCaroteNoci,
+    costineStufateVerdure,
+    filettoSenapeFunghi,
+    rosettePastaPizza,
+    cremaPasticceraClassica,
+    costineStufateMaggiorana,
+    crepesSottili,
+    impastoPizza,
+    muffinCioccolato,
+    cremaPasticceraPolacca,
+    risottoPolloZucchine,
+    insalataCavoloPechinoSenape,
 ];
 
 export const recipesById: ReadonlyMap<number, Recipe> = new Map(recipes.map(r => [r.id, r]));
