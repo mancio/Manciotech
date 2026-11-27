@@ -3,7 +3,17 @@ import type {Recipe} from './types';
 export const biscottiBurroAlbumi: Recipe = {
     "id": 54,
     "key": "biscottiBurroAlbumi",
-    "pictures": [],
+    "pictures": [
+        {
+            "index": 0,
+            "url": "/recipe-photos/biscottiBurroAlbumi.jpg",
+            "credit": "Passami la Ricetta",
+            "sourceUrl": "https://passamilaricetta.it/biscotti-viennesi-etoile/",
+            "illustrative": true,
+            "width": 1000,
+            "height": 1250
+        }
+    ],
     "i18n": {
         "IT": {
             "title": "Biscotti al burro e albumi",

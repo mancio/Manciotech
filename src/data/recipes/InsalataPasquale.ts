@@ -3,7 +3,17 @@ import type {Recipe} from './types';
 export const insalataPasquale: Recipe = {
     "id": 33,
     "key": "insalataPasquale",
-    "pictures": [],
+    "pictures": [
+        {
+            "index": 0,
+            "url": "/recipe-photos/insalataPasquale.jpg",
+            "credit": "AniaGotuje.pl",
+            "sourceUrl": "https://aniagotuje.pl/go/45446",
+            "illustrative": false,
+            "width": 1080,
+            "height": 1080
+        }
+    ],
     "i18n": {
         "IT": {
             "title": "Insalata pasquale con salsa al rafano",

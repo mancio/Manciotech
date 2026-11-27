@@ -3,7 +3,17 @@ import type {Recipe} from './types';
 export const bicchieriniRicottaPereSavoiardi: Recipe = {
     id: 28,
     key: "bicchieriniRicottaPereSavoiardi",
-    pictures: [],
+    pictures: [
+        {
+            "index": 0,
+            "url": "/recipe-photos/bicchieriniRicottaPereSavoiardi.webp",
+            "credit": "Petitchef",
+            "sourceUrl": "https://www.petitchef.it/ricette/dessert/bicchierini-ricotta-pere-e-cioccolato-fid-1569753",
+            "illustrative": true,
+            "width": 1920,
+            "height": 1080
+        }
+    ],
     i18n: {
         IT: {
             title: "Bicchierini veloci ricotta, pere e savoiardi",

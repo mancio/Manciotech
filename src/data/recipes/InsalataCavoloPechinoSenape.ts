@@ -3,7 +3,17 @@ import type {Recipe} from './types';
 export const insalataCavoloPechinoSenape: Recipe = {
     "id": 52,
     "key": "insalataCavoloPechinoSenape",
-    "pictures": [],
+    "pictures": [
+        {
+            "index": 0,
+            "url": "/recipe-photos/insalataCavoloPechinoSenape.jpg",
+            "credit": "Kwestia Smaku",
+            "sourceUrl": "https://www.kwestiasmaku.com/przepis/surowka-z-kapusty-pekinskiej-i-musztardy-ziarnistej",
+            "illustrative": false,
+            "width": 250,
+            "height": 250
+        }
+    ],
     "i18n": {
         "IT": {
             "title": "Insalata di cavolo di Pechino alla senape",

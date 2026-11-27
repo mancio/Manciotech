@@ -3,7 +3,17 @@ import type {Recipe} from './types';
 export const risottoPolloZucchine: Recipe = {
     "id": 51,
     "key": "risottoPolloZucchine",
-    "pictures": [],
+    "pictures": [
+        {
+            "index": 0,
+            "url": "/recipe-photos/risottoPolloZucchine.jpg",
+            "credit": "Mariangela / Foodbloggermania",
+            "sourceUrl": "https://foodbloggermania.it/ricetta/risotto-pollo-e-zucchine/",
+            "illustrative": true,
+            "width": 458,
+            "height": 640
+        }
+    ],
     "i18n": {
         "IT": {
             "title": "Risotto con pollo e zucchine",

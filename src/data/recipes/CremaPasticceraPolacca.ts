@@ -3,7 +3,17 @@ import type {Recipe} from './types';
 export const cremaPasticceraPolacca: Recipe = {
     "id": 50,
     "key": "cremaPasticceraPolacca",
-    "pictures": [],
+    "pictures": [
+        {
+            "index": 0,
+            "url": "/recipe-photos/cremaPasticceraPolacca.png",
+            "credit": "Cukier Królewski",
+            "sourceUrl": "https://cukier-krolewski.pl/przepisy/krem-budyniowy/",
+            "illustrative": true,
+            "width": 1024,
+            "height": 1024
+        }
+    ],
     "i18n": {
         "IT": {
             "title": "Crema pasticcera polacca con budyń",

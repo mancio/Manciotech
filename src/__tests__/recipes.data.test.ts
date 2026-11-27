@@ -1,6 +1,8 @@
 import {recipes, recipesById} from "../data/recipes";
 import {LANGUAGES} from "../data/recipes/types";
 import {getPictures, getRecipeSlug} from "../logic/recipes";
+import {existsSync} from "fs";
+import {resolve} from "path";
 
 test('every recipe has all three languages with content', () => {
     for (const recipe of recipes) {
@@ -62,8 +64,22 @@ test('picture indexes are valid and never exceed the step count', () => {
                 expect(Number.isInteger(picture.index)).toBe(true);
                 expect(picture.index).toBeGreaterThanOrEqual(0);
                 expect(picture.index).toBeLessThanOrEqual(stepCount);
-                expect(picture.url).toMatch(/^https?:\/\//);
+                expect(picture.url).toMatch(/^(https?:\/\/|\/recipe-photos\/[a-zA-Z0-9]+\.(jpg|png|webp)$)/);
+                if (picture.url.startsWith('/recipe-photos/')) {
+                    expect(existsSync(resolve(process.cwd(), 'public', picture.url.slice(1)))).toBe(true);
+                    expect(picture.credit).toBeTruthy();
+                    expect(picture.width).toBeGreaterThan(0);
+                    expect(picture.height).toBeGreaterThan(0);
+                }
             }
+        }
+    }
+});
+
+test('every recipe has a cover photo in all languages', () => {
+    for (const recipe of recipes) {
+        for (const language of LANGUAGES) {
+            expect(getPictures(recipe, language).some(picture => picture.index === 0)).toBe(true);
         }
     }
 });

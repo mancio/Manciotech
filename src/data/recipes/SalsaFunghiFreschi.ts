@@ -3,7 +3,17 @@ import type {Recipe} from './types';
 export const salsaFunghiFreschi: Recipe = {
     "id": 31,
     "key": "salsaFunghiFreschi",
-    "pictures": [],
+    "pictures": [
+        {
+            "index": 0,
+            "url": "/recipe-photos/salsaFunghiFreschi.jpg",
+            "credit": "Kuchnia Domowa",
+            "sourceUrl": "https://www.kuchnia-domowa.pl/",
+            "illustrative": false,
+            "width": 600,
+            "height": 900
+        }
+    ],
     "i18n": {
         "IT": {
             "title": "Salsa ai funghi freschi",

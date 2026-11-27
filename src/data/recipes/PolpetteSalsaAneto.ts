@@ -3,7 +3,17 @@ import type {Recipe} from './types';
 export const polpetteSalsaAneto: Recipe = {
     "id": 35,
     "key": "polpetteSalsaAneto",
-    "pictures": [],
+    "pictures": [
+        {
+            "index": 0,
+            "url": "/recipe-photos/polpetteSalsaAneto.jpg",
+            "credit": "Kwestia Smaku",
+            "sourceUrl": "https://www.kwestiasmaku.com/kuchnia_polska/pulpeciki_w_sosie_koperkowym/przepis.html",
+            "illustrative": false,
+            "width": 700,
+            "height": 250
+        }
+    ],
     "i18n": {
         "IT": {
             "title": "Polpette in salsa all’aneto",

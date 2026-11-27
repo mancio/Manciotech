@@ -3,7 +3,17 @@ import type {Recipe} from './types';
 export const muffinLamponiCioccolatoBianco: Recipe = {
     "id": 39,
     "key": "muffinLamponiCioccolatoBianco",
-    "pictures": [],
+    "pictures": [
+        {
+            "index": 0,
+            "url": "/recipe-photos/muffinLamponiCioccolatoBianco.jpg",
+            "credit": "Kuchnia Breni",
+            "sourceUrl": "https://kuchniabreni.pl/muffiny-z-malinami-i-biala-czekolada/",
+            "illustrative": true,
+            "width": 700,
+            "height": 280
+        }
+    ],
     "i18n": {
         "IT": {
             "title": "Muffin ai lamponi e cioccolato bianco",

@@ -3,7 +3,17 @@ import type {Recipe} from './types';
 export const coppaMaialePomodoriCipolle: Recipe = {
     "id": 40,
     "key": "coppaMaialePomodoriCipolle",
-    "pictures": [],
+    "pictures": [
+        {
+            "index": 0,
+            "url": "/recipe-photos/coppaMaialePomodoriCipolle.jpg",
+            "credit": "Gotuj z Cukiereczkiem",
+            "sourceUrl": "https://gotujzcukiereczkiem.pl/miesa/pieczona-karkowka-przekladana-pomidorami-i-cebula/",
+            "illustrative": false,
+            "width": 1366,
+            "height": 948
+        }
+    ],
     "i18n": {
         "IT": {
             "title": "Coppa di maiale al forno con pomodori e cipolle",

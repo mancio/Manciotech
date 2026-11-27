@@ -3,7 +3,16 @@ import type {Recipe} from './types';
 export const costoletteBrandyGriglia: Recipe = {
     "id": 30,
     "key": "costoletteBrandyGriglia",
-    "pictures": [],
+    "pictures": [
+        {
+            "index": 0,
+            "url": "/recipe-photos/costoletteBrandyGriglia.jpg",
+            "credit": "Ricettario personale",
+            "illustrative": false,
+            "width": 2048,
+            "height": 921
+        }
+    ],
     "i18n": {
         "IT": {
             "title": "Costolette al brandy alla griglia",

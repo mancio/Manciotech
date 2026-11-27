@@ -3,7 +3,17 @@ import type {Recipe} from './types';
 export const muffinCioccolato: Recipe = {
     "id": 49,
     "key": "muffinCioccolato",
-    "pictures": [],
+    "pictures": [
+        {
+            "index": 0,
+            "url": "/recipe-photos/muffinCioccolato.jpg",
+            "credit": "Ciastkożercy",
+            "sourceUrl": "https://ciastkozercy.pl/proste-babeczki-czekoladowe/",
+            "illustrative": false,
+            "width": 1200,
+            "height": 795
+        }
+    ],
     "i18n": {
         "IT": {
             "title": "Muffin al cioccolato",

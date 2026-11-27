@@ -3,7 +3,17 @@ import type {Recipe} from './types';
 export const rosettePastaPizza: Recipe = {
     "id": 44,
     "key": "rosettePastaPizza",
-    "pictures": [],
+    "pictures": [
+        {
+            "index": 0,
+            "url": "/recipe-photos/rosettePastaPizza.jpg",
+            "credit": "CucinA Tranquilla",
+            "sourceUrl": "https://blog.giallozafferano.it/emanu74/rosette-di-pane/",
+            "illustrative": true,
+            "width": 2560,
+            "height": 1920
+        }
+    ],
     "i18n": {
         "IT": {
             "title": "Rosette di pasta di pizza",

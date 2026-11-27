@@ -4,6 +4,7 @@ import {
     changeIngredientQuantity,
     findPictureUrl,
     findRecipeByUrl,
+    getPictures,
     getRecipeURLByIdAndLanguage,
     numberToEmoji,
 } from "../logic/Functions";
@@ -90,7 +91,12 @@ function RecipesGen() {
         navigate(getRecipeURLByIdAndLanguage(recipe.id, ln));
     }
 
-    const heroImage = findPictureUrl(recipe, language, 0);
+    const heroPhoto = getPictures(recipe, language).find(picture => picture.index === 0);
+    const photoLabels = {
+        IT: {credit: 'Foto', illustrative: 'Foto illustrativa'},
+        EN: {credit: 'Photo', illustrative: 'Illustrative photo'},
+        PL: {credit: 'Zdjęcie', illustrative: 'Zdjęcie poglądowe'},
+    }[language];
     const separator = <span className="magic-separator">{MAGIC_SEPARATOR}</span>;
 
     return (
@@ -98,7 +104,21 @@ function RecipesGen() {
             <div className='title2'>
                 <h3>{translation.title}</h3>
             </div>
-            {heroImage && <img className='recipe-img' src={heroImage} alt={translation.title} />}
+            {heroPhoto && (
+                <figure className="recipe-photo">
+                    <img className='recipe-img' src={heroPhoto.url} alt={translation.title}
+                         width={heroPhoto.width} height={heroPhoto.height} decoding="async" />
+                    {(heroPhoto.credit || heroPhoto.illustrative) && (
+                        <figcaption>
+                            {heroPhoto.credit && <>{photoLabels.credit}: {heroPhoto.sourceUrl
+                                ? <a href={heroPhoto.sourceUrl} target="_blank" rel="noopener noreferrer">{heroPhoto.credit}</a>
+                                : heroPhoto.credit}</>}
+                            {heroPhoto.credit && heroPhoto.illustrative && ' · '}
+                            {heroPhoto.illustrative && photoLabels.illustrative}
+                        </figcaption>
+                    )}
+                </figure>
+            )}
             <p>{translation.servings}</p>
             {separator}
             <IngredientMultiplier multiplier={multiplier} setMultiplier={setMultiplier} />

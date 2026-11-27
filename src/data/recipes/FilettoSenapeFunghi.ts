@@ -3,7 +3,17 @@ import type {Recipe} from './types';
 export const filettoSenapeFunghi: Recipe = {
     "id": 43,
     "key": "filettoSenapeFunghi",
-    "pictures": [],
+    "pictures": [
+        {
+            "index": 0,
+            "url": "/recipe-photos/filettoSenapeFunghi.jpg",
+            "credit": "Kwestia Smaku",
+            "sourceUrl": "https://www.kwestiasmaku.com/przepis/poledwiczki-w-sosie-musztardowym-z-pieczarkami",
+            "illustrative": false,
+            "width": 700,
+            "height": 250
+        }
+    ],
     "i18n": {
         "IT": {
             "title": "Filetto di maiale alla senape e champignon",

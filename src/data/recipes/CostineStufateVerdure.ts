@@ -3,7 +3,17 @@ import type {Recipe} from './types';
 export const costineStufateVerdure: Recipe = {
     "id": 42,
     "key": "costineStufateVerdure",
-    "pictures": [],
+    "pictures": [
+        {
+            "index": 0,
+            "url": "/recipe-photos/costineStufateVerdure.jpg",
+            "credit": "Kwestia Smaku",
+            "sourceUrl": "https://www.kwestiasmaku.com/przepis/zeberka-duszone-z-warzywami-korzeniowymi",
+            "illustrative": false,
+            "width": 700,
+            "height": 250
+        }
+    ],
     "i18n": {
         "IT": {
             "title": "Costine stufate con verdure",

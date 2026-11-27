@@ -3,7 +3,17 @@ import type {Recipe} from './types';
 export const grapeLove: Recipe = {
     "id": 37,
     "key": "grapeLove",
-    "pictures": [],
+    "pictures": [
+        {
+            "index": 0,
+            "url": "/recipe-photos/grapeLove.jpg",
+            "credit": "Good Food",
+            "sourceUrl": "https://www.bbcgoodfood.com/recipes/grapefruit-spritz",
+            "illustrative": true,
+            "width": 440,
+            "height": 230
+        }
+    ],
     "i18n": {
         "IT": {
             "title": "Cocktail GrapeLove",

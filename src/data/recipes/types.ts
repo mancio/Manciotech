@@ -6,6 +6,11 @@ export const LANGUAGES: readonly Language[] = ['IT', 'EN', 'PL'];
 export interface RecipePicture {
     index: number;
     url: string;
+    credit?: string;
+    sourceUrl?: string;
+    illustrative?: boolean;
+    width?: number;
+    height?: number;
 }
 
 export interface RecipeTranslation {

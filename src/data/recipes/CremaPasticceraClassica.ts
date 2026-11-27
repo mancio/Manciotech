@@ -3,7 +3,17 @@ import type {Recipe} from './types';
 export const cremaPasticceraClassica: Recipe = {
     "id": 45,
     "key": "cremaPasticceraClassica",
-    "pictures": [],
+    "pictures": [
+        {
+            "index": 0,
+            "url": "/recipe-photos/cremaPasticceraClassica.jpg",
+            "credit": "Pentole e mattarello",
+            "sourceUrl": "https://blog.giallozafferano.it/incucinaconmariarosaria/crema-pasticcera/",
+            "illustrative": true,
+            "width": 1200,
+            "height": 800
+        }
+    ],
     "i18n": {
         "IT": {
             "title": "Crema pasticcera alla vaniglia e limone",

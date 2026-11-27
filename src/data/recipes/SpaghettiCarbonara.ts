@@ -4,7 +4,15 @@ export const spaghettiCarbonara: Recipe = {
     id: 12,
     key: "spaghettiCarbonara",
     pictures: [
-        {index: 0, url: "https://blog.giallozafferano.it/allacciateilgrembiule/wp-content/uploads/2018/10/pasta-alla-carbonara5.jpg"},
+        {
+            "index": 0,
+            "url": "/recipe-photos/spaghettiCarbonara.jpg",
+            "credit": "CuciniAmo con Chicca",
+            "sourceUrl": "https://blog.giallozafferano.it/cucinadichicca/spaghetti-alla-carbonara/",
+            "illustrative": true,
+            "width": 1200,
+            "height": 630
+        }
     ],
     video: "https://youtu.be/_T6jkRvhlkk?si=-ccCZ1p81iW6qR2m",
     i18n: {

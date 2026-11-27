@@ -3,7 +3,17 @@ import type {Recipe} from './types';
 export const risottoZucchineCocco: Recipe = {
     "id": 34,
     "key": "risottoZucchineCocco",
-    "pictures": [],
+    "pictures": [
+        {
+            "index": 0,
+            "url": "/recipe-photos/risottoZucchineCocco.jpg",
+            "credit": "Il Goloso Mangiar Sano",
+            "sourceUrl": "https://www.ilgolosomangiarsano.com/ricette/risotto-alle-zucchine/",
+            "illustrative": true,
+            "width": 1200,
+            "height": 900
+        }
+    ],
     "i18n": {
         "IT": {
             "title": "Risotto con zucchine e latte di cocco",

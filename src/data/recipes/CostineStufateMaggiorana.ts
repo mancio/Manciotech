@@ -3,7 +3,17 @@ import type {Recipe} from './types';
 export const costineStufateMaggiorana: Recipe = {
     "id": 46,
     "key": "costineStufateMaggiorana",
-    "pictures": [],
+    "pictures": [
+        {
+            "index": 0,
+            "url": "/recipe-photos/costineStufateMaggiorana.jpg",
+            "credit": "Przepisy.pl",
+            "sourceUrl": "https://www.przepisy.pl/",
+            "illustrative": false,
+            "width": 535,
+            "height": 357
+        }
+    ],
     "i18n": {
         "IT": {
             "title": "Costine stufate alla maggiorana",

@@ -3,7 +3,17 @@ import type {Recipe} from './types';
 export const filettoMaialeFinferli: Recipe = {
     "id": 32,
     "key": "filettoMaialeFinferli",
-    "pictures": [],
+    "pictures": [
+        {
+            "index": 0,
+            "url": "/recipe-photos/filettoMaialeFinferli.jpg",
+            "credit": "Kwestia Smaku",
+            "sourceUrl": "https://www.kwestiasmaku.com/przepis/pol%C4%99dwiczki-z-kurkami",
+            "illustrative": false,
+            "width": 700,
+            "height": 250
+        }
+    ],
     "i18n": {
         "IT": {
             "title": "Filetto di maiale ai finferli",

@@ -3,7 +3,17 @@ import type {Recipe} from './types';
 export const polpettoneSugoPressione: Recipe = {
     "id": 55,
     "key": "polpettoneSugoPressione",
-    "pictures": [],
+    "pictures": [
+        {
+            "index": 0,
+            "url": "/recipe-photos/polpettoneSugoPressione.jpg",
+            "credit": "I dolci esperimenti di Dany",
+            "sourceUrl": "https://blog.giallozafferano.it/idolciesperimentididany/polpettoni-con-uovo-e-prosciutto/",
+            "illustrative": false,
+            "width": 1024,
+            "height": 775
+        }
+    ],
     "i18n": {
         "IT": {
             "title": "Polpettone al sugo in pentola a pressione",

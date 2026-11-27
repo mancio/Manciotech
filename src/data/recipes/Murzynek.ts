@@ -3,7 +3,17 @@ import type {Recipe} from './types';
 export const murzynek: Recipe = {
     "id": 36,
     "key": "murzynek",
-    "pictures": [],
+    "pictures": [
+        {
+            "index": 0,
+            "url": "/recipe-photos/murzynek.jpg",
+            "credit": "AniaGotuje.pl",
+            "sourceUrl": "https://aniagotuje.pl/przepis/murzynek-z-powidlami",
+            "illustrative": true,
+            "width": 1500,
+            "height": 1500
+        }
+    ],
     "i18n": {
         "IT": {
             "title": "Murzynek, torta polacca al cacao",

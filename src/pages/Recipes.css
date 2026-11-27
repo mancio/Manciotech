@@ -55,6 +55,10 @@
 .kitchen-recipe > p:first-of-type { color: var(--k-muted); text-align: center; font-weight: 700; }
 .kitchen-recipe h3 { font-family: 'Playfair Display',Georgia,serif; font-size: 1.45rem; color: var(--k-green); }
 .kitchen-recipe .recipe-img { display: block; width: min(100%,680px); height: auto; max-height: 520px; object-fit: cover; margin: 18px auto 26px; border-radius: 12px; }
+.kitchen-recipe .recipe-photo { margin: 18px auto 26px; max-width: 680px; }
+.kitchen-recipe .recipe-photo .recipe-img { margin: 0 auto; object-fit: contain; }
+.kitchen-recipe .recipe-photo figcaption { padding-top: 8px; font-size: 0.85rem; opacity: 0.8; }
+.kitchen-recipe .recipe-photo figcaption a { color: inherit; }
 .kitchen-recipe .magic-separator { color: #c4b49c; text-align: center; margin: 16px auto; }
 .kitchen-recipe .ingredient-list { display: block; width: 100%; }
 .kitchen-recipe .ingredient-item { min-height: 44px; gap: 12px; padding: 7px 4px; border-bottom: 1px solid var(--k-line); }

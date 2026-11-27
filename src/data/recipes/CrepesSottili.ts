@@ -3,7 +3,17 @@ import type {Recipe} from './types';
 export const crepesSottili: Recipe = {
     "id": 47,
     "key": "crepesSottili",
-    "pictures": [],
+    "pictures": [
+        {
+            "index": 0,
+            "url": "/recipe-photos/crepesSottili.jpg",
+            "credit": "Buduj Smak",
+            "sourceUrl": "https://budujsmak.blogspot.com/2013/07/nalesniki-cienkie-i-elastyczne.html",
+            "illustrative": false,
+            "width": 590,
+            "height": 391
+        }
+    ],
     "i18n": {
         "IT": {
             "title": "Crêpes sottili ed elastiche",

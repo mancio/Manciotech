@@ -3,7 +3,17 @@ import type {Recipe} from './types';
 export const tortaCaroteNoci: Recipe = {
     "id": 41,
     "key": "tortaCaroteNoci",
-    "pictures": [],
+    "pictures": [
+        {
+            "index": 0,
+            "url": "/recipe-photos/tortaCaroteNoci.jpg",
+            "credit": "Poezja Smaku",
+            "sourceUrl": "https://www.poezja-smaku.pl/ciasto-marchewkowe/",
+            "illustrative": false,
+            "width": 350,
+            "height": 490
+        }
+    ],
     "i18n": {
         "IT": {
             "title": "Torta di carote e noci",

@@ -10,7 +10,7 @@ require.extensions['.ts'] = (module, filename) => {
 
 const routes = require('../src/logic/Names.ts');
 const {recipes, LANGUAGES} = require('../src/data/recipes/index.ts');
-const {getRecipeURLByIdAndLanguage, findRecipeByUrl, findPictureUrl} = require('../src/logic/recipes.ts');
+const {getRecipeURLByIdAndLanguage, findRecipeByUrl, findPictureUrl, getPictures} = require('../src/logic/recipes.ts');
 const {servicesTranslations} = require('../src/i18n/servicesTranslations.ts');
 const {homeTranslations} = require('../src/i18n/homeTranslations.ts');
 
@@ -115,6 +115,12 @@ for (const recipe of recipes) {
     for (const [language, url] of Object.entries(alternatePaths)) {
         const recipeText = recipe.i18n[language];
         const image = findPictureUrl(recipe, language, 0);
+        const photo = getPictures(recipe, language).find(picture => picture.index === 0);
+        const photoLabels = {IT: ['Foto', 'Foto illustrativa'], EN: ['Photo', 'Illustrative photo'], PL: ['Zdjęcie', 'Zdjęcie poglądowe']}[language];
+        const photoCaption = photo ? [
+            photo.credit ? photoLabels[0] + ': ' + (photo.sourceUrl ? link(photo.sourceUrl, photo.credit) : escapeHtml(photo.credit)) : '',
+            photo.illustrative ? photoLabels[1] : '',
+        ].filter(Boolean).join(' · ') : '';
         const description = {
             EN: 'Ingredients and step-by-step instructions for ', IT: 'Ingredienti e preparazione passo passo per ', PL: 'Składniki i przygotowanie krok po kroku: ',
         }[language] + recipeText.title + '.';
@@ -126,7 +132,8 @@ for (const recipe of recipes) {
         } : undefined;
         const labels = {EN:['Ingredients','Instructions'], IT:['Ingredienti','Preparazione'], PL:['Składniki','Przygotowanie']}[language];
         const content = heading(recipeText.title) + paragraph(recipeText.servings)
-            + (image ? '<img class="recipe-img" src="' + escapeHtml(absolute(image)) + '" alt="' + escapeHtml(recipeText.title) + '">' : '')
+            + (image ? '<figure class="recipe-photo"><img class="recipe-img" src="' + escapeHtml(absolute(image)) + '" alt="' + escapeHtml(recipeText.title) + '">'
+                + (photoCaption ? '<figcaption>' + photoCaption + '</figcaption>' : '') + '</figure>' : '')
             + '<h2>' + labels[0] + '</h2>' + list(recipeText.ingredients.map(escapeHtml))
             + '<h2>' + labels[1] + '</h2>' + list(recipeText.steps.map(escapeHtml), 'ol')
             + list(Object.keys(alternatePaths).map(code => link(alternatePaths[code], recipe.i18n[code].title)));

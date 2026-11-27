@@ -3,7 +3,17 @@ import type {Recipe} from './types';
 export const focacciaCioccolato: Recipe = {
     "id": 53,
     "key": "focacciaCioccolato",
-    "pictures": [],
+    "pictures": [
+        {
+            "index": 0,
+            "url": "/recipe-photos/focacciaCioccolato.jpg",
+            "credit": "Pasticci e Co.",
+            "sourceUrl": "https://pasticcieco.blogspot.com/2012/10/focaccia-al-cioccolato-senza-uova.html",
+            "illustrative": false,
+            "width": 640,
+            "height": 480
+        }
+    ],
     "i18n": {
         "IT": {
             "title": "Focaccia al cioccolato senza uova",

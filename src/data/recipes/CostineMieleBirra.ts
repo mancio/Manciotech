@@ -3,7 +3,17 @@ import type {Recipe} from './types';
 export const costineMieleBirra: Recipe = {
     "id": 38,
     "key": "costineMieleBirra",
-    "pictures": [],
+    "pictures": [
+        {
+            "index": 0,
+            "url": "/recipe-photos/costineMieleBirra.jpg",
+            "credit": "Po Prostu Pycha",
+            "sourceUrl": "https://poprostupycha.com.pl/przepis/soczyste-zeberka-pieczone-w-piekarniku/",
+            "illustrative": false,
+            "width": 1100,
+            "height": 734
+        }
+    ],
     "i18n": {
         "IT": {
             "title": "Costine al forno con miele e birra",

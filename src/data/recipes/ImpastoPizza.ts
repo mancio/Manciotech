@@ -3,7 +3,17 @@ import type {Recipe} from './types';
 export const impastoPizza: Recipe = {
     "id": 48,
     "key": "impastoPizza",
-    "pictures": [],
+    "pictures": [
+        {
+            "index": 0,
+            "url": "/recipe-photos/impastoPizza.jpg",
+            "credit": "Amici in cucina",
+            "sourceUrl": "https://blog.giallozafferano.it/amicincucina/pasta-per-pizza/",
+            "illustrative": true,
+            "width": 1254,
+            "height": 1254
+        }
+    ],
     "i18n": {
         "IT": {
             "title": "Impasto per pizza",
