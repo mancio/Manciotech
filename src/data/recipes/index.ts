@@ -28,6 +28,8 @@ import {trotaPatateForno} from './TrotaPatateForno';
 import {zabaione} from './Zabaione';
 import {zucchineRipiene} from './ZucchineRipiene';
 
+import {costoletteAlFornoConPatate} from './CostoletteAlFornoConPatate';
+
 export * from './types';
 
 export const recipes: readonly Recipe[] = [
@@ -59,6 +61,7 @@ export const recipes: readonly Recipe[] = [
     patateAlFornoPerfette,
     besciamellaLeggera,
     focacciaInPadella,
+    costoletteAlFornoConPatate,
 ];
 
 export const recipesById: ReadonlyMap<number, Recipe> = new Map(recipes.map(r => [r.id, r]));
