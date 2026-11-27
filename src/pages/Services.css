@@ -10,11 +10,23 @@
 .services-hero {
   text-align:center;
   position:relative;
+  isolation:isolate;
   overflow:hidden;
   padding:44px 24px 62px;
   border:1px solid #35475a;
   border-radius:30px;
-  background:radial-gradient(ellipse at top right,rgba(42,151,159,.20),transparent 58%),linear-gradient(135deg,#15212a,#191c2c 75%);
+  background:#0b131c;
+}
+.services-hero-art {
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:66% center;
+  opacity:.32;
+  pointer-events:none;
 }
 .services-back {display:block;background:transparent;border:1px solid #53616f;border-radius:100px;padding:10px 16px;color:#e4e9ee;cursor:pointer;font:inherit;margin-bottom:30px;text-align:left}
 .services-back:hover,.services-back:focus-visible {border-color:var(--service-accent)}

@@ -15,6 +15,7 @@ const {servicesTranslations} = require('../src/i18n/servicesTranslations.ts');
 const {homeTranslations} = require('../src/i18n/homeTranslations.ts');
 
 const origin = 'https://manciotech.net';
+const arcadeArtwork = '/ai-arcade.jpg';
 const build = path.resolve(__dirname, '../build');
 const index = path.join(build, 'index.html');
 const template = fs.readFileSync(index, 'utf8');
@@ -76,6 +77,7 @@ const tools = [
 ];
 writePage({
     url: '/', title: 'MancioTech | AI Consulting, Custom Software and Tools', description: homeTranslations.EN.servicesIntro,
+    image: arcadeArtwork,
     content: heading('MancioTech') + paragraph(homeTranslations.EN.servicesIntro)
         + list([...Object.keys(routes.SERVICE_PATHS).map(language => link(routes.SERVICE_PATHS[language], servicesTranslations[language].homeButton)),
             link(routes.RECIPES, 'Recipes'), ...tools.map(([url, title]) => link(url, title)), link(routes.STOCKS, homeTranslations.EN.stocksTitle)])
@@ -88,6 +90,7 @@ for (const [language, url] of Object.entries(routes.SERVICE_PATHS)) {
         url, lang: language.toLowerCase(), alternates: {...routes.SERVICE_PATHS, 'x-default': routes.SERVICES},
         title: {EN:'AI Consulting and Custom Software', IT:'Consulenza AI e sviluppo software su misura', PL:'Doradztwo AI i dedykowane oprogramowanie'}[language] + ' | MancioTech',
         description: homeTranslations[language].servicesIntro,
+        image: arcadeArtwork,
         content: heading(copy.title) + paragraph(copy.intro)
             + ['build', 'advisory', 'productivity', 'wiki'].map(key =>
                 '<h2>' + escapeHtml(copy[key + 'Title']) + '</h2>' + paragraph(copy[key + (key === 'wiki' ? 'Intro' : 'Text')])).join('')

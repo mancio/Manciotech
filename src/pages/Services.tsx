@@ -69,6 +69,7 @@ export default function Services() {
   return (
     <main className="services-page" lang={language.toLowerCase()}>
       <header className="services-hero">
+        <img className="services-hero-art" src={process.env.PUBLIC_URL + "/ai-arcade.jpg"} alt="" />
         <button className="services-back" type="button" onClick={()=>navigate(MENU)}>← {t.back}</button>
         <p className="services-eyebrow">✦ {t.eyebrow} ✦</p>
         <h1>{t.title}</h1>
