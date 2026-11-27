@@ -54,6 +54,10 @@ import {cremaPasticceraPolacca} from './CremaPasticceraPolacca';
 import {risottoPolloZucchine} from './RisottoPolloZucchine';
 import {insalataCavoloPechinoSenape} from './InsalataCavoloPechinoSenape';
 
+import {focacciaCioccolato} from './FocacciaCioccolato';
+import {biscottiBurroAlbumi} from './BiscottiBurroAlbumi';
+import {polpettoneSugoPressione} from './PolpettoneSugoPressione';
+
 export * from './types';
 
 export const recipes: readonly Recipe[] = [
@@ -109,6 +113,9 @@ export const recipes: readonly Recipe[] = [
     cremaPasticceraPolacca,
     risottoPolloZucchine,
     insalataCavoloPechinoSenape,
+    focacciaCioccolato,
+    biscottiBurroAlbumi,
+    polpettoneSugoPressione,
 ];
 
 export const recipesById: ReadonlyMap<number, Recipe> = new Map(recipes.map(r => [r.id, r]));
